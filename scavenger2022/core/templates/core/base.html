@@ -5,7 +5,52 @@
     </head>
     <body>
         <!-- GENDO START CommonHeader -->
-        <!-- GENDO END CommonHeader -->
+
+<div id="common-header">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
+    #common-nav {
+      background: #073763;
+    }
+    #common-nav-inner {
+      margin: auto;
+      max-width: 900px;
+      font-size: 16px;
+      font-family: 'Zen Kaku Gothic New', sans-serif;
+      color: #d0d0d0;
+      padding: 4px;
+    }
+    #common-nav-inner a {
+      color: #d0d0d0;
+      text-decoration: none;
+      padding-right: 10px;
+    }
+    #common-nav-inner a:hover {
+      text-decoration: underline;
+    }
+    #common-nav-inner .this {
+      color: #adadad;
+    }
+  </style>
+  <nav id="common-nav">
+    <div id="common-nav-inner">
+      <a href="https://maclyonsden.com" style="color: #fff;">
+        <img src="https://maclyonsden.com/static/core/img/themes/logos/dark-transparent.png" style="height: 27px; display: inline; vertical-align: middle;" />
+        Metropolis
+      </a>
+      
+        <a href="https://docs.maclyonsden.com">Docs</a>
+      
+      
+        <a href="https://doodle.maclyonsden.com">Doodles</a>
+      
+      <span class="this">
+        Scavenger Hunt (2022)
+      </span>
+    </div>
+  </nav>
+</div>
+<!-- GENDO END CommonHeader -->
         {% block body %}{% endblock %}
     </body>
 </html>
