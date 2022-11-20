@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 django = "*"
 black = "*"
-mozilla-django-oidc = "*"
+authlib = "*"
 
 [dev-packages]
 

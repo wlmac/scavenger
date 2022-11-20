@@ -1,7 +1,10 @@
 from django.urls import path, include
 from . import views
 
+
 urlpatterns = [
-    path('oidc/', include('mozilla_django_oidc.urls')),
     path('', views.index, name='index'),
+    path('login/', views.login, name='login'),
+    path('auth/', views.auth, name='auth'),
+    path('logout/', views.logout, name='logout'),
 ]
