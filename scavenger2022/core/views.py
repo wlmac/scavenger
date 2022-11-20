@@ -1,3 +1,4 @@
+from authlib.integrations.base_client.errors import OAuthError
 from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect, render
@@ -22,7 +23,12 @@ def login(q):
 def auth(q):
     print(oauth.metropolis)
     print(oauth.metropolis.__dict__)
-    token = oauth.metropolis.authorize_access_token(q)
+    try:
+        token = oauth.metropolis.authorize_access_token(q)
+    except OAuthError as e:
+        if e.error == 'access_denied':
+            return HttpResponse(f'access_denied: {e.description}')
+        raise e
     q.session['user'] = token['userinfo']
     return redirect('/')
 
