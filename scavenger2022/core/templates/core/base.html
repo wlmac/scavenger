@@ -1,22 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <title>{% block title %}{% endblock %}</title>
-        <style>
-          body {
-            margin: 0;
-          }
-          main {
-            margin: 8px;
-          }
-
-          #main-header {
-            padding: 4px;
-          }
-          .spacer {
-            float: right;
-          }
-        </style>
+        <link rel="stylesheet" href="{% static 'core/base.css' %}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
     </head>
     <body>
         <!-- GENDO START CommonHeader -->
@@ -67,17 +57,23 @@
 </div>
 <!-- GENDO END CommonHeader -->
     <nav id="main-header">
+      Scavenger Hunt
+      {% if request.user.is_staff %}
+      <a href="/admin">Admin</a>
+      {% endif %}
       <span class="spacer">
-        {{ request.user }}
-        ({{ request.user.first_name }} {{ request.user.last_name }})
         {% if request.user.is_authenticated %}
-          <form action="{% url 'account_logout' %}" method="post">
+          Logged in as
+          {{ request.user }}
+          ({{ request.user.first_name }} {{ request.user.last_name }}).
+          おかえり〜！
+          <form style="display: inline;" action="{% url 'account_logout' %}" method="post">
             {% csrf_token %}
-            <input type="submit" value="logout" />
+            <input class="fakea" type="submit" value="Logout" />
           </form>
         {% else %}
           <a href="{% url 'oauth_login' %}">
-            login
+            Login
           </a>
         {% endif %}
       </span>

@@ -1,0 +1,41 @@
+:root {
+  --size: 18px;
+  --bg: #fbf7ef;
+  --fg: #002d38;
+  --link: #2b90d8;
+  --linkv: #7d80d1;
+}
+body {
+  margin: 0;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: var(--size);
+  color: var(--fg);
+  background: var(--bg);
+}
+main {
+  margin: 8px;
+}
+
+#main-header {
+  padding: 4px;
+}
+.spacer {
+  float: right;
+}
+
+.fakea {
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-size: var(--size);
+  color: var(--link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+a {
+  color: var(--link);
+}
+a:visited {
+  color: var(--linkv);
+}
