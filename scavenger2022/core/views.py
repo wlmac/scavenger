@@ -1,9 +1,10 @@
 from authlib.integrations.base_client.errors import OAuthError
 from django.conf import settings
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect, render
+from django.views.decorators.http import require_http_methods
 from authlib.integrations.django_client import OAuth
 import requests
 
@@ -16,12 +17,14 @@ oauth = OAuth()
 oauth.register('metropolis')
 
 
+@require_http_methods(("GET",))
 def index(q):
     if (user := q.session.get('user')):
         print(user)
     return render(q, 'core/index.html', {})
 
 
+@require_http_methods(("GET",))
 def oauth_login(q):
     redirect_uri = q.build_absolute_uri(reverse('oauth_auth'))
     #state = secrets.token_urlsafe(32)
@@ -70,12 +73,14 @@ def oauth_auth(q):
             last_name=s3d['last_name'],
             metropolis_id=s3d['id'],
         )
+    print('s3d', s3d)
     u.refresh_token = refresh_token
     u.save()
     login(q, u)
     return redirect('/')
 
 
-def logout(q):
-    q.session.pop('user', None)
+@require_http_methods(("POST",))
+def account_logout(q):
+    logout(q)
     return redirect('/')

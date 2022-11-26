@@ -9,6 +9,13 @@
           main {
             margin: 8px;
           }
+
+          #main-header {
+            padding: 4px;
+          }
+          .spacer {
+            float: right;
+          }
         </style>
     </head>
     <body>
@@ -59,8 +66,24 @@
   </nav>
 </div>
 <!-- GENDO END CommonHeader -->
-        <main>
-            {% block body %}{% endblock %}
-        </main>
-    </body>
+    <nav id="main-header">
+      <span class="spacer">
+        {{ request.user }}
+        ({{ request.user.first_name }} {{ request.user.last_name }})
+        {% if request.user.is_authenticated %}
+          <form action="{% url 'account_logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="logout" />
+          </form>
+        {% else %}
+          <a href="{% url 'oauth_login' %}">
+            login
+          </a>
+        {% endif %}
+      </span>
+    </nav>
+    <main>
+      {% block body %}{% endblock %}
+    </main>
+  </body>
 </html>
