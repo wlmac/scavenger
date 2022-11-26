@@ -116,20 +116,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#oauth_base_url = 'https://maclyonsden.com'
-oauth_base_url = 'http://localhost:8000'
-
-AUTHLIB_OAUTH_CLIENTS = {
-    'metropolis': dict(
-        client_kwargs=dict(
-            scope='me_meta',
-            token_endpoint_auth_method='client_secret_post',
-        ),
-        access_token_url=f'{oauth_base_url}/token',
-        authorize_url=f'{oauth_base_url}/authorize',
-        #server_metadata_url='https://maclyonsden.com/.well-known/openid-configuration',
-    )
-}
+base_url = 'https://maclyonsden.com'
+YASOI = dict(
+    client_id='',
+    client_secret='',
+    authorize_url=f'{base_url}/authorize',
+    token_url=f'{base_url}/token/',
+    me_url=f'{base_url}/api/me',
+)
 
 try:
     with open(os.path.join(os.path.dirname(__file__), 'local_settings.py')) as f:
