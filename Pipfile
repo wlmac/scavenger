@@ -8,6 +8,7 @@ django = "*"
 black = "*"
 authlib = "*"
 django-rest-framework = "*"
+requests = "*"
 
 [dev-packages]
 
