@@ -2,6 +2,14 @@
 <html>
     <head>
         <title>{% block title %}{% endblock %}</title>
+        <style>
+          body {
+            margin: 0;
+          }
+          main {
+            margin: 8px;
+          }
+        </style>
     </head>
     <body>
         <!-- GENDO START CommonHeader -->
@@ -51,6 +59,8 @@
   </nav>
 </div>
 <!-- GENDO END CommonHeader -->
-        {% block body %}{% endblock %}
+        <main>
+            {% block body %}{% endblock %}
+        </main>
     </body>
 </html>

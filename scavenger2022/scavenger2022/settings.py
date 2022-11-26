@@ -115,14 +115,19 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#oauth_base_url = 'https://maclyonsden.com'
+oauth_base_url = 'http://localhost:8000'
+
 AUTHLIB_OAUTH_CLIENTS = {
-    'metropolis': {
-        'client_kwargs': dict(
-            scope='openid profile email',
+    'metropolis': dict(
+        client_kwargs=dict(
+            scope='me_meta',
             token_endpoint_auth_method='client_secret_post',
         ),
-        'server_metadata_url': 'https://maclyonsden.com/.well-known/openid-configuration',
-    }
+        access_token_url=f'{oauth_base_url}/token',
+        authorize_url=f'{oauth_base_url}/authorize',
+        #server_metadata_url='https://maclyonsden.com/.well-known/openid-configuration',
+    )
 }
 
 try:
