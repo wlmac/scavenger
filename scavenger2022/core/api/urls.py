@@ -5,7 +5,4 @@ from .views.codes import *
 
 router = SimpleRouter()
 
-urlpatterns = [
-    path("", include(router.urls)),
-    path("qr/", code, name="code")
-    ]
+urlpatterns = [path("", include(router.urls)), path("qr/", code, name="code")]

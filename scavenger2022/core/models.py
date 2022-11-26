@@ -10,9 +10,7 @@ class User(AbstractUser):
 class QrCode(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     location = models.CharField(max_length=100)
-    users = models.ManyToManyField(
-        User, related_name="qr_scanned"
-    )
+    users = models.ManyToManyField(User, related_name="qr_scanned")
 
     def __str__(self):
         return self.id

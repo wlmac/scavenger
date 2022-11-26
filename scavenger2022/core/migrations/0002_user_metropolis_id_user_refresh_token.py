@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="user",
             name="refresh_token",
-            field=models.CharField(default='', max_length=128),
+            field=models.CharField(default="", max_length=128),
             preserve_default=False,
         ),
     ]

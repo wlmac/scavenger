@@ -1,7 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from ...models import QrCode
-__ALL__ = ['code', 'codes']
+
+__ALL__ = ["code", "codes"]
+
 
 @api_view()
 def code(request):
@@ -10,9 +12,10 @@ def code(request):
     example: ..qr/12
     """
 
-    obj = QrCode.objects.get(id=request.GET.get('id'))
+    obj = QrCode.objects.get(id=request.GET.get("id"))
 
     return Response(obj)
+
 
 @api_view()
 def codes(request):
