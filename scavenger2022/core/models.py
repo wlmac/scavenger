@@ -6,7 +6,8 @@ from django.db import models
 >>>>>>> 9eed3de62b1ad86786086ac57fd0d42cfda51453
 
 class User(AbstractUser):
-    pass
+    metropolis_id = models.IntegerField()
+    refresh_token = models.CharField(max_length=128)
 
 
 class QrCode(models.Model):
