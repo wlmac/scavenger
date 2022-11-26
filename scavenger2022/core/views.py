@@ -67,7 +67,7 @@ def oauth_auth(q):
     try:
         u = User.objects.get(metropolis_id=s3d['id'])
     except User.DoesNotExist:
-        u = User.objects.get_or_create(
+        u = User(
             username=s3d['username'],
             first_name=s3d['first_name'],
             last_name=s3d['last_name'],
