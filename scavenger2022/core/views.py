@@ -1,6 +1,7 @@
 from authlib.integrations.base_client.errors import OAuthError
 from django.conf import settings
 from django.contrib.auth import login, logout
+from django.contrib import messages
 from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect, render
@@ -73,10 +74,10 @@ def oauth_auth(q):
             last_name=s3d['last_name'],
             metropolis_id=s3d['id'],
         )
-    print('s3d', s3d)
     u.refresh_token = refresh_token
     u.save()
     login(q, u)
+    messages.success(q, 'Logged in.')
     return redirect('/')
 
 
