@@ -30,6 +30,7 @@ def oauth_login(q):
     redirect_uri = q.build_absolute_uri(reverse("oauth_auth"))
     # state = secrets.token_urlsafe(32)
     # TODO: fix state
+    # TODO: pkce
     state = "死ねる勇気もないよ"
     q.session["yasoi_state"] = state
     print("死ねる勇気あるかな", list(q.session.items()))
