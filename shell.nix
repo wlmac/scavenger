@@ -9,7 +9,7 @@ let
   pythonWithPkgs = pkgs.python3.withPackages pythonPkgs;
 in
   pkgs.mkShell {
-    packages = [ pythonWithPkgs ];
+    packages = [ pkgs.docker pythonWithPkgs ];
 
     shellHook = ''
       export PIP_PREFIX=$(pwd)/.build/pip_packages

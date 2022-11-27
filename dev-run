@@ -1,4 +1,0 @@
-#!/bin/sh
-
-cd ./scavenger2022
-./manage.py runserver 8001
