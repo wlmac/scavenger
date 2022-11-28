@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.html import format_html
 
 
 class User(AbstractUser):
@@ -18,6 +19,11 @@ class QrCode(models.Model):
         related_name="qr_scanned",
         help_text="Users that have located this QR code",
     )
+
+    def uri(self):
+        from django.conf import settings
+        return format_html("<a href='{url}'>{url}</a>", url=settings.TRUE_URI + "/api/qr/" + str(self.id))
+    uri.short_description = "Url that the QR code should point to"
 
     def __str__(self):
         return str(self.id)

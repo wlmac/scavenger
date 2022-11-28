@@ -9,6 +9,7 @@ class HintsInLine(admin.StackedInline):
 
 class QrCodeAdmin(admin.ModelAdmin):
     fields = ["location"]
+    list_display = ["location", "uri"]
     inlines = [HintsInLine]
 
 
