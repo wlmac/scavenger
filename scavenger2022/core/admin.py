@@ -8,8 +8,9 @@ class HintsInLine(admin.StackedInline):
 
 
 class QrCodeAdmin(admin.ModelAdmin):
-    fields = ['location']
+    fields = ["location"]
     inlines = [HintsInLine]
+
 
 admin.site.register(User, UserAdmin)
 

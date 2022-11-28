@@ -8,6 +8,5 @@ router = SimpleRouter()
 urlpatterns = [
     path("", include(router.urls)),
     path("qr/<int:id>", code, name="code"),
-    path("codes/", codes, name="codes")
-
+    path("codes/", codes, name="codes"),
 ]

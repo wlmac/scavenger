@@ -96,4 +96,3 @@ def oauth_auth(q):
 def account_logout(q):
     logout(q)
     return redirect("/")
-

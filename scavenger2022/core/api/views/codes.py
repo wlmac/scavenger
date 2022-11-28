@@ -14,18 +14,15 @@ def code(request, id):
         qr = QrCode.objects.get(id=id)
     except QrCode.DoesNotExist:
         return JsonResponse({"error": "QR code not found"}, status=404)
-    qr_data = {'id': qr.id, 'location': qr.location}
+    qr_data = {"id": qr.id, "location": qr.location}
     hints = list(Hint.objects.filter(qr_code=qr.id).values())
     for hint in hints:
-        del hint['qr_code_id'], hint['id']
+        del hint["qr_code_id"], hint["id"]
 
-    return JsonResponse({'qr': qr_data, 'hints': hints})
+    return JsonResponse({"qr": qr_data, "hints": hints})
 
 
 def codes(request):
     All_codes = list(QrCode.objects.all().values())
     data = {"QRcodes": All_codes}
     return JsonResponse(data)
-
-
-
