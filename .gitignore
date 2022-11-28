@@ -1,2 +1,4 @@
 __pycache__
 .build
+scavenger2022/db.sqlite3
+*.pyc

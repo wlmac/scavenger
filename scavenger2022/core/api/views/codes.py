@@ -1,22 +1,31 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from ...models import QrCode
+from django.http import JsonResponse
+from ...models import QrCode, Hint
 
 __ALL__ = ["code", "codes"]
 
 
-@api_view()
-def code(request):
+def code(request, id):
     """
     Returns the QR code data for the given code.
-    example: ..qr/12
+    http://127.0.0.1:8001/api/qr/12
+
     """
+    try:
+        qr = QrCode.objects.get(id=id)
+    except QrCode.DoesNotExist:
+        return JsonResponse({"error": "QR code not found"}, status=404)
+    qr_data = {'id': qr.id, 'location': qr.location}
+    hints = list(Hint.objects.filter(qr_code=qr.id).values())
+    for hint in hints:
+        del hint['qr_code_id'], hint['id']
 
-    obj = QrCode.objects.get(id=request.GET.get("id"))
-
-    return Response(obj)
+    return JsonResponse({'qr': qr_data, 'hints': hints})
 
 
-@api_view()
 def codes(request):
-    return Response(QrCode.objects.all())
+    All_codes = list(QrCode.objects.all().values())
+    data = {"QRcodes": All_codes}
+    return JsonResponse(data)
+
+
+
