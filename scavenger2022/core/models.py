@@ -22,7 +22,12 @@ class QrCode(models.Model):
 
     def uri(self):
         from django.conf import settings
-        return format_html("<a href='{url}'>{url}</a>", url=settings.TRUE_URI + "/api/qr/" + str(self.id))
+
+        return format_html(
+            "<a href='{url}'>{url}</a>",
+            url=settings.TRUE_URI + "/api/qr/" + str(self.id),
+        )
+
     uri.short_description = "Url that the QR code should point to"
 
     def __str__(self):
