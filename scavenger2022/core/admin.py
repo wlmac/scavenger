@@ -1,10 +1,23 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, QrCode, Hint
+from .models import *
 
 
 class HintsInLine(admin.StackedInline):
     model = Hint
+    extra = 2
+
+
+class InviteInLine(admin.StackedInline):
+    model = Invite
+    extra = 1
+    readonly_fields = ("invites",)
+
+
+class TeamAdmin(admin.ModelAdmin):
+    inlines = [
+        InviteInLine,
+    ]
 
 
 class QrCodeAdmin(admin.ModelAdmin):
@@ -14,5 +27,5 @@ class QrCodeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserAdmin)
-
+admin.site.register(Team, TeamAdmin)
 admin.site.register(QrCode, QrCodeAdmin)

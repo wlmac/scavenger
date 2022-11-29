@@ -125,7 +125,7 @@ YASOI = dict(
     token_url=f"{base_url}/token/",
     me_url=f"{base_url}/api/me",
 )
-
+MAX_TEAM_SIZE = 4
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:
         exec(f.read(), globals())

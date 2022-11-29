@@ -1,11 +1,39 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.html import format_html
+from django.conf import settings
 
 
 class User(AbstractUser):
     metropolis_id = models.IntegerField()
     refresh_token = models.CharField(max_length=128)
+
+
+class Team(models.Model):
+    # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=64, unique=True)
+    members = models.ManyToManyField(User, related_name="team", unique=False)
+    is_active = models.BooleanField(default=True)
+    is_open = models.BooleanField(default=False)
+
+    def is_solo(self):
+        return self.members.count() == 1
+
+    def is_full(self):
+        return self.members.count() >= settings.MAX_TEAM_SIZE
+
+    def invites(self):
+        return Invite.objects.filter(team=self)
+
+    def __str__(self):
+        return self.name
+
+
+class Invite(models.Model):
+    invites = models.IntegerField(default=0)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    code = models.CharField(max_length=64)
 
 
 class QrCode(models.Model):
