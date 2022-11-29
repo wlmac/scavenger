@@ -33,7 +33,7 @@ class Team(models.Model):
 class Invite(models.Model):
     invites = models.IntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    code = models.CharField(max_length=64)
+    code = models.CharField(max_length=5, unique=True)
 
 
 class QrCode(models.Model):
