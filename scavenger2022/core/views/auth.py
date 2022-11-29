@@ -1,27 +1,18 @@
-from authlib.integrations.base_client.errors import OAuthError
 from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 from authlib.integrations.django_client import OAuth
 import requests
 
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urlencode
 
-from .models import User
+from ..models import User
 
 oauth = OAuth()
 oauth.register("metropolis")
-
-
-@require_http_methods(("GET",))
-def index(q):
-    if user := q.session.get("user"):
-        print(user)
-    return render(q, "core/index.html", {})
 
 
 @require_http_methods(("GET",))

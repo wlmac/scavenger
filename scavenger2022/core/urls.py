@@ -1,11 +1,11 @@
 from django.urls import path, include
-from . import views
-
+from .views import auth, index, qr
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", index.index, name="index"),
     path("api/", include("core.api.urls")),
-    path("login/", views.oauth_login, name="oauth_login"),
-    path("auth/", views.oauth_auth, name="oauth_auth"),
-    path("logout/", views.account_logout, name="account_logout"),
+    path("login/", auth.oauth_login, name="oauth_login"),
+    path("auth/", auth.oauth_auth, name="oauth_auth"),
+    path("logout/", auth.account_logout, name="account_logout"),
+    path("qr/<int:id>", qr.QrView.as_view(), name="qr"),
 ]
