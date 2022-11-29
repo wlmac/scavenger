@@ -15,7 +15,7 @@ class QrView(View, LoginRequiredMixin):
         try:
             qr = QrCode.objects.get(id=id)
         except QrCode.DoesNotExist:
-            return HttpResponseNotFound("QR code not found")
+            return HttpResponseNotFound("QR code not found") # todo make look good
         qr_data = {"id": qr.id, "location": qr.location}
         hint = random.choice(list(Hint.objects.filter(qr_code=qr.id).values()))
         del hint["qr_code_id"], hint["id"]
