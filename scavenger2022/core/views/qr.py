@@ -13,10 +13,11 @@ class QrView(View, LoginRequiredMixin):
 
     def get(self, request, id: int, *args, **kwargs):
         try:
-            hint = random.choice(list(Hint.objects.filter(qr_code=id).values()))
+            hint = random.choice(
+                list(Hint.objects.filter(qr_code=id).values())
+            )  # todo replace with ...filter(...).first() then if the user clicks new hint on qr.html get the 2nd hint and so on. note: use team_id as random seed for reproducibility
         except Hint.DoesNotExist:
             return HttpResponseNotFound(
                 "Hint's not found for that Qr code"
             )  # todo make look good
-        print({"hint": hint["hint"]})
-        return render(request, self.template_name, {"hint": hint["hint"]})
+        return render(request, self.template_name, dict(hint=hint["hint"]))

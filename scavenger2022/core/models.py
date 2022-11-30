@@ -1,4 +1,5 @@
 import random
+import secrets
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -13,6 +14,7 @@ class User(AbstractUser):
 
 class QrCode(models.Model):
     id = models.AutoField(primary_key=True)
+    #code = models.CharField(max_length=32, default=secrets.token_urlsafe(32), unique=True)
     location = models.CharField(
         max_length=100,
         help_text="Location of the QR code, be specific, it's admin only",
@@ -23,7 +25,7 @@ class QrCode(models.Model):
 
         return format_html(
             "<a href='{url}'>{url}</a>",
-            url=settings.TRUE_URI + "/api/qr/" + str(self.id),
+            url=settings.TRUE_URI + "/qr/" + str(self.id),
         )
 
     uri.short_description = "Url that the QR code should point to"
