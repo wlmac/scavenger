@@ -119,12 +119,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 base_url = "https://maclyonsden.com"
 YASOI = dict(
-    client_id="", # unset
-    client_secret="", # unset
+    client_id="",  # unset
+    client_secret="",  # unset
     authorize_url=f"{base_url}/authorize",
     token_url=f"{base_url}/token/",
     me_url=f"{base_url}/api/me/internal",
-    scope='me_meta internal',
+    scope="me_meta internal",
 )
 MAX_TEAM_SIZE = 4
 try:
