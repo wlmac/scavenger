@@ -28,8 +28,19 @@ class QrCodeAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(UserAdmin_):
-    readonly_fields = ("username", "first_name", "last_name", "email", "is_active", "is_staff", "is_superuser")
-    fieldsets = tuple(list(UserAdmin_.fieldsets) + [("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"]))])
+    readonly_fields = (
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "is_active",
+        "is_staff",
+        "is_superuser",
+    )
+    fieldsets = tuple(
+        list(UserAdmin_.fieldsets)
+        + [("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"]))]
+    )
 
 
 admin.site.register(User, UserAdmin)

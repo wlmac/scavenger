@@ -24,9 +24,8 @@ def pkce1(q):
     code_challenge = base64.urlsafe_b64encode(
         hashlib.sha256(code_verifier.encode("ascii")).digest()
     ).decode("ascii")
-    # remove 1 or 2 base64 padding
-    code_challenge = code_challenge.removesuffix("=")
-    code_challenge = code_challenge.removesuffix("=")
+    # remove base64 padding
+    code_challenge = code_challenge.rstrip("=")
     code_challenge_method = "S256"
     return dict(
         code_challenge=code_challenge, code_challenge_method=code_challenge_method
@@ -52,7 +51,7 @@ def oauth_login(q):
                 response_type="code",
                 client_id=settings.YASOI["client_id"],
                 redirect_uri=redirect_uri,
-                scope=settings.YASOI['scope'],
+                scope=settings.YASOI["scope"],
                 state=state,
                 **pkce_params,
             )

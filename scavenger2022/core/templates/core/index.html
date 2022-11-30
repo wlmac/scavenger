@@ -1,4 +1,10 @@
 {% extends "core/base.html" %}
 
 {% block body %}
+<!-- create a little form to create a team -->
+{% if request.user.is_authenticated %}
+    <span>note: even if you are going solo you still create a team.</span>
+    {{ form.as_p }}
+{% endif %}
+
 {% endblock %}
