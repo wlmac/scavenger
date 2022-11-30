@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.views.decorators.http import require_http_methods
 from authlib.integrations.django_client import OAuth
 import requests
+import secrets
 
 from urllib.parse import urlencode
 
@@ -18,10 +19,9 @@ oauth.register("metropolis")
 @require_http_methods(("GET",))
 def oauth_login(q):
     redirect_uri = q.build_absolute_uri(reverse("oauth_auth"))
-    # state = secrets.token_urlsafe(32)
+    state = secrets.token_urlsafe(32)
     # TODO: fix state
     # TODO: pkce
-    state = "死ねる勇気もないよ"
     q.session["yasoi_state"] = state
     print("死ねる勇気あるかな", list(q.session.items()))
     return redirect(
@@ -43,10 +43,9 @@ def oauth_auth(q):
     redirect_uri = q.build_absolute_uri(reverse("oauth_auth"))
     print("死ねる勇気あるかな", list(q.session.items()))
     given_state = q.GET["state"]
-    # expected_state = q.session['yasoi_state']
-    expected_state = "死ねる勇気もないよ"
+    expected_state = q.session['yasoi_state']
     if expected_state != given_state:
-        raise RuntimeError("ﾀﾋ")
+        raise TypeError('state mismatch')
     code = q.GET["code"]
     q2 = requests.post(
         settings.YASOI["token_url"],
