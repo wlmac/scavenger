@@ -11,8 +11,13 @@ body {
   font-size: var(--size);
   color: var(--fg);
   background: var(--bg);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
 main {
+  flex-grow: 1;
   margin: 8px;
 }
 

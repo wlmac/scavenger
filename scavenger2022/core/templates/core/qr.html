@@ -1,18 +1,18 @@
 {% extends "core/base.html" %}
+{% load static %}
 
 {% block title %}
 {% comment %} TODO: Create a progress bar (or some percentage indicator) {% endcomment %}
-Title of Hint
+Hint
+{% endblock %}
+
+{% block head_end %}
+    <link rel="stylesheet" href="{% static 'core/qr.css' %}" />
 {% endblock %}
 
 {% block body %}
-<div style="display: table; text-align: center; display: flex; align-items: center; flex-direction: column; height: 100%">
-    <h1 style="height: 300px; line-height: 300px; display: table-cell; font-family: Georgia; font-size: 96px">
-        Hint:
-    </h1>
-    <h2 style="height: 300px; line-height: 300px; font-family: Trebuchet MS; font-size:64px; vertical-align:middle; height: 100%;">
-        {{ hint }}
-    </h2>
-</div>
-
+    <div class="buffer">Blah blah here's your next hint:</div>
+    <div class="padding"></div>
+    <div class="hint">{{ hint }}</div>
+    <div class="padding"></div>
 {% endblock %}
