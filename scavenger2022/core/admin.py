@@ -15,6 +15,7 @@ class InviteInLine(admin.StackedInline):
 
 
 class TeamAdmin(admin.ModelAdmin):
+    readonly_fields = ("current_qr_code",)
     inlines = [
         InviteInLine,
     ]

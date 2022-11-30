@@ -13,11 +13,10 @@ class QrView(View, LoginRequiredMixin):
 
     def get(self, request, id: int, *args, **kwargs):
         try:
-            qr = QrCode.objects.get(id=id)
-        except QrCode.DoesNotExist:
-            return HttpResponseNotFound("QR code not found") # todo make look good
-        qr_data = {"id": qr.id, "location": qr.location}
-        hint = random.choice(list(Hint.objects.filter(qr_code=qr.id).values()))
-        del hint["qr_code_id"], hint["id"]
-
-        return render(request, self.template_name, {"qr": qr_data, "hint": hint})
+            hint = random.choice(list(Hint.objects.filter(qr_code=id).values()))
+        except Hint.DoesNotExist:
+            return HttpResponseNotFound(
+                "Hint's not found for that Qr code"
+            )  # todo make look good
+        print({"hint": hint["hint"]})
+        return render(request, self.template_name, {"hint": hint["hint"]})
