@@ -52,7 +52,7 @@ def oauth_login(q):
                 response_type="code",
                 client_id=settings.YASOI["client_id"],
                 redirect_uri=redirect_uri,
-                scope="me_meta",
+                scope=settings.YASOI['scope'],
                 state=state,
                 **pkce_params,
             )
@@ -67,7 +67,7 @@ def oauth_auth(q):
     if expected_state != given_state:
         raise TypeError("state mismatch")
     if "error" in q.GET:
-        raise RuntimeError(f'{q.GET["error"]}: {q.GET["error_description"]}')
+        raise RuntimeError(f'{q.GET["error"]}: {q.GET.get("error_description")}')
     pkce_params = pkce2(q)
     code = q.GET["code"]
     q2 = requests.post(
@@ -88,6 +88,7 @@ def oauth_auth(q):
     s2d = q2.json()
     access_token = s2d["access_token"]
     refresh_token = s2d["refresh_token"]
+    print(settings.YASOI["me_url"])
     q3 = requests.get(
         settings.YASOI["me_url"], headers={"Authorization": f"Bearer {access_token}"}
     )
@@ -96,12 +97,13 @@ def oauth_auth(q):
     try:
         u = User.objects.get(metropolis_id=s3d["id"])
     except User.DoesNotExist:
-        u = User(
-            username=s3d["username"],
-            first_name=s3d["first_name"],
-            last_name=s3d["last_name"],
-            metropolis_id=s3d["id"],
-        )
+        u = User(metropolis_id=s3d["id"])
+    u.username = s3d["username"]
+    u.email = s3d["email"]
+    u.first_name = s3d["first_name"]
+    u.last_name = s3d["last_name"]
+    u.is_staff = s3d["is_staff"]
+    u.is_superuser = s3d["is_superuser"]
     u.refresh_token = refresh_token
     u.save()
     login(q, u)
