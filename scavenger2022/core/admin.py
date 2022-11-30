@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as UserAdmin_
 from .models import *
 
 
@@ -25,6 +25,11 @@ class QrCodeAdmin(admin.ModelAdmin):
     fields = ["location"]
     list_display = ["location", "uri"]
     inlines = [HintsInLine]
+
+
+class UserAdmin(UserAdmin_):
+    readonly_fields = ("username", "first_name", "last_name", "email", "is_active", "is_staff", "is_superuser")
+    fieldsets = tuple(list(UserAdmin_.fieldsets) + [("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"]))])
 
 
 admin.site.register(User, UserAdmin)
