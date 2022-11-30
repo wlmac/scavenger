@@ -21,14 +21,16 @@ oauth.register("metropolis")
 
 def pkce1(q):
     q.session["yasoi_code_verifier"] = code_verifier = secrets.token_urlsafe(96)
-    print('code_verifier', code_verifier)
-    code_challenge = base64.urlsafe_b64encode(hashlib.sha256(code_verifier.encode('ascii')).digest()).decode('ascii')
+    code_challenge = base64.urlsafe_b64encode(
+        hashlib.sha256(code_verifier.encode("ascii")).digest()
+    ).decode("ascii")
     # remove 1 or 2 base64 padding
-    code_challenge = code_challenge.removesuffix('=')
-    code_challenge = code_challenge.removesuffix('=')
-    print('code_challenge', code_challenge)
+    code_challenge = code_challenge.removesuffix("=")
+    code_challenge = code_challenge.removesuffix("=")
     code_challenge_method = "S256"
-    return dict(code_challenge=code_challenge, code_challenge_method=code_challenge_method)
+    return dict(
+        code_challenge=code_challenge, code_challenge_method=code_challenge_method
+    )
 
 
 def pkce2(q):
@@ -60,12 +62,11 @@ def oauth_login(q):
 
 def oauth_auth(q):
     redirect_uri = q.build_absolute_uri(reverse("oauth_auth"))
-    print("死ねる勇気あるかな", list(q.session.items()))
     given_state = q.GET["state"]
-    expected_state = q.session['yasoi_state']
+    expected_state = q.session["yasoi_state"]
     if expected_state != given_state:
-        raise TypeError('state mismatch')
-    if 'error' in q.GET:
+        raise TypeError("state mismatch")
+    if "error" in q.GET:
         raise RuntimeError(f'{q.GET["error"]}: {q.GET["error_description"]}')
     pkce_params = pkce2(q)
     code = q.GET["code"]
@@ -79,7 +80,6 @@ def oauth_auth(q):
             **pkce_params,
         ),
     )
-    print(q2.status_code, q2.text)
     if q2.status_code == 400:
         data = q2.json()
         raise RuntimeError(f"{data['error']}: {data.get('error_description')}")
