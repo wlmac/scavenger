@@ -17,4 +17,11 @@ class TeamForm(forms.ModelForm):
 
     class Meta:
         model = Team
-        exclude = ("id", "members", "is_active", "is_open", "completed_qr_codes", "current_qr_code")
+        exclude = (
+            "id",
+            "members",
+            "is_active",
+            "is_open",
+            "completed_qr_codes",
+            "current_qr_code",
+        )

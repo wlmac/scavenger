@@ -14,7 +14,7 @@ class User(AbstractUser):
 
 class QrCode(models.Model):
     id = models.AutoField(primary_key=True)
-    #code = models.CharField(max_length=32, default=secrets.token_urlsafe(32), unique=True)
+    # code = models.CharField(max_length=32, default=secrets.token_urlsafe(32), unique=True)
     location = models.CharField(
         max_length=100,
         help_text="Location of the QR code, be specific, it's admin only",
