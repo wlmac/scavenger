@@ -16,7 +16,7 @@ class QrView(View, LoginRequiredMixin):
             hint = random.choice(
                 list(Hint.objects.filter(qr_code=id).values())
             )  # todo replace with ...filter(...).first() then if the user clicks new hint on qr.html get the 2nd hint and so on. note: use team_id as random seed for reproducibility
-        except Hint.DoesNotExist:
+        except (Hint.DoesNotExist, IndexError):
             return HttpResponseNotFound(
                 "Hint's not found for that Qr code"
             )  # todo make look good
