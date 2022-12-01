@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Team
+from .models import *
 
 
 class TeamForm(forms.ModelForm):
@@ -25,3 +25,11 @@ class TeamForm(forms.ModelForm):
             "completed_qr_codes",
             "current_qr_code",
         )
+
+
+class QrCodeAdminForm(forms.ModelForm):
+    url = forms.CharField(disabled=True)
+
+    class Meta:
+        model = QrCode
+        fields = "__all__"

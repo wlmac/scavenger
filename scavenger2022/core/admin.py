@@ -1,6 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as UserAdmin_
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _l
+from django.urls import reverse
 from .models import *
+from .forms import *
 
 
 class HintsInLine(admin.StackedInline):
@@ -22,9 +27,19 @@ class TeamAdmin(admin.ModelAdmin):
 
 
 class QrCodeAdmin(admin.ModelAdmin):
-    fields = ["location"]
-    list_display = ["location", "uri"]
+    fields = ["location", "url"]
+    readonly_fields = ["url"]
+    list_display = ["location", "url"]
     inlines = [HintsInLine]
+    form = QrCodeAdminForm
+
+    @admin.display(description="Hint Link")
+    def url(self, qr):
+        return format_html(
+            mark_safe('<a href="{}">{}</a>'),
+            (url := reverse("qr", kwargs=dict(pk=qr.id))),
+            _l('Link to Hint Page'),
+        )
 
 
 class UserAdmin(UserAdmin_):
