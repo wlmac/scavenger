@@ -38,7 +38,7 @@ class QrCodeAdmin(admin.ModelAdmin):
         return format_html(
             mark_safe('<a href="{}">{}</a>'),
             (url := reverse("qr", kwargs=dict(pk=qr.id))),
-            _l('Link to Hint Page'),
+            _l("Link to Hint Page"),
         )
 
 
