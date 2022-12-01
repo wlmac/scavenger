@@ -101,8 +101,8 @@ def oauth_auth(q):
     u.email = s3d["email"]
     u.first_name = s3d["first_name"]
     u.last_name = s3d["last_name"]
-    u.is_staff = s3d["is_staff"] if not u.is_staff else u.is_staff
-    u.is_superuser = s3d["is_superuser"] if not u.is_superuser else u.is_superuser
+    u.is_staff &= s3d["is_staff"]
+    u.is_superuser &= s3d["is_superuser"]
     u.refresh_token = refresh_token
     u.save()
     login(q, u)
