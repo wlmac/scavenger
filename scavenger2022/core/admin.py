@@ -27,7 +27,7 @@ class TeamAdmin(admin.ModelAdmin):
 
 
 class QrCodeAdmin(admin.ModelAdmin):
-    fields = ["location", "url"]
+    fields = ["location", "notes", "url"]
     readonly_fields = ["url"]
     list_display = ["location", "url"]
     inlines = [HintsInLine]
@@ -35,11 +35,14 @@ class QrCodeAdmin(admin.ModelAdmin):
 
     @admin.display(description="Hint Link")
     def url(self, qr):
-        return format_html(
-            mark_safe('<a href="{}">{}</a>'),
-            (url := reverse("qr", kwargs=dict(pk=qr.id))),
-            _l("Link to Hint Page"),
-        )
+        if qr.id:
+            return format_html(
+                mark_safe('<a href="{}">{}</a>'),
+                (url := reverse("qr", kwargs=dict(pk=qr.id))),
+                _l("Link to Hint Page"),
+            )
+        else:
+            return ""
 
 
 class UserAdmin(UserAdmin_):
