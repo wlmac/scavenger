@@ -48,9 +48,6 @@ class UserAdmin(UserAdmin_):
         "first_name",
         "last_name",
         "email",
-        "is_active",
-        "is_staff",
-        "is_superuser",
     )
     fieldsets = tuple(
         list(UserAdmin_.fieldsets)

@@ -15,6 +15,7 @@ from urllib.parse import urlencode
 
 from ..models import User
 
+
 oauth = OAuth()
 oauth.register("metropolis")
 
@@ -97,6 +98,8 @@ def oauth_auth(q):
         u = User.objects.get(metropolis_id=s3d["id"])
     except User.DoesNotExist:
         u = User(metropolis_id=s3d["id"])
+    if not u.is_active:
+        raise TypeError("cannot login to inactive account")
     u.username = s3d["username"]
     u.email = s3d["email"]
     u.first_name = s3d["first_name"]

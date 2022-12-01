@@ -1,15 +1,15 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 
 from ..models import Team, Invite
 
 
+@login_required
 def join(request, code):
     """
     http://127.0.0.1:8001/team/join/12/
     """
-    if not request.user.is_authenticated:
-        return redirect(f"/?next={request.path}")
     invite = Invite.objects.filter(code=code).first()
     if invite is None:
         return HttpResponseBadRequest("Invalid invite code")
@@ -19,4 +19,4 @@ def join(request, code):
         invite.invites += 1
         invite.save()
         return redirect("/")
-        # return redirect("team", team.id) # todo once team page is made change it to this.
+        # return redirect("team", team.id) # TODO: once team page is made change it to this.
