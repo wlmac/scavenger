@@ -9,12 +9,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-kypy4p!6ttsb5u(31y%lde+6+8qh)e^b5qemi_v+0-pv=ch&f0"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -127,8 +121,11 @@ YASOI = dict(
     scope="me_meta internal",
 )
 MAX_TEAM_SIZE = 4
+
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:
         exec(f.read(), globals())
 except IOError:
     raise TypeError("local_settings.py not found")
+
+SECRET_KEY  # same here

@@ -27,7 +27,7 @@ class TeamAdmin(admin.ModelAdmin):
 
 
 class QrCodeAdmin(admin.ModelAdmin):
-    fields = ["location", "notes", "url"]
+    fields = ["short", "location", "notes", "url"]
     readonly_fields = ["url"]
     list_display = ["location", "url"]
     inlines = [HintsInLine]
@@ -54,7 +54,10 @@ class UserAdmin(UserAdmin_):
     )
     fieldsets = tuple(
         list(UserAdmin_.fieldsets)
-        + [("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"]))]
+        + [
+            ("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"])),
+            ("Game", dict(fields=["team"])),
+        ]
     )
 
 

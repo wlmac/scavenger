@@ -10,11 +10,17 @@ from django.conf import settings
 class User(AbstractUser):
     metropolis_id = models.IntegerField()
     refresh_token = models.CharField(max_length=128)
+    team = models.ForeignKey(
+        "Team", related_name="members", on_delete=models.CASCADE, blank=True, null=True
+    )
 
 
 class QrCode(models.Model):
     id = models.AutoField(primary_key=True)
     # code = models.CharField(max_length=32, default=secrets.token_urlsafe(32), unique=True)
+    short = models.CharField(
+        max_length=64, help_text="Short string to remember the place."
+    )
     location = models.CharField(
         max_length=1024,
         help_text="Location of the QR code. Be specific—it's internal",
@@ -24,7 +30,7 @@ class QrCode(models.Model):
     )
 
     def __str__(self):
-        return str(self.id)
+        return self.short or str(self.id)
 
 
 class Hint(models.Model):
@@ -42,7 +48,6 @@ class Team(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64, unique=True)
-    members = models.ManyToManyField(User, related_name="team", unique=False)
     is_active = models.BooleanField(default=True)
     is_open = models.BooleanField(
         default=False
@@ -82,7 +87,11 @@ class Team(models.Model):
         return self.name
 
 
+def generate_invite_code():
+    return secrets.token_urlsafe(24)
+
+
 class Invite(models.Model):
     invites = models.IntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    code = models.CharField(max_length=5, unique=True)
+    code = models.CharField(max_length=32, unique=True, default=generate_invite_code)
