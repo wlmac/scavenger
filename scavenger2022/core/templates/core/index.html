@@ -1,10 +1,21 @@
 {% extends "core/base.html" %}
+{% load i18n %}
 
 {% block body %}
-<!-- create a little form to create a team -->
-{% if request.user.is_authenticated %}
-    <span>note: even if you are going solo you still create a team.</span>
-    {{ form.as_p }}
+{% if not request.user.is_authenticated %}
+    Please <a href="{% url 'oauth_login' %}">login</a>.
+{% else %}
+    {% if not request.user.chosen %}
+        <ul>
+            <li>Join a team: either scan your team leader's QR code or click the link</li>
+            <li><a href="{% url 'team_new' %}">Make a team</a></li>
+            <li><form action="{% url 'team_solo' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Go solo" />
+            </form></li>
+        </ul>
+    {% else %}
+        TODO: go to first hint
+    {% endif %}
 {% endif %}
-
 {% endblock %}
