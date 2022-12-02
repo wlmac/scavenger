@@ -5,6 +5,9 @@ let
     pip
     black
     virtualenv
+    mypy
+    python-lsp-server
+    python-lsp-black
   ];
   pythonWithPkgs = pkgs.python3.withPackages pythonPkgs;
 in
