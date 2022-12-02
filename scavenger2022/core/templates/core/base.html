@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -58,7 +59,7 @@
     <nav id="main-header">
       Scavenger Hunt
       {% if request.user.is_staff %}
-      <a href="/admin">Admin</a>
+      <a href="/admin">{% translate "Admin" %}</a>
       {% endif %}
       {% if request.user.chosen %}
       	{% if request.user.team %}
@@ -87,5 +88,11 @@
     <main>
       {% block body %}{% endblock %}
     </main>
+    <footer>
+      <span style="display: flex; align-items: center; justify-content: center;">
+        <img src="{% static 'core/ojigi_animal_inu.png' %}" style="height: 7rem;" />
+        {% translate "This website is under construction. Thank you for testing it out!" %}
+      </span>
+    </footer>
   </body>
 </html>

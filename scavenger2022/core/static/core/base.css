@@ -1,11 +1,18 @@
 :root {
-  --size: 18px;
-  /* colours from Solarized */
-  --bg: #fbf7ef;
-  --fg: #002d38;
+  --size: 1.4rem;
+  /* colours from OKSolar */
+  --bg: #f1e9d2;
+  --fg: #093946;
   --link: #2b90d8;
   --linkv: #7d80d1;
 }
+
+@media (prefers-color-scheme: dark) {
+  /* colours from OKSolar */
+  --bg: #093946;
+  --fg: #fbf7ef;
+}
+
 body {
   margin: 0;
   font-family: 'Zen Kaku Gothic New', sans-serif;
