@@ -60,6 +60,13 @@
       {% if request.user.is_staff %}
       <a href="/admin">Admin</a>
       {% endif %}
+      {% if request.user.chosen %}
+      	{% if request.user.team %}
+	  Team: {{ request.user.team.name }}
+	{% else %}
+	  Solo
+	{% endif %}
+      {% endif %}
       <span class="spacer">
         {% if request.user.is_authenticated %}
           Logged in as

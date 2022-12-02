@@ -128,4 +128,5 @@ try:
 except IOError:
     raise TypeError("local_settings.py not found")
 
-SECRET_KEY  # same here
+SECRET_KEY  # set in local_settings.py
+CHOOSE_CUTOFF  # same here
