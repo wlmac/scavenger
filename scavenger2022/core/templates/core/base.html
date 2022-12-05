@@ -85,6 +85,31 @@
         {% endif %}
       </span>
     </nav>
+    <header>
+      <h1>{% block header %}{% endblock %}</h1>
+      {% comment %}TODO: consider merging header and title{% endcomment %}
+      {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.DEBUG %}
+                Debug:
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                Info:
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                Success:
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                Warning:
+              {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <img src="{% static 'core/animal_buta_shock.png' %}" class="imgicon" alt="error" />
+                Error:
+              {% endif %}
+              {{ message }}
+          </li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+    </header>
     <main>
       {% block body %}{% endblock %}
     </main>

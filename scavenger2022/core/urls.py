@@ -8,7 +8,7 @@ urlpatterns = [
     path("auth/", auth.oauth_auth, name="oauth_auth"),
     path("logout/", auth.account_logout, name="account_logout"),
     path("qr/<int:pk>", qr.QrView.as_view(), name="qr"),
-    path("team/join/<str:code>/", team.join, name="join"),
+    path("team/join/", team.join, name="join"),
     path("team/new", team.make, name="team_new"),
     path("team/solo", team.solo, name="team_solo"),
 ]

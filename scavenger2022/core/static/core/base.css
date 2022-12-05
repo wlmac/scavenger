@@ -24,9 +24,17 @@ body {
   flex-direction: column;
 }
 
+main, header {
+  margin: 8px;
+}
+
+header > h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
 main {
   flex-grow: 1;
-  margin: 8px;
 }
 
 #main-header {
@@ -52,3 +60,12 @@ a {
 a:visited {
   color: var(--linkv);
 }
+
+.messages {
+  list-style: none;
+  padding: 1rem;
+.}
+
+.imgicon {
+  height: 3rem;
+.}

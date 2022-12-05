@@ -27,6 +27,15 @@ class TeamForm(forms.ModelForm):
         )
 
 
+class TeamJoinForm(forms.Form):
+    code = forms.CharField(
+        label="Join Code",
+        max_length=6,
+        strip=True,
+        required=True,
+    )
+
+
 class QrCodeAdminForm(forms.ModelForm):
     url = forms.CharField(disabled=True)
 

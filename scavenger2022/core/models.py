@@ -89,10 +89,10 @@ class Team(models.Model):
 
 
 def generate_invite_code():
-    return secrets.token_urlsafe(24)
+    return secrets.token_hex(3)
 
 
 class Invite(models.Model):
     invites = models.IntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    code = models.CharField(max_length=32, unique=True, default=generate_invite_code)
+    code = models.CharField(max_length=32, unique=True)

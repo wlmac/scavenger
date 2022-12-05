@@ -1,28 +1,53 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponseBadRequest
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
+from django.utils.translation import gettext as _
 
 from ..models import Team, Invite
+from ..forms import TeamJoinForm
 
 
 @login_required
-@require_http_methods(("POST",))
-def join(request, code):
-    """
-    http://127.0.0.1:8001/team/join/12/
-    """
-    invite = Invite.objects.filter(code=code).first()
-    if invite is None:
-        return HttpResponseBadRequest("Invalid invite code")
-    team = Team.objects.filter(id=invite.team_id).first()
-    if not team.is_full():
-        team.join(request.user)
-        invite.invites += 1
-        invite.save()
-        return redirect("/")
-        # return redirect("team", team.id) # TODO: once team page is made change it to this.
+@require_http_methods(
+    (
+        "GET",
+        "POST",
+    )
+)
+def join(request):
+    # TODO: check if aafter cutoff
+    if request.method == "POST":
+        form = TeamJoinForm(request.POST)
+        if form.is_valid():
+            invite = Invite.objects.filter(code=form.cleaned_data["code"]).first()
+            if invite is None:
+                return HttpResponseBadRequest(
+                    "Invalid invite code" + form.cleaned_data["code"]
+                )
+            team = Team.objects.filter(id=invite.team_id).first()
+            if not team.is_full():
+                team.join(request.user)
+                invite.invites += 1
+                invite.save()
+                messages.success(
+                    request, _("Joined team %(team_name)s") % dict(team_name=team.name)
+                )
+                return redirect("/")
+            else:
+                messages.error(
+                    request,
+                    _("Team %(team_name)s is full.") % dict(team_name=team.name),
+                )
+                return redirect(reverse("join"))
+    else:
+        if "code" in request.GET:
+            form = TeamJoinForm(request.GET)
+        else:
+            form = TeamJoinForm()
+    return render(request, "core/team_join.html", dict(form=form))
 
 
 @login_required

@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}
+Join a Team
+{% endblock %}
+
+{% block header %}
+Join a Team
+{% endblock %}
+
+{% block body %}
+  <form action="{% url 'join' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Join" />
+  </form>
+  <img src="{% static 'core/computer_mob_programming.png' %}" style="height: 14rem;" alt="{{ _('a four-person team programming with a big screen in the centre') }}" />
+{% endblock %}
