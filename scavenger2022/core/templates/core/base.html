@@ -8,6 +8,13 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+        {% if CUTOFF_BEFORE %}
+          <script src="{% static 'core/countdown.min.js' %}"></script>
+          <script>
+            setInterval(() => {
+              document.getElementById("cutoff").innerText = countdown(new Date('{{ CUTOFF|date:"c"}}'), new Date())}, 1000);
+          </script>
+        {% endif %}
         {% block head_end %}{% endblock %}
     </head>
     <body>
@@ -56,6 +63,16 @@
   </nav>
 </div>
 <!-- GENDO END CommonHeader -->
+    {% if CUTOFF_BEFORE %}
+      <nav id="cutoff-header">
+        Hunt starts in: <span id="cutoff">
+          {{ CUTOFF_UNTIL }}
+          {% comment %}
+            TODO: converge format between countdown.js and this
+          {% endcomment %}
+        </span>
+      </nav>
+    {% endif %}
     <nav id="main-header">
       Scavenger Hunt
       {% if request.user.is_staff %}

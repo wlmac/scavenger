@@ -48,6 +48,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "core.context_processors.cutoff",
             ],
         },
     },
@@ -129,4 +130,4 @@ except IOError:
     raise TypeError("local_settings.py not found")
 
 SECRET_KEY  # set in local_settings.py
-CHOOSE_CUTOFF  # same here
+CUTOFF  # same here

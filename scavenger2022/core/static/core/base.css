@@ -1,5 +1,5 @@
 :root {
-  --size: 1.4rem;
+  --size: 1.2rem;
   /* colours from OKSolar */
   --bg: #f1e9d2;
   --fg: #093946;
@@ -37,9 +37,14 @@ main {
   flex-grow: 1;
 }
 
-#main-header {
+body > nav {
   padding: 4px;
 }
+
+#cutoff-header {
+  text-align: center;
+}
+
 .spacer {
   float: right;
 }
