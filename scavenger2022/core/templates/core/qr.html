@@ -20,7 +20,13 @@ Hint
     </div>
     <div class="padding"></div>
     <div class="hint">
-        <div class="hint-top">Your next hint is:</div>
+        <div class="hint-top">
+            {% if first %}
+                Your first hint is:
+            {% else %}
+                Your next hint is:
+            {% endif %}
+        </div>
         {% if nextqr %}
             {% hint nextqr request.user.team %}
         {% else %}
