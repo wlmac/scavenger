@@ -21,16 +21,21 @@ Hint
     <div class="padding"></div>
     <div class="hint">
         <div class="hint-top">
-            {% if first %}
-                Your first hint is:
+            {% if nextqr %}
+                {% if first %}
+                    Your first hint is:
+                {% else %}
+                    Your next hint is:
+                {% endif %}
             {% else %}
-                Your next hint is:
+                <img src="https://www.hanshin.co.jp/h_common/img/taisetsu.svg" alt="rainbow-coloured heart" />
+                (TODO: some colourful heart)
             {% endif %}
         </div>
-        {% if nextqr %}
+        {% if nextqr and false %}
             {% hint nextqr request.user.team %}
         {% else %}
-            done!
+            Thank you for playing!
         {% endif %}
     </div>
     <div class="padding"></div>
