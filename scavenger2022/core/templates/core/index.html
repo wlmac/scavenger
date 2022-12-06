@@ -11,7 +11,7 @@
             <li><a href="{% url 'team_new' %}">Make a team</a></li>
             <li><form action="{% url 'team_solo' %}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="Go solo" />
+                <input type="submit" value="{% translate 'Go solo '%}" />
             </form></li>
         </ul>
     {% else %}

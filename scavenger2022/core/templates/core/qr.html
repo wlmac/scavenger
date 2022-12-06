@@ -1,5 +1,7 @@
 {% extends "core/base.html" %}
 {% load static %}
+{% load i18n %}
+{% load qr %}
 
 {% block title %}
 {% comment %} TODO: Create a progress bar (or some percentage indicator) {% endcomment %}
@@ -11,8 +13,19 @@ Hint
 {% endblock %}
 
 {% block body %}
-    <div class="buffer">Blah blah here's your next hint:</div>
+    <div class="buffer">
+        {% if not first %}
+            You got the hint: {% hint qr request.user.team %}
+        {% endif %}
+    </div>
     <div class="padding"></div>
-    <div class="hint">{{ hint }}</div>
+    <div class="hint">
+        <div class="hint-top">Your next hint is:</div>
+        {% if nextqr %}
+            {% hint nextqr request.user.team %}
+        {% else %}
+            done!
+        {% endif %}
+    </div>
     <div class="padding"></div>
 {% endblock %}

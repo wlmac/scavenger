@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}
+Make a Team
+{% endblock %}
+
+{% block header %}
+Make a Team
+{% endblock %}
+
+{% block body %}
+  <form action="{% url 'team_new' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Make" />
+  </form>
+  <img src="{% static 'core/computer_mob_programming.png' %}" style="height: 14rem;" alt="{{ _('a four-person team programming with a big screen in the centre') }}" />
+{% endblock %}

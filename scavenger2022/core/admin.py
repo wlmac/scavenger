@@ -20,15 +20,19 @@ class InviteInLine(admin.StackedInline):
 
 
 class TeamAdmin(admin.ModelAdmin):
-    readonly_fields = ("current_qr_code",)
+    readonly_fields = ("current_qr_code", "path")
     inlines = [
         InviteInLine,
     ]
 
+    @admin.display(description="Path")
+    def path(self, team):
+        return "\n".join(map(str, QrCode.code_pks(team)))
+
 
 class QrCodeAdmin(admin.ModelAdmin):
-    fields = ["short", "location", "notes", "url"]
-    readonly_fields = ["url"]
+    fields = ["short", "location", "notes", "url", "key"]
+    readonly_fields = ["url", "key"]
     list_display = ["location", "url"]
     inlines = [HintsInLine]
     form = QrCodeAdminForm
@@ -38,7 +42,7 @@ class QrCodeAdmin(admin.ModelAdmin):
         if qr.id:
             return format_html(
                 mark_safe('<a href="{}">{}</a>'),
-                (url := reverse("qr", kwargs=dict(pk=qr.id))),
+                (url := reverse("qr", kwargs=dict(key=qr.key))),
                 _l("Link to Hint Page"),
             )
         else:
@@ -56,7 +60,7 @@ class UserAdmin(UserAdmin_):
         list(UserAdmin_.fieldsets)
         + [
             ("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"])),
-            ("Game", dict(fields=["team"])),
+            ("Game", dict(fields=["team", "chosen"])),
         ]
     )
 

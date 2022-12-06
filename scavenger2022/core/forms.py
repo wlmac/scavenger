@@ -3,18 +3,7 @@ from django import forms
 from .models import *
 
 
-class TeamForm(forms.ModelForm):
-    body = forms.CharField(
-        required=True,
-        widget=forms.widgets.Textarea(
-            attrs={
-                "placeholder": "test something...",
-                "class": "textarea is-success is-medium",
-            }
-        ),
-        label="",
-    )
-
+class TeamMakeForm(forms.ModelForm):
     class Meta:
         model = Team
         exclude = (
@@ -24,6 +13,7 @@ class TeamForm(forms.ModelForm):
             "is_open",
             "completed_qr_codes",
             "current_qr_code",
+            "solo",
         )
 
 

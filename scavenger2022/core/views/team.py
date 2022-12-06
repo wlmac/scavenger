@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 from django.utils.translation import gettext as _
 
 from ..models import Team, Invite
-from ..forms import TeamJoinForm
+from ..forms import TeamJoinForm, TeamMakeForm
 
 
 @login_required
@@ -51,14 +51,30 @@ def join(request):
 
 
 @login_required
-@require_http_methods(("POST",))
-def make(q):
-    raise NotImplementedError()
+@require_http_methods(("GET", "POST"))
+def make(request):
+    if request.method == "POST":
+        form = TeamMakeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            request.user.chosen = True
+            request.user.team = form.instance
+            request.user.save()
+            messages.success(
+                request,
+                _("Made team %(team_name)s")
+                % dict(team_name=form.cleaned_data["name"]),
+            )
+            return redirect(reverse("index"))
+    else:
+        form = TeamMakeForm()
+    return render(request, "core/team_new.html", dict(form=form))
 
 
 @login_required
 @require_http_methods(("POST",))
 def solo(q):
     q.user.chosen = True
+    q.user.team = Team(solo=True)
     q.user.save()
     return redirect(reverse("index"))

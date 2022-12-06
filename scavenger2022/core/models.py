@@ -16,6 +16,10 @@ class User(AbstractUser):
     chosen = models.BooleanField(default=False)
 
 
+def generate_hint_key():
+    return secrets.token_urlsafe(48)
+
+
 class QrCode(models.Model):
     id = models.AutoField(primary_key=True)
     # code = models.CharField(max_length=32, default=secrets.token_urlsafe(32), unique=True)
@@ -29,9 +33,32 @@ class QrCode(models.Model):
     notes = models.TextField(
         help_text="Internal notes",
     )
+    key = models.CharField(max_length=64, unique=True, default=generate_hint_key)
 
     def __str__(self):
         return self.short or str(self.id)
+
+    @classmethod
+    def codes(cls, team: "Team"):
+        pks = QrCode.code_pks(team)
+        return [QrCode.objects.get(id=a) for a in pks]
+
+    @classmethod
+    def code_pks(cls, team: "Team"):
+        r = random.Random(team.id)
+        pks = [a["pk"] for a in QrCode.objects.all().values("pk")]
+        r.shuffle(pks)
+        return pks
+
+    def hint(self, team: "Team"):
+        r = random.Random(team.id)
+        pks = list(self.hints.values("pk"))
+        if len(pks) == 0:
+            raise TypeError(f"{self} has no hints")
+        # TODO: check if seed of team.id and self.id is ok
+        for _ in range(self.id):
+            r.random()
+        return Hint.objects.get(id=r.choice(pks)["pk"])
 
 
 class Hint(models.Model):
@@ -48,7 +75,7 @@ class Hint(models.Model):
 class Team(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True, null=True)
     is_active = models.BooleanField(default=True)
     is_open = models.BooleanField(
         default=False
@@ -60,6 +87,7 @@ class Team(models.Model):
         "All the Qr codes that the team has already located "
     )
     current_qr_code = models.IntegerField(null=True, blank=True)
+    solo = models.BooleanField(default=False)
 
     def next_code(self) -> QrCode:
         qr_codes = list(QrCode.objects.exclude(id__in=self.completed_qr_codes.all()))

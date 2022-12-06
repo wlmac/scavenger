@@ -21,5 +21,9 @@ main {
 
 .hint {
   text-align: center;
-  font-size: 64px;
+  font-size: 4rem;
 }
+
+.hint-top {
+  font-size: 2rem;
+.}
