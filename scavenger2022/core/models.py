@@ -64,7 +64,7 @@ class QrCode(models.Model):
 class Hint(models.Model):
     qr_code = models.ForeignKey(QrCode, related_name="hints", on_delete=models.CASCADE)
     hint = models.CharField(
-        max_length=100,
+        max_length=1024,
         help_text="Hint for the QR code, create at least two, preferably three",
     )
 
