@@ -1,26 +1,29 @@
-import random
+from functools import wraps
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
-from django.views.generic.detail import DetailView
-from ..models import QrCode, Hint
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.utils.translation import gettext as _
 
 
-class QrView(DetailView, LoginRequiredMixin):
-    model = QrCode
-    template_name = "core/qr.html"
+def team_required(f):
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        request = args[0]
+        if not request.user.chosen:
+            messages.error(
+                request,
+                _("Please join a team or choose to go solo before getting a hint."),
+            )
+            return redirect(reverse("index"))
+        return f(*args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["hint"] = random.choice(list(self.object.hints.values()))
-        # TODO: replace with ...filter(...).first() then if the user clicks new hint on qr.html get the 2nd hint and so on. note: use team_id as random seed for reproducibility
-        return context
+    return wrapped
 
 
 @login_required
 @require_http_methods(("GET", "POST"))
+@team_required
 def qr(request, key):
     context = dict(first=False)
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
@@ -31,6 +34,7 @@ def qr(request, key):
 
 @login_required
 @require_http_methods(("GET", "POST"))
+@team_required
 def qr_first(request):
     context = dict(first=True)
     context["qr"] = qr = QrCode.codes(request.user)[0]
