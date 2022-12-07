@@ -1,3 +1,6 @@
+import datetime
+
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseBadRequest
@@ -18,7 +21,12 @@ from ..forms import TeamJoinForm, TeamMakeForm
     )
 )
 def join(request):
-    # TODO: check if aafter cutoff
+    if settings.CUTOFF < datetime.datetime.now() and not request.user.chosen:
+        messages.error(
+            request,
+            _("Since the hunt has already begun, switching teams is disallowed."),
+        )
+        return redirect(reverse("index"))
     if request.method == "POST":
         form = TeamJoinForm(request.POST)
         if form.is_valid():
@@ -53,6 +61,12 @@ def join(request):
 @login_required
 @require_http_methods(("GET", "POST"))
 def make(request):
+    if settings.CUTOFF < datetime.datetime.now() and not request.user.chosen:
+        messages.error(
+            request,
+            _("Since the hunt has already begun, making new teams is disallowed."),
+        )
+        return redirect(reverse("index"))
     if request.method == "POST":
         form = TeamMakeForm(request.POST)
         if form.is_valid():
