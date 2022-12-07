@@ -1,3 +1,6 @@
+import datetime
+
+from django.conf import settings
 from functools import wraps
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -15,6 +18,21 @@ def team_required(f):
             messages.error(
                 request,
                 _("Please join a team or choose to go solo before getting a hint."),
+            )
+            return redirect(reverse("index"))
+        return f(*args, **kwargs)
+
+    return wrapped
+
+
+def after_cutoff(f):
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        request = args[0]
+        if settings.CUTOFF > datetime.datetime.now():
+            messages.error(
+                request,
+                _("そんな子はメッ❣しちゃうからね。"),
             )
             return redirect(reverse("index"))
         return f(*args, **kwargs)
