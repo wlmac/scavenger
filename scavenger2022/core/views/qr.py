@@ -43,6 +43,7 @@ def after_cutoff(f):
 @login_required
 @require_http_methods(("GET", "POST"))
 @team_required
+@after_cutoff
 def qr(request, key):
     context = dict(first=False)
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
@@ -54,6 +55,7 @@ def qr(request, key):
 @login_required
 @require_http_methods(("GET", "POST"))
 @team_required
+@after_cutoff
 def qr_first(request):
     context = dict(first=True)
     context["qr"] = qr = QrCode.codes(request.user)[0]
