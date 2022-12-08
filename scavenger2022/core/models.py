@@ -71,6 +71,9 @@ class Hint(models.Model):
     def __str__(self):
         return self.hint
 
+    class Meta:
+        permissions = (("view_before_cutoff", "Play game before cutoff"),)
+
 
 class Team(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later

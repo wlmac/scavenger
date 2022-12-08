@@ -29,7 +29,10 @@ def after_cutoff(f):
     @wraps(f)
     def wrapped(*args, **kwargs):
         request = args[0]
-        if settings.CUTOFF > datetime.datetime.now():
+        if (
+            not request.user.has_perm("core.view_before_cutoff")
+            and settings.CUTOFF > datetime.datetime.now()
+        ):
             messages.error(
                 request,
                 _("そんな子はメッ❣しちゃうからね。"),
