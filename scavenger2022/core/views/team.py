@@ -86,7 +86,6 @@ def make(request):
 
 
 @login_required
-@require_http_methods(("POST",))
 def solo(q):
     q.user.chosen = True
     q.user.team = Team(solo=True)
