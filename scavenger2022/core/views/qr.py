@@ -35,7 +35,7 @@ def after_cutoff(f):
         ):
             messages.error(
                 request,
-                _("そんな子はメッ❣しちゃうからね。"),
+                _("Contest has not started yet."),
             )
             return redirect(reverse("index"))
         return f(*args, **kwargs)
