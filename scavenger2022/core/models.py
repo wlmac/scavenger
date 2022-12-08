@@ -56,7 +56,9 @@ class QrCode(models.Model):
         if len(pks) == 0:
             raise TypeError(f"{self} has no hints")
         # TODO: check if seed of team.id and self.id is ok
-        for _ in range(self.id):
+        for _ in range(
+            self.id
+        ):  # todo make not O(n) as we have to loop through all hints to keep random state intact. (please note it really only iterates like 20-30 times so it doesn't rly matter )
             r.random()
         return Hint.objects.get(id=r.choice(pks)["pk"])
 
