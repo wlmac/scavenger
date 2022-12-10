@@ -3,7 +3,6 @@ import secrets
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.html import format_html
 from django.conf import settings
 
 
@@ -57,7 +56,7 @@ class QrCode(models.Model):
         # TODO: check if seed of team.id and self.id is ok
         for _ in range(
             self.id
-        ):  # todo make not O(n) as we have to loop through all hints to keep random state intact. (please note it really only iterates like 20-30 times so it doesn't rly matter )
+        ):  # todo make not O(n) as we have to loop through all hints to keep random state intact. (please note it really only iterates like 20-30 times at max so it doesn't rly matter )
             r.random()
         return Hint.objects.get(id=r.choice(pks)["pk"])
 
@@ -99,6 +98,10 @@ class Team(models.Model):
         self.current_qr_code = item.id
         return item
 
+    @property
+    def members(self):
+        return User.objects.filter(team=self)
+
     def is_solo(self):
         return self.members.count() == 1
 
@@ -117,7 +120,7 @@ class Team(models.Model):
         return Invite.objects.filter(team=self)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 def generate_invite_code():
