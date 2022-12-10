@@ -13,7 +13,6 @@ class User(AbstractUser):
     team = models.ForeignKey(
         "Team", related_name="members", on_delete=models.CASCADE, blank=True, null=True
     )
-    chosen = models.BooleanField(default=False)
 
 
 def generate_hint_key():

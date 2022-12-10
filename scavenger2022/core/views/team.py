@@ -21,7 +21,7 @@ from ..forms import TeamJoinForm, TeamMakeForm
     )
 )
 def join(request):
-    if settings.CUTOFF < datetime.datetime.now() and not request.user.chosen:
+    if settings.CUTOFF < datetime.datetime.now() and not request.user.team is None:
         messages.error(
             request,
             _("Since the hunt has already begun, switching teams is disallowed."),
@@ -61,7 +61,7 @@ def join(request):
 @login_required
 @require_http_methods(("GET", "POST"))
 def make(request):
-    if settings.CUTOFF < datetime.datetime.now() and not request.user.chosen:
+    if settings.CUTOFF < datetime.datetime.now() and not request.user.team is None:
         messages.error(
             request,
             _("Since the hunt has already begun, making new teams is disallowed."),
@@ -71,7 +71,6 @@ def make(request):
         form = TeamMakeForm(request.POST)
         if form.is_valid():
             form.save()
-            request.user.chosen = True
             request.user.team = form.instance
             request.user.save()
             messages.success(
@@ -87,7 +86,6 @@ def make(request):
 
 @login_required
 def solo(q):
-    q.user.chosen = True
     q.user.team = Team(solo=True)
     q.user.save()
     return redirect(reverse("index"))

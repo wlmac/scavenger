@@ -14,7 +14,7 @@ def team_required(f):
     @wraps(f)
     def wrapped(*args, **kwargs):
         request = args[0]
-        if not request.user.chosen:
+        if request.user.team is None:
             messages.error(
                 request,
                 _("Please join a team or choose to go solo before getting a hint."),
