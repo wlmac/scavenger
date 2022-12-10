@@ -9,7 +9,7 @@ Index
 {% if not request.user.is_authenticated %}
     Please <a href="{% url 'oauth_login' %}">login</a>.
 {% else %}
-    {% if request.user.team is not None %}
+    {% if request.user.team is None %}
         <ul>
             <li>Join a team: either scan your team leader's QR code or click the link</li>
             <li><a href="{% url 'team_new' %}">Make a team</a></li>
