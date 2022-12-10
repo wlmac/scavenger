@@ -60,7 +60,7 @@ class UserAdmin(UserAdmin_):
         list(UserAdmin_.fieldsets)
         + [
             ("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"])),
-            ("Game", dict(fields=["team", "chosen"])),
+            ("Game", dict(fields=["team"])),
         ]
     )
 
