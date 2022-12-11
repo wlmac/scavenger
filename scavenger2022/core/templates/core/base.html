@@ -12,7 +12,7 @@
         {% if CUTOFF_BEFORE %}
           <script type="module">
             const e = document.getElementById("cutoff")
-	    const cutoff = {{ CUTOFF.timestamp }} * 1000
+            const cutoff = {{ CUTOFF.timestamp }} * 1000
             const intervalId = setInterval(() => {
               const d = (cutoff - Date.now()) / 1000
               if (d < 0) {
@@ -22,14 +22,14 @@
               const hour = Math.round(d / 3600)
               const minute = Math.round(d / 60 % 60)
               const second = Math.round(d % 60)
-	      const day = Math.round(d % (3600*24) / (3600*24))
-	      let s = ''
-	      if (day == 1) s += '1 day, '
-	      else if (day == 0);
-	      else s += `${day} days, `
-	      s += ('0' + hour).slice(-2) + ':'
-	      s += ('0' + minute).slice(-2) + ':'
-	      s += ('0' + second).slice(-2)
+              const day = Math.round(d % (3600*24) / (3600*24))
+              let s = ''
+              if (day == 1) s += '1 day, '
+              else if (day == 0);
+              else s += `${day} days, `
+              s += ('0' + hour).slice(-2) + ':'
+              s += ('0' + minute).slice(-2) + ':'
+              s += ('0' + second).slice(-2)
               e.innerText = s 
             }, 1000)
           </script>

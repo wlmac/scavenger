@@ -1,4 +1,6 @@
 import datetime
+import json
+from queue import LifoQueue
 
 from django.conf import settings
 from functools import wraps
@@ -8,7 +10,11 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from ..models import QrCode
+from django.db.models import signals
+from django.dispatch import Signal, receiver
+from django.http import StreamingHttpResponse
+
+from ..models import QrCode, Team
 
 
 # NOTE: some of these GET routes are not idempotent, but that should be fine
@@ -86,3 +92,62 @@ def qr_current(request):
     codes = QrCode.code_pks(request.user)
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
     return render(request, "core/qr.html", context=context)
+
+
+global_notifs = Signal()
+
+
+@receiver(signals.post_save, sender=Team)
+def team_change(sender, **kwargs):
+    # TODO: handle team change?
+    global_notifs.send("team_change", orig_sender=sender, kwargs=kwargs)
+
+
+class SignalStream:
+    def __init__(self, signal, pk: int):
+        self.signal = signal
+        self.pk = pk
+        self.q = LifoQueue()
+        self.end = False
+        self.__setup()
+
+    def __setup(self):
+        self.signal.connect(self.__receive)
+        self.q.put(("init", {}))
+
+    def __del__(self):
+        self.signal.disconnect(self.__receive)
+
+    def __receive(self, sender, **kwargs):
+        self.q.put((sender, kwargs))
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        while 1:
+            if self.end:
+                raise StopIteration
+            sender, kwargs = self.q.get()
+            if sender == "team_change":
+                team = kwargs["kwargs"]["instance"]
+                if self.pk == team.id:
+                    self.end = True
+                    return f"event: {sender}\ndata: null\n"
+                else:
+                    continue
+            else:
+                return f"event: {sender}\ndata: null\n"
+
+
+@login_required
+@require_http_methods(["GET"])
+@team_required
+@after_cutoff
+def qr_signal(request):
+    s = StreamingHttpResponse(
+        SignalStream(signal=global_notifs, pk=request.user.team.id),
+        content_type="text/event-stream",
+    )
+    s["Cache-Control"] = "no-cache"
+    return s

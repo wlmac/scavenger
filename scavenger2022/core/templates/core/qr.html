@@ -9,37 +9,49 @@ Hint
 {% endblock %}
 
 {% block head_end %}
-    <link rel="stylesheet" href="{% static 'core/qr.css' %}" />
+  <link rel="stylesheet" href="{% static 'core/qr.css' %}" />
+  {% if current %}
+    <script type="module">
+      const src = new EventSource("{% url 'qr_signal' %}")
+      src.onopen = (e) => console.log('signal opened')
+      src.onerror = console.error
+      src.onmessage = (e) => {
+        console.log('msg', e)
+      }
+      // src.onmessage = (e) => location.reload()
+      setInterval(() => console.log(src.readyState), 1000)
+    </script>
+  {% endif %}
 {% endblock %}
 
 {% block body %}
-    <div class="buffer">
-        {% if not first %}
-            You got the hint: {% hint qr request.user.team %}
-        {% endif %}
-    </div>
-    <div class="padding"></div>
-    <div class="hint">
-        <div class="hint-top">
-            {% if nextqr %}
-                {% if first %}
-                    Your first hint is:
-                {% else %}
-                    Your next hint is:
-                {% endif %}
-            {% else %}
-                <img src="https://www.hanshin.co.jp/h_common/img/taisetsu.svg" alt="rainbow-coloured heart" />
-                (TODO: some colourful heart)
-            {% endif %}
-	    {% if request.user.is_superuser %}
-	        ({{ nextqr }})
-	    {% endif %}
-        </div>
+  <div class="buffer">
+      {% if not first %}
+        You got the hint: {% hint qr request.user.team %}
+      {% endif %}
+  </div>
+  <div class="padding"></div>
+  <div class="hint">
+      <div class="hint-top">
         {% if nextqr %}
-            {% hint nextqr request.user.team %}
+          {% if first %}
+              Your first hint is:
+          {% else %}
+              Your next hint is:
+          {% endif %}
         {% else %}
-            Thank you for playing!
+          <img src="https://www.hanshin.co.jp/h_common/img/taisetsu.svg" alt="rainbow-coloured heart" />
+          (TODO: some colourful heart)
         {% endif %}
-    </div>
-    <div class="padding"></div>
+        {% if request.user.is_superuser %}
+          ({{ nextqr }})
+      {% endif %}
+      </div>
+      {% if nextqr %}
+        {% hint nextqr request.user.team %}
+      {% else %}
+        Thank you for playing!
+      {% endif %}
+  </div>
+  <div class="padding"></div>
 {% endblock %}
