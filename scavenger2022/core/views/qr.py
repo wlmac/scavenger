@@ -5,7 +5,8 @@ from functools import wraps
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from ..models import QrCode
 
@@ -44,7 +45,7 @@ def after_cutoff(f):
 
 
 @login_required
-@require_http_methods(("GET", "POST"))
+@require_http_methods(["GET", "POST"])
 @team_required
 @after_cutoff
 def qr(request, key):
@@ -56,7 +57,7 @@ def qr(request, key):
 
 
 @login_required
-@require_http_methods(("GET", "POST"))
+@require_http_methods(["GET", "POST"])
 @team_required
 @after_cutoff
 def qr_first(request):

@@ -84,11 +84,12 @@ class Team(models.Model):
         default=False
     )  # todo use this field to have a club-like page so you can join an open team
     completed_qr_codes = models.ManyToManyField(
-        QrCode, related_name="completed_qr_codes", unique=False, blank=True
+        QrCode,
+        related_name="completed_qr_codes",
+        unique=False,
+        blank=True,
     )
-    completed_qr_codes.short_description = (
-        "All the Qr codes that the team has already located "
-    )
+    completed_qr_codes.short_description = "All the Qr codes that the team has already located "  # type: ignore
     current_qr_code = models.IntegerField(null=True, blank=True)
     solo = models.BooleanField(default=False)
 

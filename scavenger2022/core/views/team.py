@@ -14,12 +14,7 @@ from ..forms import TeamJoinForm, TeamMakeForm
 
 
 @login_required
-@require_http_methods(
-    (
-        "GET",
-        "POST",
-    )
-)
+@require_http_methods(["GET", "POST"])
 def join(request):
     if settings.CUTOFF < datetime.datetime.now() and not request.user.team is None:
         messages.error(
@@ -59,7 +54,7 @@ def join(request):
 
 
 @login_required
-@require_http_methods(("GET", "POST"))
+@require_http_methods(["GET", "POST"])
 def make(request):
     if settings.CUTOFF < datetime.datetime.now() and not request.user.team is None:
         messages.error(

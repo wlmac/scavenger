@@ -57,7 +57,7 @@ class UserAdmin(UserAdmin_):
         "email",
     )
     fieldsets = tuple(
-        list(UserAdmin_.fieldsets)
+        list(UserAdmin_.fieldsets)  # type: ignore
         + [
             ("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"])),
             ("Game", dict(fields=["team"])),
