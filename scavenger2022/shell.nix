@@ -8,6 +8,7 @@ let
     mypy
     python-lsp-server
     python-lsp-black
+    poetry
   ];
   pythonWithPkgs = pkgs.python3.withPackages pythonPkgs;
 in
@@ -23,6 +24,6 @@ in
       python3 -m venv .build/venv
       source .build/venv/bin/activate
       python3 -m pip install pipenv
-      pipenv install --skip-lock
+      cd ./scavenger2022 && pipenv sync
     '';
   }
