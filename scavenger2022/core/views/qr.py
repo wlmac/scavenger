@@ -80,9 +80,9 @@ def qr_first(request):
 @team_required
 @after_cutoff
 def qr_current(request):
-    context = dict(first=request.user.team.current_qr_i == 0, current=True)
+    i = request.user.team.current_qr_i
+    context = dict(first=i == 0, current=True)
     context["qr"] = qr = QrCode.codes(request.user)[request.user.team.current_qr_i]
     codes = QrCode.code_pks(request.user)
-    i = request.user.team.current_qr_i + 1
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
     return render(request, "core/qr.html", context=context)
