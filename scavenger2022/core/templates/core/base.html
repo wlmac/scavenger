@@ -95,7 +95,7 @@
       <a href="/admin">{% translate "Admin" %}</a>
       {% endif %}
       {% if request.user.team is not None %}
-        {% if request.user.team.solo %}
+        {% if not request.user.team.solo %}
           Team: {{ request.user.team.name }}
         {% else %}
           Solo
