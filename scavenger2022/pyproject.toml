@@ -5,7 +5,7 @@ description = ""
 authors = ["nyiyui <+@nyiyui.ca>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 Django = "^4.1.4"
 Authlib = "^1.2.0"
 requests = "^2.28.1"
