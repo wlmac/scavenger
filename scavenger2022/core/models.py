@@ -100,10 +100,8 @@ class Team(models.Model):
 
     @property
     def members(self):
-        return User.objects.filter(team=self)
-
-    def is_solo(self):
-        return self.members.count() == 1
+        """Returns all members of the team, it's  a related manager so to convert to queryset use .all() or filter it."""
+        return User.objects.filter(team=str(self.id))
 
     def is_full(self):
         return self.members.count() >= settings.MAX_TEAM_SIZE
@@ -113,14 +111,20 @@ class Team(models.Model):
             return
         if self.is_full():
             raise IndexError("Team is full")
-        self.members.add(user)
-        self.save()
+        user.team = self
+        user.save()
 
     def invites(self):
         return Invite.objects.filter(team=self)
 
     def __str__(self):
         return str(self.name)
+
+    # def delete(self, *args, **kwargs):
+    #    print('Deleting instance 1:',  User.objects.all().first().team)
+    #    print('Deleting instance:',  User.objects.all().first())
+    #    self.member.all().update(team=None, chosen=False)
+    #    super().delete(*args, **kwargs)
 
 
 def generate_invite_code():

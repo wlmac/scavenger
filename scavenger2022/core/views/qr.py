@@ -50,7 +50,7 @@ def after_cutoff(f):
 def qr(request, key):
     context = dict(first=False)
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
-    i = (codes := QrCode.code_pks(request.user)).index(qr.id) + 1
+    i = (codes := QrCode.code_pks(request.user.team)).index(qr.id) + 1
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
     return render(request, "core/qr.html", context=context)
 
@@ -62,6 +62,25 @@ def qr(request, key):
 def qr_first(request):
     context = dict(first=True)
     context["qr"] = qr = QrCode.codes(request.user)[0]
-    i = (codes := QrCode.code_pks(request.user)).index(qr.id) + 1
+    i = (codes := QrCode.code_pks(request.user.team)).index(
+        qr.id
+    ) + 1  # todo this might not be the best way to do this as we are just adding 1 to the index of the first qr code
+    context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
+    return render(request, "core/qr.html", context=context)
+
+
+@login_required
+@require_http_methods(("GET", "POST"))
+@team_required
+@after_cutoff
+def qr_current(request):
+    context = dict(first=False)
+    print(request.user.first_name)
+    print(request.user.team)
+    cQR = request.user.team.current_qr_code
+    context["qr"] = qr = QrCode.objects.get(id=cQR)
+    i = (codes := QrCode.code_pks(request.user)).index(
+        qr.id
+    ) + 1  # note: this might not work, just coping implementation from qr_first
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
     return render(request, "core/qr.html", context=context)
