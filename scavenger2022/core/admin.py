@@ -20,14 +20,16 @@ class InviteInLine(admin.StackedInline):
 
 
 class TeamAdmin(admin.ModelAdmin):
-    readonly_fields = ("current_qr_code", "path")
+    readonly_fields = ("current_qr_i", "path")
     inlines = [
         InviteInLine,
     ]
 
     @admin.display(description="Path")
     def path(self, team):
-        return "\n".join(map(str, QrCode.code_pks(team)))
+        return "\n".join(
+            map(lambda pk: str(QrCode.objects.get(id=pk)), QrCode.code_pks(team))
+        )
 
 
 class QrCodeAdmin(admin.ModelAdmin):

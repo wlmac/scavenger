@@ -34,7 +34,7 @@ class QrCode(models.Model):
     key = models.CharField(max_length=64, unique=True, default=generate_hint_key)
 
     def __str__(self):
-        return self.short or str(self.id)
+        return f"{self.id} {self.short or self.location}"
 
     @classmethod
     def codes(cls, team: "Team"):
@@ -83,21 +83,14 @@ class Team(models.Model):
     is_open = models.BooleanField(
         default=False
     )  # todo use this field to have a club-like page so you can join an open team
-    completed_qr_codes = models.ManyToManyField(
-        QrCode,
-        related_name="completed_qr_codes",
-        unique=False,
-        blank=True,
-    )
-    completed_qr_codes.short_description = "All the Qr codes that the team has already located "  # type: ignore
-    current_qr_code = models.IntegerField(null=True, blank=True)
+    current_qr_i = models.IntegerField(null=True, blank=True)
     solo = models.BooleanField(default=False)
 
-    def next_code(self) -> QrCode:
-        qr_codes = list(QrCode.objects.exclude(id__in=self.completed_qr_codes.all()))
-        item = random.choice(qr_codes)
-        self.current_qr_code = item.id
-        return item
+    def update_current_qr_i(self, i: int):
+        if not self.current_qr_i:
+            self.current_qr_i = i
+        else:
+            self.current_qr_i = max(self.current_qr_i, i)
 
     @property
     def members(self):

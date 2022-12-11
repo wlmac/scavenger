@@ -31,6 +31,9 @@ Hint
                 <img src="https://www.hanshin.co.jp/h_common/img/taisetsu.svg" alt="rainbow-coloured heart" />
                 (TODO: some colourful heart)
             {% endif %}
+	    {% if request.user.is_superuser %}
+	        ({{ nextqr }})
+	    {% endif %}
         </div>
         {% if nextqr %}
             {% hint nextqr request.user.team %}

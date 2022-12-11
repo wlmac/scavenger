@@ -11,6 +11,9 @@ from django.utils.translation import gettext as _
 from ..models import QrCode
 
 
+# NOTE: some of these GET routes are not idempotent, but that should be fine
+
+
 def team_required(f):
     @wraps(f)
     def wrapped(*args, **kwargs):
@@ -53,6 +56,9 @@ def qr(request, key):
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
     i = (codes := QrCode.code_pks(request.user)).index(qr.id) + 1
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
+    # TODO: check if they skipped?
+    request.user.team.update_current_qr_i(i - 1)
+    request.user.team.save()
     return render(request, "core/qr.html", context=context)
 
 
@@ -62,7 +68,21 @@ def qr(request, key):
 @after_cutoff
 def qr_first(request):
     context = dict(first=True)
-    context["qr"] = qr = QrCode.codes(request.user)[0]
-    i = (codes := QrCode.code_pks(request.user)).index(qr.id) + 1
+    codes = QrCode.code_pks(request.user)
+    context["nextqr"] = QrCode.objects.get(id=codes[0])
+    request.user.team.update_current_qr_i(0)
+    request.user.team.save()
+    return render(request, "core/qr.html", context=context)
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+@team_required
+@after_cutoff
+def qr_current(request):
+    context = dict(first=request.user.team.current_qr_i == 0, current=True)
+    context["qr"] = qr = QrCode.codes(request.user)[request.user.team.current_qr_i]
+    codes = QrCode.code_pks(request.user)
+    i = request.user.team.current_qr_i + 1
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
     return render(request, "core/qr.html", context=context)
