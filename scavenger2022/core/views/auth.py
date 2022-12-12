@@ -60,6 +60,7 @@ def oauth_login(q):
     )
 
 
+@require_http_methods(["GET"])
 def oauth_auth(q):
     redirect_uri = q.build_absolute_uri(reverse("oauth_auth"))
     given_state = q.GET["state"]

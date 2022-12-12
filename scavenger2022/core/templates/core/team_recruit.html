@@ -19,7 +19,7 @@ Invite Members
     <div class="qrcode" id="qrcode"></div>
     <script>
       new QRCode(document.getElementById("qrcode"), {
-        text: "{% url 'join' %}?code={{ invite.code }}",
+        text: window.location.origin + "{% url 'join' %}?code={{ invite.code }}",
         correctLevel: QRCode.CorrectLevel.H,
       })
     </script>
