@@ -104,9 +104,8 @@
       </nav>
     {% endif %}
     <nav id="main-header">
-      Scavenger Hunt
       {% if request.user.is_staff %}
-      <a href="/admin">{% translate "Admin" %}</a>
+        <a href="/admin">{% translate "Admin" %}</a>
       {% endif %}
       {% if request.user.team is not None %}
         {% if not request.user.team.solo %}
@@ -117,13 +116,11 @@
       {% endif %}
       <span class="spacer">
         {% if request.user.is_authenticated %}
-          Logged in as
           {{ request.user }}
-          ({{ request.user.first_name }} {{ request.user.last_name }}).
-          おかえり〜！
+          ({{ request.user.first_name }} {{ request.user.last_name }})
           <form style="display: inline;" action="{% url 'account_logout' %}" method="post">
             {% csrf_token %}
-            <input class="fakea" type="submit" value="Logout" />
+            (<input class="fakea" type="submit" value="Logout" />)
           </form>
         {% else %}
           <a href="{% url 'oauth_login' %}">
