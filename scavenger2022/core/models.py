@@ -1,9 +1,9 @@
 import random
 import secrets
 
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.conf import settings
 
 
 class User(AbstractUser):
@@ -28,9 +28,7 @@ class QrCode(models.Model):
         max_length=1024,
         help_text="Location of the QR code. Be specific—it's internal",
     )
-    notes = models.TextField(
-        help_text="Internal notes",
-    )
+    notes = models.TextField(help_text="Internal notes", blank=True)
     key = models.CharField(max_length=64, unique=True, default=generate_hint_key)
 
     def __str__(self):
@@ -117,14 +115,15 @@ class Team(models.Model):
     def invites(self):
         return Invite.objects.filter(team=self)
 
+    def get_qr_nth(self):
+        """Get the total amount of qr codes the team has completed"""
+        print(
+            int(self.completed_qr_codes.count()) + 1
+        )  # todo remove. this is just for debugging
+        return int(self.completed_qr_codes.count()) + 1
+
     def __str__(self):
         return str(self.name)
-
-    # def delete(self, *args, **kwargs):
-    #    print('Deleting instance 1:',  User.objects.all().first().team)
-    #    print('Deleting instance:',  User.objects.all().first())
-    #    self.member.all().update(team=None, chosen=False)
-    #    super().delete(*args, **kwargs)
 
 
 def generate_invite_code():
@@ -135,3 +134,37 @@ class Invite(models.Model):
     invites = models.IntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     code = models.CharField(max_length=32, unique=True)
+
+
+# class Hunt(models.Model):
+#    id = models.AutoField(primary_key=True)
+#    name = models.CharField(max_length=64)
+#    start = models.DateTimeField()
+#    end = models.DateTimeField()
+#    is_active = models.BooleanField(default=False)
+#    team_size = models.IntegerField(default=4, help_text="Max Team size")
+#    final_qr_id = models.IntegerField(null=True, blank=True)
+#
+#    def __str__(self):
+#        return self.name
+
+
+class LogicPuzzleHint(models.Model):
+    id = models.AutoField(primary_key=True)
+    hint = models.TextField(
+        max_length=1024,
+        help_text="Hint for the logic puzzle",
+    )
+    notes = models.TextField(help_text="Internal notes", blank=True)
+    qr_index = models.IntegerField(
+        help_text="The index of the QR code that this hint is for, that is everyone on their nth QR code will get same same hint (starting from 1)",
+        unique=True,
+    )
+
+    # belongs_to = models.ForeignKey(Hunt, related_name="logic_puzzle_hunt", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.hint)
+
+    def get_hint(self, team: Team):
+        return self.objects.get(qr_index=team.get_qr_nth()).hint

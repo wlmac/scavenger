@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.utils.translation import gettext as _
-from ..models import QrCode
+from ..models import QrCode, LogicPuzzleHint
 
 
 def team_required(f):
@@ -52,6 +52,7 @@ def qr(request, key):
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
     i = (codes := QrCode.code_pks(request.user.team)).index(qr.id) + 1
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
+    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
     return render(request, "core/qr.html", context=context)
 
 
@@ -66,6 +67,7 @@ def qr_first(request):
         qr.id
     ) + 1  # todo this might not be the best way to do this as we are just adding 1 to the index of the first qr code
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
+    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
     return render(request, "core/qr.html", context=context)
 
 
@@ -83,4 +85,5 @@ def qr_current(request):
         qr.id
     ) + 1  # note: this might not work, just coping implementation from qr_first
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
+    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
     return render(request, "core/qr.html", context=context)

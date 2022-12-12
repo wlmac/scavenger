@@ -1,6 +1,7 @@
 import os
 
 from pathlib import Path
+from typing import Final
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -121,7 +122,8 @@ YASOI = dict(
     me_url=f"{base_url}/api/me/internal",
     scope="me_meta internal",
 )
-MAX_TEAM_SIZE = 4
+MAX_TEAM_SIZE: Final[int] = 4
+FINAL_QR_ID: Final[int] = 0
 
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:
