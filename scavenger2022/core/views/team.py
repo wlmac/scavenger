@@ -86,6 +86,7 @@ def make(request):
 
 @login_required
 def solo(q):
-    q.user.team = Team(solo=True).save()
+    q.user.team = Team(solo=True)
+    q.user.team.save()
     q.user.save()
     return redirect(reverse("index"))

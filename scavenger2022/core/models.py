@@ -13,6 +13,14 @@ class User(AbstractUser):
         "Team", related_name="members", on_delete=models.CASCADE, blank=True, null=True
     )
 
+    @property
+    def in_team(self) -> bool:
+        try:
+            _ = self.team.solo
+            return True
+        except AttributeError:
+            return False
+
 
 def generate_hint_key():
     return secrets.token_urlsafe(48)
