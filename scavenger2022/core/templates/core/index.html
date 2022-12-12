@@ -2,24 +2,26 @@
 {% load i18n %}
 
 {% block title %}
-Index
+Scavenger Hunt
 {% endblock %}
 
 {% block body %}
 {% if not request.user.is_authenticated %}
     Please <a href="{% url 'oauth_login' %}">login</a>.
 {% else %}
-    {% if not request.user.in_team %}
         <ul>
             <li>Join a team: either scan your team leader's QR code or click the link</li>
-            <li><a href="{% url 'team_new' %}">Make a team</a></li>
+            <li><a href="{% url 'team_new' %}">{% translate "Make a team" %}</a></li>
             <li><form action="{% url 'team_solo' %}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="{% translate 'Go solo '%}" />
+                <input class="fakea" type="submit" value="{% translate 'Go solo '%}" />
             </form></li>
         </ul>
-    {% else %}
-        TODO: go to first hint
+    {% if request.user.in_team %}
+        Go to your <a href="{% url 'qr_first' %}">first hint</a>.
+        {% if not request.user.team.solo %}
+          Or <a href="{% url 'team_recruit' %}">invite team members</a>.
+        {% endif %}
     {% endif %}
 {% endif %}
 {% endblock %}

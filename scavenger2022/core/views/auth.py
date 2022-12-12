@@ -38,7 +38,7 @@ def pkce2(q):
     return dict(code_verifier=code_verifier)
 
 
-@require_http_methods(("GET",))
+@require_http_methods(["GET"])
 def oauth_login(q):
     redirect_uri = q.build_absolute_uri(reverse("oauth_auth"))
     state = secrets.token_urlsafe(32)
@@ -113,7 +113,7 @@ def oauth_auth(q):
     return redirect("/")
 
 
-@require_http_methods(("POST",))
+@require_http_methods(["POST"])
 def account_logout(q):
     logout(q)
     return redirect("/")
