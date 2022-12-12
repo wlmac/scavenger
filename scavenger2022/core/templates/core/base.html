@@ -9,17 +9,22 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
-        {% if CUTOFF_BEFORE %}
+        {% if CUTOFF_BEFORE or CUTON_BEFORE %}
           <script type="module">
             const e = document.getElementById("cutoff")
+            const eText = document.getElementById("cutoff-text")
+            const cutoffText = '{% translate "Starts in:" %}'
+            const cutonText = '{% translate "Ends in:" %}'
             const cutoff = {{ CUTOFF.timestamp }} * 1000
+            const cuton = {{ CUTON.timestamp }} * 1000
             const intervalId = setInterval(() => {
-              const d = (cutoff - Date.now()) / 1000
+              let cutoff = true
+              let d = (cutoff - Date.now()) / 1000
               if (d < 0) {
-                document.getElementById("cutoff-header").remove()
-                clearInterval(intervalId)
+                d = (cuton - Date.now()) / 1000
+                cutoff = false
               }
-              const hour = Math.round(d / 3600)
+              const hour = Math.round(d / 3600 % 24) - 1
               const minute = Math.round(d / 60 % 60)
               const second = Math.round(d % 60)
               const day = Math.round(d % (3600*24) / (3600*24))
@@ -31,6 +36,7 @@
               s += ('0' + minute).slice(-2) + ':'
               s += ('0' + second).slice(-2)
               e.innerText = s 
+              eText.innerText = cutoff ? cutoffText : cutonText
             }, 1000)
           </script>
         {% endif %}
@@ -84,8 +90,16 @@
 <!-- GENDO END CommonHeader -->
     {% if CUTOFF_BEFORE %}
       <nav id="cutoff-header">
-        Hunt starts in: <span id="cutoff">
+        <span id="cutoff-text">{% translate "Starts in: " %}</span>
+        <span id="cutoff">
           {{ CUTOFF_UNTIL|format_time }}
+        </span>
+      </nav>
+    {% else %}
+      <nav id="cutoff-header">
+        <span id="cutoff-text">{% translate "Ends in: " %}</span>
+        <span id="cutoff">
+          {{ CUTON_UNTIL|format_time }}
         </span>
       </nav>
     {% endif %}

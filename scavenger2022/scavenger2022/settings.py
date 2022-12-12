@@ -131,3 +131,4 @@ except IOError:
 
 SECRET_KEY  # type: ignore
 CUTOFF  # type: ignore
+CUTON  # type: ignore
