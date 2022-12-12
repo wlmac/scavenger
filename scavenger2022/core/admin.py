@@ -25,14 +25,16 @@ class LogicPuzzleAdmin(admin.ModelAdmin):
 
 
 class TeamAdmin(admin.ModelAdmin):
-    readonly_fields = ("current_qr_code", "path")
+    readonly_fields = ("current_qr_i", "path")
     inlines = [
         InviteInLine,
     ]
 
     @admin.display(description="Path")
     def path(self, team):
-        return "\n".join(map(str, QrCode.code_pks(team)))
+        return "\n".join(
+            map(lambda pk: str(QrCode.objects.get(id=pk)), QrCode.code_pks(team))
+        )
 
 
 class QrCodeAdmin(admin.ModelAdmin):
@@ -62,7 +64,7 @@ class UserAdmin(UserAdmin_):
         "email",
     )
     fieldsets = tuple(
-        list(UserAdmin_.fieldsets)
+        list(UserAdmin_.fieldsets)  # type: ignore
         + [
             ("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"])),
             ("Game", dict(fields=["team"])),

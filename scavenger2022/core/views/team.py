@@ -9,17 +9,13 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.utils.translation import gettext as _
 
-from ..models import Team, Invite
+from ..models import Team, Invite, generate_invite_code
 from ..forms import TeamJoinForm, TeamMakeForm
+from .qr import team_required
 
 
 @login_required
-@require_http_methods(
-    (
-        "GET",
-        "POST",
-    )
-)
+@require_http_methods(["GET", "POST"])
 def join(request):
     if settings.CUTOFF < datetime.datetime.now() and not request.user.team is None:
         messages.error(
@@ -59,7 +55,7 @@ def join(request):
 
 
 @login_required
-@require_http_methods(("GET", "POST"))
+@require_http_methods(["GET", "POST"])
 def make(request):
     if settings.CUTOFF < datetime.datetime.now() and not request.user.team is None:
         messages.error(
@@ -71,8 +67,10 @@ def make(request):
         form = TeamMakeForm(request.POST)
         if form.is_valid():
             form.save()
-            request.user.team = form.instance
+            team = request.user.team = form.instance
             request.user.save()
+            invite = Invite(team=team, code=generate_invite_code())
+            invite.save()
             messages.success(
                 request,
                 _("Made team %(team_name)s")
@@ -86,6 +84,14 @@ def make(request):
 
 @login_required
 def solo(q):
-    q.user.team = Team(solo=True).save()
+    q.user.team = (team := Team(solo=True))
+    team.save()
     q.user.save()
     return redirect(reverse("index"))
+
+
+@login_required
+@require_http_methods(["GET"])
+@team_required
+def recruit(q):
+    return render(q, "core/team_recruit.html")

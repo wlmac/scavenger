@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load base %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,11 +9,35 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
-        {% if CUTOFF_BEFORE %}
-          <script src="{% static 'core/countdown.min.js' %}"></script>
-          <script>
-            setInterval(() => {
-              document.getElementById("cutoff").innerText = countdown(new Date('{{ CUTOFF|date:"c"}}'), new Date())}, 1000);
+        {% if CUTOFF_BEFORE or CUTON_BEFORE %}
+          <script type="module">
+            const e = document.getElementById("cutoff")
+            const eText = document.getElementById("cutoff-text")
+            const cutoffText = '{% translate "Starts in:" %}'
+            const cutonText = '{% translate "Ends in:" %}'
+            const cutoff = {{ CUTOFF.timestamp }} * 1000
+            const cuton = {{ CUTON.timestamp }} * 1000
+            const intervalId = setInterval(() => {
+              let cutoff = true
+              let d = (cutoff - Date.now()) / 1000
+              if (d < 0) {
+                d = (cuton - Date.now()) / 1000
+                cutoff = false
+              }
+              const hour = Math.round(d / 3600 % 24) - 1
+              const minute = Math.round(d / 60 % 60)
+              const second = Math.round(d % 60)
+              const day = Math.round(d % (3600*24) / (3600*24))
+              let s = ''
+              if (day == 1) s += '1 day, '
+              else if (day == 0);
+              else s += `${day} days, `
+              s += ('0' + hour).slice(-2) + ':'
+              s += ('0' + minute).slice(-2) + ':'
+              s += ('0' + second).slice(-2)
+              e.innerText = s 
+              eText.innerText = cutoff ? cutoffText : cutonText
+            }, 1000)
           </script>
         {% endif %}
         {% block head_end %}{% endblock %}
@@ -65,35 +90,37 @@
 <!-- GENDO END CommonHeader -->
     {% if CUTOFF_BEFORE %}
       <nav id="cutoff-header">
-        Hunt starts in: <span id="cutoff">
-          {{ CUTOFF_UNTIL }}
-          {% comment %}
-            TODO: converge format between countdown.js and this
-          {% endcomment %}
+        <span id="cutoff-text">{% translate "Starts in: " %}</span>
+        <span id="cutoff">
+          {{ CUTOFF_UNTIL|format_time }}
+        </span>
+      </nav>
+    {% else %}
+      <nav id="cutoff-header">
+        <span id="cutoff-text">{% translate "Ends in: " %}</span>
+        <span id="cutoff">
+          {{ CUTON_UNTIL|format_time }}
         </span>
       </nav>
     {% endif %}
     <nav id="main-header">
-      Scavenger Hunt
       {% if request.user.is_staff %}
-      <a href="/admin">{% translate "Admin" %}</a>
+        <a href="/admin">{% translate "Admin" %}</a>
       {% endif %}
       {% if request.user.team is not None %}
-      	{% if request.user.team.solo %}
-	  Team: {{ request.user.team.name }}
-	{% else %}
-	  Solo
-	{% endif %}
+        {% if not request.user.team.solo %}
+          Team: {{ request.user.team.name }}
+        {% else %}
+          Solo
+        {% endif %}
       {% endif %}
       <span class="spacer">
         {% if request.user.is_authenticated %}
-          Logged in as
           {{ request.user }}
-          ({{ request.user.first_name }} {{ request.user.last_name }}).
-          おかえり〜！
+          ({{ request.user.first_name }} {{ request.user.last_name }})
           <form style="display: inline;" action="{% url 'account_logout' %}" method="post">
             {% csrf_token %}
-            <input class="fakea" type="submit" value="Logout" />
+            (<input class="fakea" type="submit" value="Logout" />)
           </form>
         {% else %}
           <a href="{% url 'oauth_login' %}">
