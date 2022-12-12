@@ -9,8 +9,9 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.utils.translation import gettext as _
 
-from ..models import Team, Invite
+from ..models import Team, Invite, generate_invite_code
 from ..forms import TeamJoinForm, TeamMakeForm
+from .qr import team_required
 
 
 @login_required
@@ -66,8 +67,10 @@ def make(request):
         form = TeamMakeForm(request.POST)
         if form.is_valid():
             form.save()
-            request.user.team = form.instance
+            team = request.user.team = form.instance
             request.user.save()
+            invite = Invite(team=team, code=generate_invite_code())
+            invite.save()
             messages.success(
                 request,
                 _("Made team %(team_name)s")
@@ -85,3 +88,10 @@ def solo(q):
     team.save()
     q.user.save()
     return redirect(reverse("index"))
+
+
+@login_required
+@require_http_methods(["GET"])
+@team_required
+def recruit(q):
+    return render(q, "core/team_recruit.html")

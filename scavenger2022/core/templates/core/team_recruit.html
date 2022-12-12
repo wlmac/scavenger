@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}
+Invite Members
+{% endblock %}
+
+{% block header %}
+Invite Members
+{% endblock %}
+
+{% block head_end %}
+  <script src="{% static 'core/qrcode.min.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+  {% for invite in request.user.team.invites.all %}
+    Either you can send the <a href="{% url 'join' %}?code={{ invite.code }}">join link</a>, or let them scan the QR code below:
+    <div class="qrcode" id="qrcode"></div>
+    <script>
+      new QRCode(document.getElementById("qrcode"), {
+        text: "{% url 'join' %}?code={{ invite.code }}",
+        correctLevel: QRCode.CorrectLevel.H,
+      })
+    </script>
+  {% endfor %}
+{% endblock %}
+

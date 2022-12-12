@@ -118,10 +118,10 @@ class Team(models.Model):
 
 
 def generate_invite_code():
-    return secrets.token_hex(3)
+    return secrets.token_hex(4)
 
 
 class Invite(models.Model):
     invites = models.IntegerField(default=0)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="invites")
     code = models.CharField(max_length=32, unique=True)

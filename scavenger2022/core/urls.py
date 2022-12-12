@@ -13,4 +13,5 @@ urlpatterns = [
     path("team/join/", team.join, name="join"),
     path("team/new", team.make, name="team_new"),
     path("team/solo", team.solo, name="team_solo"),
+    path("team/recruit", team.recruit, name="team_recruit"),
 ]
