@@ -18,17 +18,23 @@
             const cutoff = {{ CUTOFF.timestamp }} * 1000
             const cuton = {{ CUTON.timestamp }} * 1000
 
-            console.log("Cutoff:",cutoff);
-
             const intervalId = setInterval(() => {
-              let unfinished = true
-              let d = Math.floor((cutoff - Date.now()) / 1000)
+              let started = false
+              let finished = false
+              let d = Math.floor((cuton - Date.now()) / 1000) 
+              //console.log("Initial d:", d);
               if (d < 0) {
-                d = (cuton - Date.now()) / 1000
-                unfinished = false
+                d = Math.floor((cutoff - Date.now()) / 1000);
+                if (d < 0) {
+                  finished = true
+                }
+                started = true
               }
 
-              console.log("d", d);
+              /*console.log("Cuton:", cuton);
+              console.log("Cutoff:", cutoff);
+              console.log("Now:", Date.now());
+              console.log("d:", d);*/
 
               const day = Math.floor(d / 86400)
               const hour = Math.floor((d - day * 86400) / 3600)
@@ -44,7 +50,17 @@
               s += ('0' + minute).slice(-2) + ':'
               s += ('0' + second).slice(-2)
               e.innerText = s 
-              eText.innerText = unfinished ? cutoffText : cutonText
+              if (started) {
+                if (finished) {
+                  eText.innerText = "Scavenger hunt finished!"
+                }
+                else {
+                  eText.innerText = cutonText;
+                }
+              }
+              else {
+                eText.innerText = cutoffText;
+              }
             }, 1000)
           </script>
         {% endif %}
@@ -100,7 +116,8 @@
       <nav id="cutoff-header">
         <span id="cutoff-text">{% translate "Starts in: " %}</span>
         <span id="cutoff">
-          {{ CUTOFF_UNTIL|format_time }}
+          {% comment %} {{ CUTOFF_UNTIL|format_time }} {% endcomment %}
+          Calculating remaining time...
         </span>
       </nav>
     {% else %}
