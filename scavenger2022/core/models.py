@@ -169,7 +169,10 @@ class LogicPuzzleHint(models.Model):
 
     @classmethod
     def get_clues(cls, team: Team):
-        return [hint.hint for hint in list(LogicPuzzleHint.objects.filter(qr_index__lte=team.qr_len))]
+        return [
+            hint.hint
+            for hint in list(LogicPuzzleHint.objects.filter(qr_index__lte=team.qr_len))
+        ]
 
     @classmethod
     def get_clue(cls, team: Team) -> str | None:
@@ -178,4 +181,3 @@ class LogicPuzzleHint(models.Model):
             return hint.hint
         except cls.DoesNotExist:
             return None
-
