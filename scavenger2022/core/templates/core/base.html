@@ -11,14 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
         {% if CUTOFF_BEFORE or CUTON_BEFORE %}
           <script type="module">
-            const e = document.getElementById("cutoff")
-            const eText = document.getElementById("cutoff-text")
-            const cutoffText = '{% translate "Starts in:" %}'
-            const cutonText = '{% translate "Ends in:" %}'
-            const cutoff = {{ CUTOFF.timestamp }} * 1000
-            const cuton = {{ CUTON.timestamp }} * 1000
-
-            const intervalId = setInterval(() => {
+            const calculateTime = () => {
               let started = false
               let finished = false
               let d = Math.floor((cuton - Date.now()) / 1000) 
@@ -61,6 +54,19 @@
               else {
                 eText.innerText = cutoffText;
               }
+            }
+
+            const e = document.getElementById("cutoff")
+            const eText = document.getElementById("cutoff-text")
+            const cutoffText = '{% translate "Starts in:" %}'
+            const cutonText = '{% translate "Ends in:" %}'
+            const cutoff = {{ CUTOFF.timestamp }} * 1000
+            const cuton = {{ CUTON.timestamp }} * 1000
+
+            calculateTime();
+
+            const intervalId = setInterval(() => {
+              calculateTime();
             }, 1000)
           </script>
         {% endif %}
