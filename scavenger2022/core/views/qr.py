@@ -91,28 +91,11 @@ def qr_first(request):
 @team_required
 @after_start
 def qr_current(request):
+    print(request.user.team.current_qr_i)
     i = request.user.team.current_qr_i
     context = dict(first=i == 0, current=True)
-    context["qr"] = qr = QrCode.codes(request.user)[request.user.team.current_qr_i]
+    context["qr"] = QrCode.codes(request.user)[request.user.team.current_qr_i]
     codes = QrCode.code_pks(request.user)
-    context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
-    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
-    return render(request, "core/qr.html", context=context)
-
-
-@login_required
-@require_http_methods(("GET", "POST"))
-@team_required
-@after_start
-def qr_current(request):
-    context = dict(first=False)
-    print(request.user.first_name)
-    print(request.user.team)
-    cQR = request.user.team.current_qr_code
-    context["qr"] = qr = QrCode.objects.get(id=cQR)
-    i = (codes := QrCode.code_pks(request.user)).index(
-        qr.id
-    ) + 1  # note: this might not work, just coping implementation from qr_first
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
     context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
     return render(request, "core/qr.html", context=context)

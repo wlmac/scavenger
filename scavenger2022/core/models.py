@@ -81,7 +81,7 @@ class Hint(models.Model):
         permissions = [("view_before_start", "Play game before start")]
 
 
-class Team(models.Model):
+class Team(models.Model): # note, a user can currently be in multiple teams, in the future limit this to one per (class: Hunt)
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64, unique=True, null=True)
@@ -120,9 +120,9 @@ class Team(models.Model):
     def get_qr_nth(self):
         """Get the total amount of qr codes the team has completed"""
         print(
-            int(self.completed_qr_codes.count()) + 1
+            int(self.current_qr_i) + 1
         )  # todo remove. this is just for debugging
-        return int(self.completed_qr_codes.count()) + 1
+        return int(self.current_qr_i) + 1
 
     def __str__(self):
         return str(self.name)
@@ -168,5 +168,6 @@ class LogicPuzzleHint(models.Model):
     def __str__(self):
         return str(self.hint)
 
-    def get_hint(self, team: Team):
-        return self.objects.get(qr_index=team.get_qr_nth()).hint
+    @classmethod
+    def get_hint(cls, team: Team):
+        return cls.objects.get(qr_index=team.get_qr_nth()).hint
