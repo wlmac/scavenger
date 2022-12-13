@@ -92,7 +92,7 @@ class Team(models.Model):
     is_active = models.BooleanField(default=True)
     is_open = models.BooleanField(
         default=False
-    )  # todo use this field to have a club-like page so you can join an open team
+    )  # todo use this field to have a club-like page so you can join an open team (future feature)
     current_qr_i = models.IntegerField(default=0)
     solo = models.BooleanField(default=False)
 

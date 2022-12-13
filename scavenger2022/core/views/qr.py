@@ -60,9 +60,7 @@ def qr(request, key):
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
     i = (codes := QrCode.code_pks(request.user.team)).index(qr.id) + 1
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
-    context["logic_hint"] = LogicPuzzleHint.get_hint(
-        request.user.team
-    )  # todo maybe this should be under the next two lines?
+    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
     # TODO: check if they skipped?
     request.user.team.update_current_qr_i(i - 1)
     request.user.team.save()
@@ -78,9 +76,7 @@ def qr_first(request):
     context["qr"] = QrCode.codes(request.user.team)[0]
     codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = QrCode.objects.get(id=codes[0])
-    context["logic_hint"] = LogicPuzzleHint.get_hint(
-        request.user.team
-    )  # todo maybe this should be under the next two lines?
+    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
     request.user.team.update_current_qr_i(0)
     request.user.team.save()
 
@@ -106,7 +102,6 @@ global_notifs = Signal()
 
 @receiver(signals.post_save, sender=Team)
 def team_change(sender, **kwargs):
-    # TODO: handle team change? (note: should be as simple as user.team = new_team, ping @jason if u think it's not)
     global_notifs.send("team_change", orig_sender=sender, kwargs=kwargs)
 
 
