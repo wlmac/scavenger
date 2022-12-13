@@ -5,7 +5,7 @@
 <html>
     <head>
         <title>{% block title %}{% endblock %}</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="{% static 'core/base.css' %}" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
             const calculateTime = () => {
               let started = false
               let finished = false
-              let d = Math.floor((end - Date.now()) / 1000) 
+              let d = Math.floor((end - Date.now()) / 1000)
               //console.log("Initial d:", d);
               if (d < 0) {
                 d = Math.floor((cutoff - Date.now()) / 1000);
@@ -42,7 +42,7 @@
               s += ('0' + hour).slice(-2) + ':'
               s += ('0' + minute).slice(-2) + ':'
               s += ('0' + second).slice(-2)
-              e.innerText = s 
+              e.innerText = s
               if (started) {
                 if (finished) {
                   eText.innerText = '{% translate "Scavenger hunt finished!" %}'
