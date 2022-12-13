@@ -168,9 +168,14 @@ class LogicPuzzleHint(models.Model):
         return str(self.hint)
 
     @classmethod
-    def get_hint(cls, team: Team) -> str | None:
+    def get_clues(cls, team: Team):
+        return [hint.hint for hint in list(LogicPuzzleHint.objects.filter(qr_index__lte=team.qr_len))]
+
+    @classmethod
+    def get_clue(cls, team: Team) -> str | None:
         try:
             hint = cls.objects.get(qr_index=team.qr_len)
             return hint.hint
         except cls.DoesNotExist:
             return None
+

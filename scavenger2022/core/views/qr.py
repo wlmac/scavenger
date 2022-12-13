@@ -60,7 +60,7 @@ def qr(request, key):
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
     i = (codes := QrCode.code_pks(request.user.team)).index(qr.id) + 1
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
-    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     # TODO: check if they skipped?
     request.user.team.update_current_qr_i(i - 1)
     request.user.team.save()
@@ -76,7 +76,7 @@ def qr_first(request):
     context["qr"] = QrCode.codes(request.user.team)[0]
     codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = QrCode.objects.get(id=codes[0])
-    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     request.user.team.update_current_qr_i(0)
     request.user.team.save()
 
@@ -93,7 +93,7 @@ def qr_current(request):
     context["qr"] = QrCode.codes(request.user.team)[request.user.team.current_qr_i]
     codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
-    context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     return render(request, "core/qr.html", context=context)
 
 

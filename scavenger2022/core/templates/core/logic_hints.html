@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% comment %} TODO: Create a progress bar (or some percentage indicator) {% endcomment %}
+    Logic Clues
+{% endblock %}
+
+{% block body %}
+    <ul class="logic_container">
+        <h2>All of your logic clues so far</h2>
+        {% for clue in logic_clues %}
+           <li>{{ clue }}</li>
+        {% endfor %}
+    </ul>
+    <div class="padding"></div>
+{% endblock %}

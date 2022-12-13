@@ -1,5 +1,5 @@
-from django.urls import path, include
-from .views import auth, index, qr, team
+from django.urls import path
+from .views import auth, index, qr, team, puzzle
 
 urlpatterns = [
     path("", index.index, name="index"),
@@ -14,4 +14,5 @@ urlpatterns = [
     path("team/new", team.make, name="team_new"),
     path("team/solo", team.solo, name="team_solo"),
     path("team/recruit", team.recruit, name="team_recruit"),
+    path("clues", puzzle.logic_clues, name="logic_clues"),
 ]
