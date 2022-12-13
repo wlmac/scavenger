@@ -89,7 +89,6 @@ def oauth_auth(q):
     s2d = q2.json()
     access_token = s2d["access_token"]
     refresh_token = s2d["refresh_token"]
-    print(settings.YASOI["me_url"])
     q3 = requests.get(
         settings.YASOI["me_url"], headers={"Authorization": f"Bearer {access_token}"}
     )

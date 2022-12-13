@@ -78,8 +78,12 @@ def qr_first(request):
     context["qr"] = QrCode.codes(request.user.team)[0]
     codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = QrCode.objects.get(id=codes[0])
+    context["logic_hint"] = LogicPuzzleHint.get_hint(
+        request.user.team
+    )  # todo mayve this should be under the next two lines?
     request.user.team.update_current_qr_i(0)
     request.user.team.save()
+
     return render(request, "core/qr.html", context=context)
 
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import random
 import secrets
 
@@ -121,7 +123,6 @@ class Team(models.Model):
 
     def get_qr_nth(self):
         """Get the total amount of qr codes the team has completed"""
-        print(int(self.current_qr_i) + 1)  # todo remove. this is just for debugging
         return int(self.current_qr_i) + 1
 
     def __str__(self):
@@ -169,5 +170,9 @@ class LogicPuzzleHint(models.Model):
         return str(self.hint)
 
     @classmethod
-    def get_hint(cls, team: Team):
-        return cls.objects.get(qr_index=team.get_qr_nth()).hint
+    def get_hint(cls, team: Team) -> str | None:
+        try:
+            hint = cls.objects.get(qr_index=team.get_qr_nth())
+            return hint.hint
+        except cls.DoesNotExist:
+            return None
