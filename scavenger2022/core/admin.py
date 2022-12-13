@@ -44,7 +44,7 @@ class TeamAdmin(admin.ModelAdmin):
 
 
 class QrCodeAdmin(admin.ModelAdmin):
-    fields = ["short", "location", "notes", "url", "key"]
+    fields = ["short", "location", "notes", "key"]
     readonly_fields = ["url", "key"]
     list_display = ["location", "url"]
     inlines = [HintsInLine]
