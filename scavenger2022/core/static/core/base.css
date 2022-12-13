@@ -82,3 +82,20 @@ a:visited {
 .qrcode > img {
   margin: auto;
 }
+
+.logic_container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+.logic_container > li {
+  flex: 1 100%;
+  text-align: center;
+  display: block;
+  font-size: 1.17em;
+  margin: 1em 0;
+  font-weight: bold;
+}
