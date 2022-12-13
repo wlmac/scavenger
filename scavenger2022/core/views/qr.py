@@ -75,11 +75,8 @@ def qr(request, key):
 @after_start
 def qr_first(request):
     context = dict(first=True)
-    context["qr"] = qr = QrCode.codes(request.user)[0]
-    i = (codes := QrCode.code_pks(request.user.team)).index(
-        qr.id
-    ) + 1  # todo this might not be the best way to do this as we are just adding 1 to the index of the first qr code
-    codes = QrCode.code_pks(request.user)
+    context["qr"] = QrCode.codes(request.user.team)[0]
+    codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = QrCode.objects.get(id=codes[0])
     request.user.team.update_current_qr_i(0)
     request.user.team.save()
@@ -91,11 +88,10 @@ def qr_first(request):
 @team_required
 @after_start
 def qr_current(request):
-    print(request.user.team.current_qr_i)
     i = request.user.team.current_qr_i
     context = dict(first=i == 0, current=True)
-    context["qr"] = QrCode.codes(request.user)[request.user.team.current_qr_i]
-    codes = QrCode.code_pks(request.user)
+    context["qr"] = QrCode.codes(request.user.team)[request.user.team.current_qr_i]
+    codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
     context["logic_hint"] = LogicPuzzleHint.get_hint(request.user.team)
     return render(request, "core/qr.html", context=context)
@@ -106,7 +102,7 @@ global_notifs = Signal()
 
 @receiver(signals.post_save, sender=Team)
 def team_change(sender, **kwargs):
-    # TODO: handle team change?
+    # TODO: handle team change? (note: should be as simple as user.team = new_team, ping @jason if u think it's not)
     global_notifs.send("team_change", orig_sender=sender, kwargs=kwargs)
 
 
