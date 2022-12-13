@@ -17,7 +17,7 @@ from .qr import team_required
 @login_required
 @require_http_methods(["GET", "POST"])
 def join(request):
-    if settings.CUTOFF < datetime.datetime.now() and not request.user.team is None:
+    if settings.START < datetime.datetime.now() and not request.user.team is None:
         messages.error(
             request,
             _("Since the hunt has already begun, switching teams is disallowed."),
@@ -57,7 +57,7 @@ def join(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 def make(request):
-    if settings.CUTOFF < datetime.datetime.now() and not request.user.team is None:
+    if settings.START < datetime.datetime.now() and not request.user.team is None:
         messages.error(
             request,
             _("Since the hunt has already begun, making new teams is disallowed."),

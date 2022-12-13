@@ -78,7 +78,7 @@ class Hint(models.Model):
         return self.hint
 
     class Meta:
-        permissions = [("view_before_cutoff", "Play game before cutoff")]
+        permissions = [("view_before_start", "Play game before start")]
 
 
 class Team(models.Model):
