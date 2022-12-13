@@ -93,14 +93,11 @@ class Team(models.Model):
     is_open = models.BooleanField(
         default=False
     )  # todo use this field to have a club-like page so you can join an open team
-    current_qr_i = models.IntegerField(null=True, blank=True)
+    current_qr_i = models.IntegerField(default=0)
     solo = models.BooleanField(default=False)
 
     def update_current_qr_i(self, i: int):
-        if not self.current_qr_i:
-            self.current_qr_i = i
-        else:
-            self.current_qr_i = max(self.current_qr_i, i)
+        self.current_qr_i = max(self.current_qr_i, i)
 
     @property
     def members(self):
