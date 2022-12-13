@@ -52,11 +52,15 @@
             {% hint nextqr request.user.team %}
 
             {% if logic_hint %}
-                <div class="hint-logic">
+                <div class="logic">
 
-                    <p>Logic Hint:</p>
+                    <p style="font-size: 1.5rem">Logic Hint:</p>
 
                     <p>{{ logic_hint }}</p>
+
+                    <p style="font-size: 1.3rem">you can view all of your logic hints <a href={% url 'logic_clues' %}>here</a> </p>
+
+
 
                 </div>
             {% endif %}
