@@ -80,7 +80,7 @@ def qr_first(request):
     context["nextqr"] = QrCode.objects.get(id=codes[0])
     context["logic_hint"] = LogicPuzzleHint.get_hint(
         request.user.team
-    )  # todo mayve this should be under the next two lines?
+    )  # todo maybe this should be under the next two lines?
     request.user.team.update_current_qr_i(0)
     request.user.team.save()
 
