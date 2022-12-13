@@ -11,32 +11,59 @@
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
         {% if START_BEFORE or END_BEFORE %}
           <script type="module">
-            const e = document.getElementById("start")
-            const eText = document.getElementById("start-text")
-            const startText = '{% translate "Starts in:" %}'
-            const endText = '{% translate "Ends in:" %}'
-            const start = {{ START.timestamp }} * 1000
-            const end = {{ END.timestamp }} * 1000
-            const intervalId = setInterval(() => {
-              let start = true
-              let d = (start - Date.now()) / 1000
+            const calculateTime = () => {
+              let started = false
+              let finished = false
+              let d = Math.floor((end - Date.now()) / 1000) 
+              //console.log("Initial d:", d);
               if (d < 0) {
-                d = (end - Date.now()) / 1000
-                start = false
+                d = Math.floor((cutoff - Date.now()) / 1000);
+                if (d < 0) {
+                  finished = true
+                }
+                started = true
               }
+
+              /*console.log("End:", end);
+              console.log("Start:", start);
+              console.log("Now:", Date.now());
+              console.log("d:", d);*/
               const day = Math.floor(d / 86400)
               const hour = Math.floor((d - day * 86400) / 3600)
               const minute = Math.floor((d - day * 86400 - hour * 3600) / 60)
               const second = d % 60
               let s = ''
               if (day == 1) s += '1 day, '
-              else if (day == 0);
-              else s += `${day} days, `
+              else if (day == 0) {}
+              else {
+                s += `${day} days, `
+              }
               s += ('0' + hour).slice(-2) + ':'
               s += ('0' + minute).slice(-2) + ':'
               s += ('0' + second).slice(-2)
-              e.innerText = s
-              eText.innerText = start ? startText : endText
+              e.innerText = s 
+              if (started) {
+                if (finished) {
+                  eText.innerText = '{% translate "Scavenger hunt finished!" %}'
+                }
+                else {
+                  eText.innerText = '{% translate "Ends in:" %}';
+                }
+              }
+              else {
+                eText.innerText = '{% translate "Starts in:" %}';
+              }
+            }
+
+            const e = document.getElementById("countdown")
+            const eText = document.getElementById("countdown-text")
+            const start = {{ START.timestamp }} * 1000
+            const end = {{ END.timestamp }} * 1000
+
+            calculateTime();
+
+            const intervalId = setInterval(() => {
+              calculateTime();
             }, 1000)
           </script>
         {% endif %}
@@ -88,19 +115,10 @@
   </nav>
 </div>
 <!-- GENDO END CommonHeader -->
-    {% if START_BEFORE %}
-      <nav id="start-header">
-        <span id="start-text">{% translate "Starts in: " %}</span>
-        <span id="start">
-          {{ START_UNTIL|format_time }}
-        </span>
-      </nav>
-    {% else %}
-      <nav id="start-header">
-        <span id="start-text">{% translate "Ends in: " %}</span>
-        <span id="start">
-          {{ END_UNTIL|format_time }}
-        </span>
+    {% if START_BEFORE or END_BEFORE %}
+      <nav id="countdown-header">
+        <span id="countdown-text"></span>
+        <span id="countdown"></span>
       </nav>
     {% endif %}
     <nav id="main-header">
