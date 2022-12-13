@@ -11,9 +11,8 @@ class TeamMakeForm(forms.ModelForm):
             "members",
             "is_active",
             "is_open",
-            "completed_qr_codes",
-            "current_qr_code",
             "solo",
+            "current_qr_i",
         )
 
 

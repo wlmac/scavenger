@@ -1,7 +1,7 @@
 import os
 
 from pathlib import Path
-from typing import List
+from typing import Final, List
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,7 +48,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "core.context_processors.cutoff",
+                "core.context_processors.start",
             ],
         },
     },
@@ -121,7 +121,8 @@ YASOI = dict(
     me_url=f"{base_url}/api/me/internal",
     scope="me_meta internal",
 )
-MAX_TEAM_SIZE = 4
+MAX_TEAM_SIZE: Final[int] = 4
+FINAL_QR_ID: Final[int] = 0
 
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:
@@ -130,5 +131,5 @@ except IOError:
     raise TypeError("local_settings.py not found")
 
 SECRET_KEY  # type: ignore
-CUTOFF  # type: ignore
-CUTON  # type: ignore
+START  # type: ignore
+END  # type: ignore

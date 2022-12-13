@@ -2,12 +2,12 @@ from django.conf import settings
 import datetime
 
 
-def cutoff(request):
+def start(request):
     return dict(
-        CUTOFF=(cutoff := settings.CUTOFF),
-        CUTOFF_BEFORE=cutoff > datetime.datetime.utcnow(),
-        CUTOFF_UNTIL=cutoff - datetime.datetime.utcnow(),
-        CUTON=(cuton := settings.CUTON),
-        CUTON_BEFORE=cuton > datetime.datetime.utcnow(),
-        CUTON_UNTIL=cuton - datetime.datetime.utcnow(),
+        START=(start := settings.START),
+        START_BEFORE=start > datetime.datetime.utcnow(),
+        START_UNTIL=start - datetime.datetime.utcnow(),
+        END=(end := settings.END),
+        END_BEFORE=end > datetime.datetime.utcnow(),
+        END_UNTIL=end - datetime.datetime.utcnow(),
     )

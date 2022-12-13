@@ -9,12 +9,12 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
-        {% if CUTOFF_BEFORE or CUTON_BEFORE %}
+        {% if START_BEFORE or END_BEFORE %}
           <script type="module">
             const calculateTime = () => {
               let started = false
               let finished = false
-              let d = Math.floor((cuton - Date.now()) / 1000) 
+              let d = Math.floor((end - Date.now()) / 1000) 
               //console.log("Initial d:", d);
               if (d < 0) {
                 d = Math.floor((cutoff - Date.now()) / 1000);
@@ -24,11 +24,10 @@
                 started = true
               }
 
-              /*console.log("Cuton:", cuton);
-              console.log("Cutoff:", cutoff);
+              /*console.log("End:", end);
+              console.log("Start:", start);
               console.log("Now:", Date.now());
               console.log("d:", d);*/
-
               const day = Math.floor(d / 86400)
               const hour = Math.floor((d - day * 86400) / 3600)
               const minute = Math.floor((d - day * 86400 - hour * 3600) / 60)
@@ -45,23 +44,21 @@
               e.innerText = s 
               if (started) {
                 if (finished) {
-                  eText.innerText = "Scavenger hunt finished!"
+                  eText.innerText = '{% translate "Scavenger hunt finished!" %}'
                 }
                 else {
-                  eText.innerText = cutonText;
+                  eText.innerText = '{% translate "Ends in:" %}';
                 }
               }
               else {
-                eText.innerText = cutoffText;
+                eText.innerText = '{% translate "Starts in:" %}';
               }
             }
 
-            const e = document.getElementById("cutoff")
-            const eText = document.getElementById("cutoff-text")
-            const cutoffText = '{% translate "Starts in:" %}'
-            const cutonText = '{% translate "Ends in:" %}'
-            const cutoff = {{ CUTOFF.timestamp }} * 1000
-            const cuton = {{ CUTON.timestamp }} * 1000
+            const e = document.getElementById("countdown")
+            const eText = document.getElementById("countdown-text")
+            const start = {{ START.timestamp }} * 1000
+            const end = {{ END.timestamp }} * 1000
 
             calculateTime();
 
@@ -107,10 +104,10 @@
         <img src="https://maclyonsden.com/static/core/img/themes/logos/dark-transparent.png" style="height: 27px; display: inline; vertical-align: middle;" alt="Metropolis logo" />
         Metropolis
       </a>
-      
-      
+
+
         <a href="https://doodle.maclyonsden.com">Doodles</a>
-      
+
       <span class="this">
         Scavenger Hunt (2022)
       </span>
@@ -118,27 +115,17 @@
   </nav>
 </div>
 <!-- GENDO END CommonHeader -->
-    {% if CUTOFF_BEFORE %}
-      <nav id="cutoff-header">
-        <span id="cutoff-text">{% translate "Starts in: " %}</span>
-        <span id="cutoff">
-          {% comment %} {{ CUTOFF_UNTIL|format_time }} {% endcomment %}
-          Calculating remaining time...
-        </span>
-      </nav>
-    {% else %}
-      <nav id="cutoff-header">
-        <span id="cutoff-text">{% translate "Ends in: " %}</span>
-        <span id="cutoff">
-          {{ CUTON_UNTIL|format_time }}
-        </span>
+    {% if START_BEFORE or END_BEFORE %}
+      <nav id="countdown-header">
+        <span id="countdown-text"></span>
+        <span id="countdown"></span>
       </nav>
     {% endif %}
     <nav id="main-header">
       {% if request.user.is_staff %}
         <a href="/admin">{% translate "Admin" %}</a>
       {% endif %}
-      {% if request.user.team is not None %}
+      {% if request.user.in_team %}
         {% if not request.user.team.solo %}
           Team: {{ request.user.team.name }}
         {% else %}

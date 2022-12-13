@@ -4,7 +4,6 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _l
 from django.urls import reverse
-from .models import *
 from .forms import *
 
 
@@ -17,6 +16,18 @@ class InviteInLine(admin.StackedInline):
     model = Invite
     extra = 1
     readonly_fields = ("invites",)
+
+
+class LogicPuzzleAdmin(admin.ModelAdmin):
+    list_display = (
+        "qr_index",
+        "hint",
+    )
+    search_fields = (
+        "hint",
+        "qr_index",
+    )
+    ordering = ("qr_index",)
 
 
 class TeamAdmin(admin.ModelAdmin):
@@ -33,7 +44,7 @@ class TeamAdmin(admin.ModelAdmin):
 
 
 class QrCodeAdmin(admin.ModelAdmin):
-    fields = ["short", "location", "notes", "url", "key"]
+    fields = ["short", "location", "notes", "key"]
     readonly_fields = ["url", "key"]
     list_display = ["location", "url"]
     inlines = [HintsInLine]
@@ -70,3 +81,4 @@ class UserAdmin(UserAdmin_):
 admin.site.register(User, UserAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(QrCode, QrCodeAdmin)
+admin.site.register(LogicPuzzleHint, LogicPuzzleAdmin)
