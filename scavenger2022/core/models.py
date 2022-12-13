@@ -118,8 +118,9 @@ class Team(models.Model):
     def invites(self):
         return Invite.objects.filter(team=self)
 
-    def get_qr_nth(self):
-        """Get the total amount of qr codes the team has completed"""
+    @property
+    def qr_len(self):
+        """Amount of codes the team has completed (assuming no skips)"""
         return int(self.current_qr_i) + 1
 
     def __str__(self):
@@ -169,7 +170,7 @@ class LogicPuzzleHint(models.Model):
     @classmethod
     def get_hint(cls, team: Team) -> str | None:
         try:
-            hint = cls.objects.get(qr_index=team.get_qr_nth())
+            hint = cls.objects.get(qr_index=team.qr_len)
             return hint.hint
         except cls.DoesNotExist:
             return None
