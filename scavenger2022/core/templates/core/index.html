@@ -6,23 +6,19 @@ Scavenger Hunt
 {% endblock %}
 
 {% block body %}
-{% if not request.user.is_authenticated %}
-    Please <a href="{% url 'oauth_login' %}">login</a>.
-{% else %}
-    {% if request.user.in_team %}
-        Go to your <a href="{% url 'qr_first' %}">first hint</a>.
-        {% if not request.user.team.solo %}
-          Or <a href="{% url 'team_invite' %}">invite team members</a>.
-        {% endif %}
-    {% else %}
-        <ul>
-            <li>Join a team: either scan your team leader's QR code or click the link</li>
-            <li><a href="{% url 'team_new' %}">{% translate "Make a team" %}</a></li>
-            <li><form action="{% url 'team_solo' %}" method="post">
-                {% csrf_token %}
-                <input class="fakea" type="submit" value="{% translate 'Go solo '%}" />
-            </form></li>
-        </ul>
+{% if request.user.in_team and not START_BEFORE %}
+    Go to your <a href="{% url 'qr_first' %}">first hint</a>.
+    {% if not request.user.team.solo %}
+      Or <a href="{% url 'team_invite' %}">invite team members</a>.
     {% endif %}
+{% else %}
+    <ul>
+        <li>Join a team: either scan your team leader's QR code or click the link</li>
+        <li><a href="{% url 'team_new' %}">{% translate "Make a team" %}</a></li>
+        <li><form action="{% url 'team_solo' %}" method="post">
+            {% csrf_token %}
+            <input class="fakea" type="submit" value="{% translate 'Go solo '%}" />
+        </form></li>
+    </ul>
 {% endif %}
 {% endblock %}
