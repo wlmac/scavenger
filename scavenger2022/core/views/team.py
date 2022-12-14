@@ -93,5 +93,5 @@ def solo(q):
 @login_required
 @require_http_methods(["GET"])
 @team_required
-def recruit(q):
-    return render(q, "core/team_recruit.html")
+def invite(q):
+    return render(q, "core/team_invite.html")
