@@ -1,6 +1,14 @@
 const e = document.getElementById("countdown")
 const eText = document.getElementById("countdown-text")
 
+function assertClass(classList, className, contains) {
+  if (contains) {
+    if (!classList.contains(className)) classList.add(className)
+  } else {
+    if (classList.contains(className)) classList.remove(className)
+  }
+}
+
 const newCalculateTime = (start, end, starts, ends, ended) => () => {
   let started = false
   let finished = false
@@ -30,6 +38,11 @@ const newCalculateTime = (start, end, starts, ends, ended) => () => {
   s += ('0' + minute).slice(-2) + ':'
   s += ('0' + second).slice(-2)
   e.innerText = s
+  if (d > 0) {
+    assertClass(e.classList, "soon-very1", d < 60*5 && d >= 60)
+    assertClass(e.classList, "soon-very2", d < 60 && d >= 10)
+    assertClass(e.classList, "soon-very3", d < 10)
+  }
   eText.innerText = started ? (finished ? ended : ends) : starts
 }
 

@@ -45,6 +45,18 @@ body > nav {
   text-align: center;
 }
 
+#countdown.soon-very1 {
+  color: #ac8300;
+}
+
+#countdown.soon-very2 {
+  color: #d56500;
+}
+
+#countdown.soon-very3 {
+  color: #f23749;
+}
+
 .spacer {
   float: right;
 }
