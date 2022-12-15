@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="{% static 'core/base.css' %}" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
         {% if START_BEFORE or END_BEFORE %}
           <script type="module">
             import newCalculateTime from "{% static 'core/countdown.js' %}"
@@ -82,33 +82,6 @@
         <span id="countdown"></span>
       </nav>
     {% endif %}
-    <nav id="main-header">
-      <a href="{% url 'index' %}">Home</a>
-      {% if request.user.is_staff %}
-        <a href="/admin">{% translate "Admin" %}</a>
-      {% endif %}
-      {% if request.user.in_team %}
-        {% if not request.user.team.solo %}
-          Team: {{ request.user.team.name }}
-        {% else %}
-          Solo
-        {% endif %}
-      {% endif %}
-      <span class="spacer">
-        {% if request.user.is_authenticated %}
-          {{ request.user }}
-          ({{ request.user.first_name }} {{ request.user.last_name }})
-          <form style="display: inline;" action="{% url 'account_logout' %}" method="post">
-            {% csrf_token %}
-            (<input class="fakea" type="submit" value="Logout" />)
-          </form>
-        {% else %}
-          <a href="{% url 'oauth_login' %}">
-            Login
-          </a>
-        {% endif %}
-      </span>
-    </nav>
     <header>
       <h1>{% block header %}{% endblock %}</h1>
       {% comment %} TODO: consider merging header and title {% endcomment %}
@@ -137,11 +110,40 @@
     <main>
       {% block body %}{% endblock %}
     </main>
+    <div class="vpad"></div>
     <footer>
       <span style="display: flex; align-items: center; justify-content: center;">
         <img src="{% static 'core/ojigi_animal_inu.png' %}" style="height: 7rem;" />
         {% translate "This website is under construction. Thank you for testing it out!" %}
       </span>
     </footer>
+    <nav id="main-header">
+      <div class="identity">
+        {% if request.user.in_team %}
+          {% if not request.user.team.solo %}
+            <span class="team-name">{{ request.user.team.name }}</span>
+          {% else %}
+            <span class="team-name">solo</span>
+          {% endif %}
+        {% endif %}
+        <span class="username">{{ request.user.username }}</span>
+      </div>
+      <span class="spacer">
+        <a href="{% url 'index' %}">home</a>
+        {% if request.user.is_staff %}
+          <a href="/admin">{% translate "admin" %}</a>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+          <form style="display: inline;" action="{% url 'account_logout' %}" method="post">
+            {% csrf_token %}
+            <input class="fakea" type="submit" value="logout" />
+          </form>
+        {% else %}
+          <a href="{% url 'oauth_login' %}">
+            login
+          </a>
+        {% endif %}
+      </span>
+    </nav>
   </body>
 </html>

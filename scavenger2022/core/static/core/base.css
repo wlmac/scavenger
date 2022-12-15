@@ -1,10 +1,10 @@
 :root {
-  --size: 1.2rem;
-  /* colours from OKSolar */
-  --bg: #f1e9d2;
-  --fg: #093946;
-  --link: #2b90d8;
-  --linkv: #7d80d1;
+    --size: 1.2rem;
+    /* colours from OKSolar */
+    --bg: #f1e9d2;
+    --fg: #093946;
+    --link: #2b90d8;
+    --linkv: #7d80d1;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +26,7 @@ body {
 
 main, header {
   margin: 8px;
+  font-weight: 700;
 }
 
 header > h1 {
@@ -109,19 +110,19 @@ a:visited {
   display: block;
   font-size: 1.17em;
   margin: 1em 0;
-  font-weight: bold;
 }
 
 .button {
   background: lightgrey;
   border: 0;
   padding: 0.5rem;
-  font-weight: bold;
   font-size: var(--size);
   font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-weight: inherit;
   color: #000 !important;
   /* TODO: match design font weight */
   text-decoration: none;
+  margin: 0.3rem;
 }
 
 .button:hover {
@@ -130,4 +131,21 @@ a:visited {
 
 .button:active {
   background: darkgrey;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+}
+
+.identity > .team-name {
+  font-weight: 700;
+}
+
+.identity > .username {
+  font-weight: 400;
+}
+
+.vpad {
+  flex-grow: 1;
 }
