@@ -1,8 +1,13 @@
 {% extends "core/base.html" %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}
 Scavenger Hunt
+{% endblock %}
+
+{% block head_end %}
+    <link rel="stylesheet" href="{% static 'core/index.css' %}"/>
 {% endblock %}
 
 {% block body %}
@@ -12,13 +17,17 @@ Scavenger Hunt
       Or <a href="{% url 'team_invite' %}">invite team members</a>.
     {% endif %}
 {% else %}
-    <ul>
+    <ul class="nodot">
         <li>Join a team: either scan your team leader's QR code or click the link</li>
-        <li><a href="{% url 'team_new' %}">{% translate "Make a team" %}</a></li>
-        <li><form action="{% url 'team_solo' %}" method="post">
-            {% csrf_token %}
-            <input class="fakea" type="submit" value="{% translate 'Go solo '%}" />
-        </form></li>
+        <li>
+            <a class="button" href="{% url 'team_new' %}">{% translate "make a team" %}</a>
+        </li>
+        <li>
+            <form action="{% url 'team_solo' %}" method="post">
+                {% csrf_token %}
+                <input class="button" type="submit" value="{% translate 'go solo '%}" />
+            </form>
+        </li>
     </ul>
 {% endif %}
 {% endblock %}

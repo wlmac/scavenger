@@ -1,0 +1,23 @@
+ul > li {
+  display: flex;
+}
+
+ul > li {
+  flex-grow: 1;
+  display: flex;
+}
+
+ul > li :not(input).button {
+  flex-grow: 1;
+  text-align: center;
+}
+
+ul > li > form {
+  width: 100%;
+}
+
+ul > li input.button {
+  display: block;
+  width: 100%;
+  text-align: center;
+}

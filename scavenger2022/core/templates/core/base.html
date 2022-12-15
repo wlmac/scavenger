@@ -82,7 +82,7 @@
       </nav>
     {% endif %}
     <nav id="main-header">
-      <a href="{% url 'core' %}">Home</a>
+      <a href="{% url 'index' %}">Home</a>
       {% if request.user.is_staff %}
         <a href="/admin">{% translate "Admin" %}</a>
       {% endif %}

@@ -124,6 +124,8 @@ YASOI = dict(
 MAX_TEAM_SIZE: Final[int] = 4
 FINAL_QR_ID: Final[int] = 0
 
+ALWAYS_LAST_QR_PK = 1
+
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:
         exec(f.read(), globals())
