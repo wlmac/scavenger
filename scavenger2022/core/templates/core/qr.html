@@ -25,15 +25,16 @@
 {% endblock %}
 
 {% block body %}
-    <div class="buffer">
-        {% if not first %}
+    {% if not first %}
+        <div class="buffer">
             {% translate "your team found:" %} <br />
-            <span class="hint">{% hint qr request.user.team %}</span>
+            {% hint qr request.user.team as hint %}
+	    <span class="hint">{{ hint |linebreaksbr }}</span>
             {% if request.user.is_superuser %}
                 <br />({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">change</a>)
             {% endif %}
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
     <div class="hint">
         <div class="hint-top">
             {% if nextqr %}
@@ -47,7 +48,8 @@
             {% endif %}
         </div>
         {% if nextqr %}
-            <span class="hint">{% hint nextqr request.user.team %}</span>
+            {% hint nextqr request.user.team as hint %}
+	    <span class="hint">{{ hint |linebreaksbr }}</span>
             {% if request.user.is_superuser %}
                 <br />({{ nextqr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nextqr.id %}">change</a>)
             {% endif %}
