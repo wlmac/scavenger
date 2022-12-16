@@ -30,7 +30,7 @@
             {% translate "your team found:" %} <br />
             <span class="hint">{% hint qr request.user.team %}</span>
             {% if request.user.is_superuser %}
-                <br />({{ qr }})
+                <br />({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">change</a>)
             {% endif %}
         {% endif %}
     </div>
@@ -49,7 +49,7 @@
         {% if nextqr %}
             <span class="hint">{% hint nextqr request.user.team %}</span>
             {% if request.user.is_superuser %}
-                <br />({{ nextqr }})
+                <br />({{ nextqr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nextqr.id %}">change</a>)
             {% endif %}
 
             {% if logic_hint %}
