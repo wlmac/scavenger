@@ -21,3 +21,7 @@ ul > li input.button {
   width: 100%;
   text-align: center;
 }
+
+ul > li {
+  padding: 0.4rem;
+}

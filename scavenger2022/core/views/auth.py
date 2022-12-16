@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 from authlib.integrations.django_client import OAuth
 import requests
@@ -110,10 +112,18 @@ def oauth_auth(q):
     u.save()
     login(q, u)
     messages.success(q, "Logged in.")
-    return redirect("/")
+    next_url = q.GET.get("next", (default := settings.LOGIN_REDIRECT_URL))
+    return redirect(
+        next_url
+        if url_has_allowed_host_and_scheme(next_url, q.get_host(), True)
+        else default
+    )
 
 
-@require_http_methods(["POST"])
+@require_http_methods(["GET", "POST"])
+@login_required
 def account_logout(q):
+    if q.method == "GET":
+        return render(q, "core/logout.html")
     logout(q)
     return redirect("/")

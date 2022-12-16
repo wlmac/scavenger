@@ -1,10 +1,14 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _l
 
 from .models import *
 
 
 class TeamMakeForm(forms.ModelForm):
     class Meta:
+        widgets = dict(
+            name=forms.TextInput(attrs={"placeholder": "youmas"}),
+        )
         model = Team
         exclude = (
             "id",
@@ -18,10 +22,11 @@ class TeamMakeForm(forms.ModelForm):
 
 class TeamJoinForm(forms.Form):
     code = forms.CharField(
-        label="Join Code",
+        label=_l("join code"),
         max_length=6,
         strip=True,
         required=True,
+        widget=forms.TextInput(attrs={"placeholder": "1a2b3c"}),
     )
 
 

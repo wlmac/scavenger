@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "fontawesomefree",
     "core",
 ]
 
@@ -85,6 +86,10 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+LOGIN_URL = "/login"
+
+LOGIN_REDIRECT_URL = "/"
 
 AUTH_USER_MODEL = "core.User"
 

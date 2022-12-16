@@ -6,14 +6,23 @@ Make a Team
 {% endblock %}
 
 {% block header %}
-Make a Team
+make a team
+{% endblock %}
+
+{% block head_end %}
+<style>
+  input#id_name {
+    flex-grow: 1;
+    width: 50px;
+    display: block;
+  }
+</style>
 {% endblock %}
 
 {% block body %}
   <form action="{% url 'team_new' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Make" />
+    <input class="button" type="submit" value="make" />
   </form>
-  <img src="{% static 'core/computer_mob_programming.png' %}" style="height: 14rem;" alt="{{ _('a four-person team programming with a big screen in the centre') }}" />
 {% endblock %}

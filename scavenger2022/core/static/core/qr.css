@@ -1,33 +1,26 @@
-.buffer {
-  text-align: center;
-}
-
-body {
-  height: 100vh;
-}
-
 main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  height: 500px;
+  text-align: left;
+}
+
+.buffer {
+  width: 100%;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #fff;
+  margin-bottom: 2rem;
+}
+
+.hint {
+  opacity: 90%;
+}
+
+.hint,
+.hint-top {
+  font-size: 1.8rem;
 }
 
 .padding {
   flex-grow: 1;
 }
-
-.hint {
-  text-align: center;
-  font-size: 4rem;
-}
-
-.hint-top {
-  font-size: 2rem;
-.}
-
 
 .logic {
   font-size: 2rem

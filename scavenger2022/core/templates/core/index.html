@@ -6,33 +6,55 @@
 Scavenger Hunt
 {% endblock %}
 
+{% block header %}
+welcome, {{ request.user.username }}!
+{% endblock %}
+
 {% block head_end %}
-    <link rel="stylesheet" href="{% static 'core/index.css' %}"/>
+  <link rel="stylesheet" href="{% static 'core/index.css' %}"/>
 {% endblock %}
 
 {% block body %}
-{% if request.user.in_team and not START_BEFORE %}
-    Go to your <a href="{% url 'qr_first' %}">first hint</a>.
-    {% if not request.user.team.solo %}
-      Or <a href="{% url 'team_invite' %}">invite team members</a>.
-    {% endif %}
+{% if True or request.user.in_team and not START_BEFORE %}
+  {% url 'qr_first' as first_url %}
+  {% blocktranslate %}
+    the hunt has started! go decrypt your <a href="{{ first_url }}">first hint</a>!
+  {% endblocktranslate %}
+  <br />
+  {% if not request.user.team.solo %}
+    {% url 'team_invite' as invite_url %}
+    {% blocktranslate %}
+      or, do you still want to <a href="{{ invite_url }}">invite team members</a>?
+    {% endblocktranslate %}
+  {% endif %}
 {% else %}
-    <p style="text-align: center;">
-        welcome, {{ request.user.username }}!
-    </p>
-    <ul class="nodot">
-        <li>
-            <a class="button" href="{% url 'join' %}">{% translate "join a team" %}</a>
-        </li>
-        <li>
-            <a class="button" href="{% url 'team_new' %}">{% translate "make a team" %}</a>
-        </li>
-        <li>
-            <form action="{% url 'team_solo' %}" method="post">
-                {% csrf_token %}
-                <input class="button" type="submit" value="{% translate 'go solo '%}" />
-            </form>
-        </li>
-    </ul>
+  {% if request.user.in_team %}
+    {% if request.user.team.solo %}
+      {% blocktranslate %}
+        you're going solo
+      {% endblocktranslate %}
+    {% else %}
+      {% blocktranslate with team=request.user.team.name %}
+        your team: {{ team }}
+      {% endblocktranslate %}
+    {% endif %}
+  {% endif %}
+  <ul class="nodot">
+    {% if not request.user.in_team or request.user.team.solo %}
+      <li>
+        <a class="button" href="{% url 'join' %}">{% translate "join a team" %}</a>
+      </li>
+      <li>
+        <a class="button" href="{% url 'team_new' %}">{% translate "make a team" %}</a>
+      </li>
+    {% elif not request.user.in_team or not request.user.team.solo %}
+      <li>
+        <form action="{% url 'team_solo' %}" method="post">
+            {% csrf_token %}
+            <input class="button" type="submit" value="{% translate 'go solo '%}" />
+        </form>
+      </li>
+    {% endif %}
+  </ul>
 {% endif %}
 {% endblock %}

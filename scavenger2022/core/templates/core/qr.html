@@ -27,47 +27,40 @@
 {% block body %}
     <div class="buffer">
         {% if not first %}
-            You got the hint: {% hint qr request.user.team %}
+            {% translate "your team found:" %} <br />
+            <span class="hint">{% hint qr request.user.team %}</span>
+            {% if request.user.is_superuser %}
+                <br />({{ qr }})
+            {% endif %}
         {% endif %}
     </div>
-    <div class="padding"></div>
     <div class="hint">
         <div class="hint-top">
             {% if nextqr %}
                 {% if first %}
-                    Your first hint is:
+                    {% translate "your first hint is:" %} <br />
                 {% else %}
-                    Your next hint is:
+                    {% translate "your next hint is:" %} <br />
                 {% endif %}
             {% else %}
-                <img src="https://www.hanshin.co.jp/h_common/img/taisetsu.svg" alt="rainbow-coloured heart"/>
-                (TODO: some colourful heart)
+                {% comment %} TODO: some cool colourful heart {% endcomment %}
             {% endif %}
-            {% if request.user.is_superuser %}
-                ({{ nextqr }})
-            {% endif %}
-
         </div>
         {% if nextqr %}
-            {% hint nextqr request.user.team %}
+            <span class="hint">{% hint nextqr request.user.team %}</span>
+            {% if request.user.is_superuser %}
+                <br />({{ nextqr }})
+            {% endif %}
 
             {% if logic_hint %}
                 <div class="logic">
-
                     <p style="font-size: 1.5rem">Logic Hint:</p>
-
                     <p>{{ logic_hint }}</p>
-
                     <p style="font-size: 1.3rem">you can view all of your logic hints <a href={% url 'logic_clues' %}>here</a> </p>
-
-
-
                 </div>
             {% endif %}
         {% else %}
-            Thank you for playing!
+            {% translate 'thank you for playing!' %}
         {% endif %}
-
     </div>
-    <div class="padding"></div>
 {% endblock %}

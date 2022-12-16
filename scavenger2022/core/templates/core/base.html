@@ -10,6 +10,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
         {% if START_BEFORE or END_BEFORE %}
           <script type="module">
             import newCalculateTime from "{% static 'core/countdown.js' %}"
@@ -17,9 +19,9 @@
             const calculateTime = newCalculateTime(
               {{ START.timestamp }} * 1000,
               {{ END.timestamp }} * 1000,
-              "{% translate 'Starts in:' %}",
-              "{% translate 'Ends in:' %}",
-              "{% translate 'Scavenger hunt ended!' %}",
+              "{% translate 'starts in:' %}",
+              "{% translate 'ends in:' %}",
+              "{% translate 'scavenger hunt ended!' %}",
             )
 
             calculateTime()
@@ -76,14 +78,7 @@
   </nav>
 </div>
 <!-- GENDO END CommonHeader -->
-    {% if START_BEFORE or END_BEFORE %}
-      <nav id="countdown-header">
-        <span id="countdown-text"></span>
-        <span id="countdown"></span>
-      </nav>
-    {% endif %}
     <header>
-      <h1>{% block header %}{% endblock %}</h1>
       {% comment %} TODO: consider merging header and title {% endcomment %}
       {% if messages %}
       <ul class="messages">
@@ -107,17 +102,28 @@
       </ul>
       {% endif %}
     </header>
+    <div style="flex-grow: 1.8;"></div>
     <main>
+      <h1>{% block header %}{% endblock %}</h1>
       {% block body %}{% endblock %}
     </main>
-    <div class="vpad"></div>
-    <footer>
-      <span style="display: flex; align-items: center; justify-content: center;">
-        <img src="{% static 'core/ojigi_animal_inu.png' %}" style="height: 7rem;" />
-        {% translate "This website is under construction. Thank you for testing it out!" %}
-      </span>
-    </footer>
-    <nav id="main-header">
+    <div style="flex-grow: 1;"></div>
+    {% if START_BEFORE or END_BEFORE %}
+      <nav id="countdown-header">
+        <span id="countdown-text"></span>
+        <span id="countdown"></span>
+      </nav>
+    {% endif %}
+    {% comment %} NOTE: (below) workaround for fixed positon {% endcomment %}
+    <div class="main-header" style="visibility: hidden;">
+      <div class="identity">
+        {% if request.user.in_team %}
+          <span class="team-name">bodge</span>
+        {% endif %}
+        <span class="username">bodge</span>
+      </div>
+    </div>
+    <nav id="main-header" class="main-header">
       <div class="identity">
         {% if request.user.in_team %}
           {% if not request.user.team.solo %}
@@ -128,16 +134,35 @@
         {% endif %}
         <span class="username">{{ request.user.username }}</span>
       </div>
-      <span class="spacer">
-        <a href="{% url 'index' %}">home</a>
+      {% comment %} TODO: fa-light {% endcomment %}
+      <span class="actions">
+        <a href="{% url 'index' %}">
+          <i class="fa-solid fa-house" aria-hidden="true"></i>
+          <span class="icon-alt">
+            {% translate "Home" %}
+          </span>
+        </a>
         {% if request.user.is_staff %}
-          <a href="/admin">{% translate "admin" %}</a>
+          <a href="/admin">
+            <i class="fa-solid fa-hammer" aria-hidden="true"></i>
+            <span class="icon-alt">
+              {% translate "Admin" %}
+            </span>
+          </a>
         {% endif %}
         {% if request.user.is_authenticated %}
-          <form style="display: inline;" action="{% url 'account_logout' %}" method="post">
-            {% csrf_token %}
-            <input class="fakea" type="submit" value="logout" />
-          </form>
+          <a href="{% url 'qr_catalog' %}" class="noicon">
+            {% translate "found" %}
+          </a>
+          <a href="{% url 'qr_current' %}" class="noicon">
+            {% translate "current" %}
+          </a>
+          <a href="{% url 'account_logout' %}">
+            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+            <span class="icon-alt">
+              {% translate "Logout" %}
+            </span>
+          </a>
         {% else %}
           <a href="{% url 'oauth_login' %}">
             login

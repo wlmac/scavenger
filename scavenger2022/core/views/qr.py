@@ -58,11 +58,13 @@ def after_start(f):
 def qr(request, key):
     context = dict(first=False)
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
-    i = (codes := QrCode.code_pks(request.user.team)).index(qr.id) + 1
-    context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
+    i = (codes := QrCode.code_pks(request.user.team)).index(qr.id)
+    context["nextqr"] = (
+        None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
+    )
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     # TODO: check if they skipped?
-    request.user.team.update_current_qr_i(i - 1)
+    request.user.team.update_current_qr_i(i)
     request.user.team.save()
     return render(request, "core/qr.html", context=context)
 
@@ -77,9 +79,6 @@ def qr_first(request):
     codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = QrCode.objects.get(id=codes[0])
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
-    request.user.team.update_current_qr_i(0)
-    request.user.team.save()
-
     return render(request, "core/qr.html", context=context)
 
 
@@ -92,9 +91,22 @@ def qr_current(request):
     context = dict(first=i == 0, current=True)
     context["qr"] = QrCode.codes(request.user.team)[request.user.team.current_qr_i]
     codes = QrCode.code_pks(request.user.team)
-    context["nextqr"] = None if len(codes) <= i else QrCode.objects.get(id=codes[i])
+    context["nextqr"] = (
+        None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
+    )
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     return render(request, "core/qr.html", context=context)
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+@team_required
+@after_start
+def qr_catalog(request):
+    i = request.user.team.current_qr_i
+    context = dict(first=i == 0, current=True)
+    context["qr"] = QrCode.codes(request.user.team)[: request.user.team.current_qr_i]
+    return render(request, "core/qr_catalog.html", context=context)
 
 
 global_notifs = Signal()

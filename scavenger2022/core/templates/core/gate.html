@@ -1,0 +1,14 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+Scavenger Hunt
+{% endblock %}
+
+{% block body %}
+{% if START_BEFORE %}
+    The hunt has not begun yet.
+{% endif %}
+Please <a href="{% url 'oauth_login' %}">login</a>.
+{% endblock %}

@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load i18n %}
 {% load static %}
 
 {% block title %}
@@ -6,15 +7,15 @@ Join a Team
 {% endblock %}
 
 {% block header %}
-Join a Team
+join a team
 {% endblock %}
 
 {% block body %}
+  {% translate "either enter your team's join code" %}
   <form action="{% url 'join' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Join" />
   </form>
-  Or, ask your team leader for a QR code.
-  <img src="{% static 'core/computer_mob_programming.png' %}" style="height: 14rem;" alt="{{ _('a four-person team programming with a big screen in the centre') }}" />
+  {% translate "or, scan your team's QR code" %}
 {% endblock %}

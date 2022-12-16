@@ -1,10 +1,11 @@
 :root {
-    --size: 1.2rem;
-    /* colours from OKSolar */
-    --bg: #f1e9d2;
-    --fg: #093946;
-    --link: #2b90d8;
-    --linkv: #7d80d1;
+  --size: 1.4rem;
+  --bg: #fc5656;
+  --fg: #eeeeee;
+  --link: hsl(220deg 100% 90%);
+  --linkv: hsl(260deg 100% 90%);
+  --accent: hsl(0deg 100% 83.3%);
+  /* #fc5656 */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,9 +20,11 @@ body {
   font-size: var(--size);
   color: var(--fg);
   background: var(--bg);
-  height: 100%;
+  min-height: 100vh;
+
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 main, header {
@@ -29,13 +32,16 @@ main, header {
   font-weight: 700;
 }
 
-header > h1 {
-  font-size: 2rem;
-  margin: 0;
+main > h1 {
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  font-size: 1.6rem;
+  text-align: center;
 }
 
+
 main {
-  flex-grow: 1;
+  text-align: center;
 }
 
 body > nav {
@@ -72,9 +78,11 @@ body > nav {
   text-decoration: underline;
   cursor: pointer;
 }
+
 a {
   color: var(--link);
 }
+
 a:visited {
   color: var(--linkv);
 }
@@ -113,7 +121,8 @@ a:visited {
 }
 
 .button {
-  background: lightgrey;
+  background: var(--fg);
+  transition: 0.3s;
   border: 0;
   padding: 0.5rem;
   font-size: var(--size);
@@ -122,15 +131,40 @@ a:visited {
   color: #000 !important;
   /* TODO: match design font weight */
   text-decoration: none;
-  margin: 0.3rem;
 }
 
 .button:hover {
-  background: grey;
+  background: hsl(0deg 100% 90%);;
 }
 
 .button:active {
-  background: darkgrey;
+  background: hsl(0deg 100% 75%);;
+}
+
+#main-header {
+  position: fixed;
+  bottom: 0;
+  background: var(--accent);
+}
+
+.main-header {
+  width: calc(100vw - 4rem);
+  padding: 2rem;
+  color: #111;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+
+.main-header i {
+  padding: 0.2rem;
+  font-size: 1.5rem;
+  color: #000;
+}
+
+.main-header a:not(.noicon) { /* TODO: was :contains() supported? */
+  text-decoration: none;
 }
 
 .identity {
@@ -146,6 +180,32 @@ a:visited {
   font-weight: 400;
 }
 
-.vpad {
-  flex-grow: 1;
+form {
+  display: flex;
+}
+
+form * {
+  margin: 5px;
+  padding: 5px;
+}
+
+input {
+  background: inherit;
+  border: 2px solid #fff;
+  color: var(--fg);
+  font: inherit;
+}
+
+input:placeholder {
+  color: #ccc;
+}
+
+.icon-alt {
+  /* from https://webaim.org/techniques/css/invisiblecontent/ */
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }

@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+Logout
+{% endblock %}
+
+{% block header %}
+logout
+{% endblock %}
+
+{% block body %}
+  <form style="display: inline;" action="{% url 'account_logout' %}" method="post">
+    {% csrf_token %}
+    <input class="fakea" type="submit" value="logout" />
+  </form>
+{% endblock %}
