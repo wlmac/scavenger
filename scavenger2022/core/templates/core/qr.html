@@ -2,6 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% load qr %}
+{% load md %}
 
 {% block title %}
     {% comment %} TODO: Create a progress bar (or some percentage indicator) {% endcomment %}
@@ -29,7 +30,7 @@
         <div class="buffer">
             {% translate "your team found:" %} <br />
             {% hint qr request.user.team as hint %}
-	    <span class="hint">{{ hint |linebreaksbr }}</span>
+	    <span class="hint">{{ hint |linebreaks |mistune }}</span>
             {% if request.user.is_superuser %}
                 <br />({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">change</a>)
             {% endif %}
@@ -49,7 +50,7 @@
         </div>
         {% if nextqr %}
             {% hint nextqr request.user.team as hint %}
-	    <span class="hint">{{ hint |linebreaksbr }}</span>
+	    <span class="hint">{{ hint |linebreaks |mistune }}</span>
             {% if request.user.is_superuser %}
                 <br />({{ nextqr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nextqr.id %}">change</a>)
             {% endif %}
