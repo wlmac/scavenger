@@ -16,4 +16,5 @@ urlpatterns = [
     path("team/solo", team.solo, name="team_solo"),
     path("team/invite", team.invite, name="team_invite"),
     path("clues", puzzle.logic_clues, name="logic_clues"),
+    path("credits", index.credits, name="credits"),
 ]
