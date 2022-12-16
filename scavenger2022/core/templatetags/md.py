@@ -7,4 +7,4 @@ register = template.Library()
 
 @register.filter
 def mistune(value):
-    return mark_safe(mistune_.html(value))
+    return mark_safe(mistune_.html(str(value)))
