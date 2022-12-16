@@ -221,3 +221,7 @@ input:placeholder {
   height: 1px;
   overflow: hidden;
 }
+
+pre {
+  white-space: pre-wrap;
+}
