@@ -148,8 +148,8 @@ a:visited {
 }
 
 .main-header {
-  width: calc(100vw - 4rem);
-  padding: 2rem;
+  width: calc(100vw - 2 * 1rem);
+  padding: 1rem;
   color: #111;
 
   display: flex;
