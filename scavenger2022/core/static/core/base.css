@@ -157,14 +157,26 @@ a:visited {
   align-items: center
 }
 
-.main-header i {
+#main-header i {
   padding: 0.2rem;
   font-size: 1.5rem;
   color: #000;
 }
 
-.main-header a:not(.noicon) { /* TODO: was :contains() supported? */
+#main-header a:not(.noicon) { /* TODO: was :contains() supported? */
   text-decoration: none;
+}
+
+#main-header a.noicon {
+  color: hsl(0deg 100% 50%);;
+}
+
+#main-header a.noicon:hover {
+  color: hsl(0deg 100% 30%);;
+}
+
+#main-header a.noicon:active {
+  color: hsl(0deg 100% 25%);;
 }
 
 .identity {

@@ -151,9 +151,6 @@
           </a>
         {% endif %}
         {% if request.user.is_authenticated %}
-          <a href="{% url 'qr_catalog' %}" class="noicon">
-            {% translate "found" %}
-          </a>
           <a href="{% url 'qr_current' %}" class="noicon">
             {% translate "current" %}
           </a>
