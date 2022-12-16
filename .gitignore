@@ -3,3 +3,4 @@ __pycache__
 scavenger2022/db.sqlite3
 *.pyc
 scavenger2022/venv/
+.mypy_cache
