@@ -32,13 +32,17 @@ main, header {
   font-weight: 700;
 }
 
-main > h1 {
+h1 {
   margin: 0 0 1rem 0;
-  font-weight: 700;
-  font-size: 1.6rem;
+  font-weight: 400;
+  font-size: 1.8rem;
   text-align: center;
 }
 
+h2 {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
 
 main {
   text-align: center;
