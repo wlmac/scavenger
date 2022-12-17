@@ -4,12 +4,12 @@
 
 {% block title %}
     {% comment %} TODO: Create a progress bar (or some percentage indicator) {% endcomment %}
-    Logic Clues
+    {% translate 'Logic Clues' %}
 {% endblock %}
 
 {% block body %}
     <ul class="logic_container">
-        <h2>All of your logic clues so far</h2>
+	    <h2>{% translate "All of your logic clues so far" %}</h2>
         {% for clue in logic_clues %}
            <li>{{ clue }}</li>
         {% endfor %}

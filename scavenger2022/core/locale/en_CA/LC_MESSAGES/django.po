@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-17 00:53+0000\n"
+"POT-Creation-Date: 2022-12-17 01:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,11 +41,56 @@ msgstr ""
 msgid "current"
 msgstr ""
 
-#: core/templates/core/base.html:163
+#: core/templates/core/base.html:163 core/templates/core/logout.html:6
 msgid "Logout"
 msgstr ""
 
-#: core/templates/core/index.html:20
+#: core/templates/core/credits.html:6
+msgid "Credits"
+msgstr ""
+
+#: core/templates/core/credits.html:10
+msgid "credits"
+msgstr ""
+
+#: core/templates/core/credits.html:14
+msgid ""
+"\n"
+"project manager: ApocalypseCalculator<br />\n"
+"programming: nyiyui, JasonLovesDoggo, Jimmy Liu, cheollie, and Misheel "
+"Batkhuu<br />\n"
+"UI/UX design: cheollie<br />\n"
+"support: <a href=\"https://maclyonsden.com\">project metropolis</a> and "
+"SAC<br />\n"
+msgstr ""
+
+#: core/templates/core/credits.html:20
+msgid "hints"
+msgstr ""
+
+#: core/templates/core/gate.html:6 core/templates/core/index.html:6
+msgid "Scavenger Hunt"
+msgstr ""
+
+#: core/templates/core/gate.html:11
+msgid "The hunt has not begun yet."
+msgstr ""
+
+#: core/templates/core/gate.html:14
+#, python-format
+msgid ""
+"\n"
+"Please <a href=\"%(login_url)s\">login</a>.\n"
+msgstr ""
+
+#: core/templates/core/index.html:11
+#, python-format
+msgid ""
+"\n"
+"welcome, %(username)s!\n"
+msgstr ""
+
+#: core/templates/core/index.html:23
 #, python-format
 msgid ""
 "\n"
@@ -54,7 +99,7 @@ msgid ""
 "  "
 msgstr ""
 
-#: core/templates/core/index.html:26
+#: core/templates/core/index.html:29
 #, python-format
 msgid ""
 "\n"
@@ -63,14 +108,14 @@ msgid ""
 "    "
 msgstr ""
 
-#: core/templates/core/index.html:33
+#: core/templates/core/index.html:36
 msgid ""
 "\n"
 "        you're going solo\n"
 "      "
 msgstr ""
 
-#: core/templates/core/index.html:37
+#: core/templates/core/index.html:40
 #, python-format
 msgid ""
 "\n"
@@ -78,20 +123,40 @@ msgid ""
 "      "
 msgstr ""
 
-#: core/templates/core/index.html:45
+#: core/templates/core/index.html:48 core/templates/core/team_join.html:10
 msgid "join a team"
 msgstr ""
 
-#: core/templates/core/index.html:48
+#: core/templates/core/index.html:51 core/templates/core/team_new.html:10
 msgid "make a team"
 msgstr ""
 
-#: core/templates/core/index.html:54
+#: core/templates/core/index.html:57
 msgid "go solo "
+msgstr ""
+
+#: core/templates/core/logic_hints.html:8
+msgid "Logic Clues"
+msgstr ""
+
+#: core/templates/core/logic_hints.html:13
+msgid "All of your logic clues so far"
+msgstr ""
+
+#: core/templates/core/logout.html:10 core/templates/core/logout.html:16
+msgid "logout"
+msgstr ""
+
+#: core/templates/core/qr.html:10
+msgid "Hint"
 msgstr ""
 
 #: core/templates/core/qr.html:32
 msgid "your team found:"
+msgstr ""
+
+#: core/templates/core/qr.html:36
+msgid "change"
 msgstr ""
 
 #: core/templates/core/qr.html:44
@@ -106,6 +171,14 @@ msgstr ""
 msgid "thank you for playing!"
 msgstr ""
 
+#: core/templates/core/team_invite.html:7
+msgid "Invite Members"
+msgstr ""
+
+#: core/templates/core/team_invite.html:11
+msgid "invite members"
+msgstr ""
+
 #: core/templates/core/team_invite.html:28
 #, python-format
 msgid ""
@@ -118,12 +191,28 @@ msgid ""
 "    "
 msgstr ""
 
+#: core/templates/core/team_join.html:6
+msgid "Join a Team"
+msgstr ""
+
 #: core/templates/core/team_join.html:14
 msgid "either enter your team's join code"
 msgstr ""
 
+#: core/templates/core/team_join.html:18
+msgid "Join"
+msgstr ""
+
 #: core/templates/core/team_join.html:20
 msgid "or, scan your team's QR code"
+msgstr ""
+
+#: core/templates/core/team_new.html:6
+msgid "Make a Team"
+msgstr ""
+
+#: core/templates/core/team_new.html:27
+msgid "make"
 msgstr ""
 
 #: core/views/qr.py:28

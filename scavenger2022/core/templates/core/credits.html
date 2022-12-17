@@ -3,19 +3,21 @@
 {% load static %}
 
 {% block title %}
-Credits
+{% translate "Credits" %}
 {% endblock %}
 
 {% block header %}
-credits
+{% translate "credits" %}
 {% endblock %}
 
 {% block body %}
+{% blocktranslate %}
 project manager: ApocalypseCalculator<br />
 programming: nyiyui, JasonLovesDoggo, Jimmy Liu, cheollie, and Misheel Batkhuu<br />
 UI/UX design: cheollie<br />
 support: <a href="https://maclyonsden.com">project metropolis</a> and SAC<br />
-<h2>hints</h2>
+{% endblocktranslate %}
+<h2>{% translate "hints" %}</h2>
 <ul class="nodot">
   {% for u in hintsetters %}
     <li>

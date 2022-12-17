@@ -1,12 +1,13 @@
 {% extends "core/base.html" %}
+{% load i18n %}
 {% load static %}
 
 {% block title %}
-Make a Team
+{% translate "Make a Team" %}
 {% endblock %}
 
 {% block header %}
-make a team
+{% translate "make a team" %}
 {% endblock %}
 
 {% block head_end %}
@@ -23,6 +24,6 @@ make a team
   <form action="{% url 'team_new' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input class="button" type="submit" value="make" />
+    <input class="button" type="submit" value="{% translate 'make' %}" />
   </form>
 {% endblock %}

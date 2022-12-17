@@ -3,11 +3,14 @@
 {% load static %}
 
 {% block title %}
-Scavenger Hunt
+{% translate "Scavenger Hunt" %}
 {% endblock %}
 
 {% block header %}
-welcome, {{ request.user.username }}!
+{{ request.user.username as username }}
+{% blocktranslate %}
+welcome, {{ username }}!
+{% endblocktranslate %}
 {% endblock %}
 
 {% block head_end %}

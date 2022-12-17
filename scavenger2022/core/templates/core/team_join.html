@@ -3,11 +3,11 @@
 {% load static %}
 
 {% block title %}
-Join a Team
+{% translate "Join a Team" %}
 {% endblock %}
 
 {% block header %}
-join a team
+{% translate "join a team" %}
 {% endblock %}
 
 {% block body %}
@@ -15,7 +15,7 @@ join a team
   <form action="{% url 'join' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Join" />
+    <input type="submit" value="{% translate 'Join' %}" />
   </form>
   {% translate "or, scan your team's QR code" %}
 {% endblock %}
