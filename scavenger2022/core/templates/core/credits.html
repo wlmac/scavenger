@@ -12,16 +12,11 @@ credits
 
 {% block body %}
 project manager: ApocalypseCalculator<br />
-programming: nyiyui, JasonLovesDoggo, Jimmy Liu, cheollie, and Misheel Batkhuu<br />
-UI/UX design: cheollie<br />
+programming: Ken Shibata, Jason Cameron, Jimmy Liu, Glen Lin, Joshua Wang & Chelsea Wong <br />
+content: Misheel Batkhuu <br/>
+UI/UX design: Chelsea Wong<br />
 support: <a href="https://maclyonsden.com">project metropolis</a> and SAC<br />
 <h2>hints</h2>
-<ul class="nodot">
-  {% for u in hintsetters %}
-    <li>
-      <a href="https://maclyonsden.com/user/{{ u.username }}">{{ u.username }}</a>
-    </li>
-  {% endfor %}
-</ul>
+{{ hintsetters|safe }}
 {% endblock %}
 
