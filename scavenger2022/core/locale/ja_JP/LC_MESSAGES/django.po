@@ -92,7 +92,7 @@ msgstr "未だ始まってないよ〜"
 msgid ""
 "\n"
 "Please <a href=\"%(login_url)s\">login</a>.\n"
-msgstr "\n<a href=\"%(login_url)s\">ログイン</a>してね。"
+msgstr "\n<a href=\"%(login_url)s\">ログイン</a>してね。\n"
 
 #: core/templates/core/index.html:11
 #, python-format
@@ -101,7 +101,7 @@ msgid ""
 "welcome, %(username)s!\n"
 msgstr ""
 "\n"
-"$(username)s、ようこそ！"
+"%(username)s、ようこそ！\n"
 
 #: core/templates/core/index.html:23
 #, python-format
