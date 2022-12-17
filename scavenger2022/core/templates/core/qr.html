@@ -6,7 +6,7 @@
 
 {% block title %}
     {% comment %} TODO: Create a progress bar (or some percentage indicator) {% endcomment %}
-    Hint
+    {% translate "Hint" %}
 {% endblock %}
 
 {% block head_end %}
@@ -32,7 +32,7 @@
             {% hint qr request.user.team as hint %}
 	    <span class="hint">{{ hint |mistune }}</span>
             {% if request.user.is_superuser %}
-                <br />({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">change</a>)
+	    <br />({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)
             {% endif %}
         </div>
     {% endif %}
@@ -63,7 +63,7 @@
                 </div>
             {% endif %}
         {% else %}
-            {% translate 'thank you for playing!' %}
+            {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
     </div>
 {% endblock %}

@@ -4,11 +4,11 @@
 {% load qr %}
 
 {% block title %}
-Invite Members
+{% translate "Invite Members" %}
 {% endblock %}
 
 {% block header %}
-Invite Members
+{% translate "invite members" %}
 {% endblock %}
 
 {% block head_end %}
@@ -24,11 +24,12 @@ Invite Members
 
 {% block body %}
   {% for invite in request.user.team.invites.all %}
-    {% join_url invite.code as join_link%}
+    {% join_url invite.code as join_link %}
     {% blocktranslate %}
-      either you can
+      you may either
       <input type="button" value="copy the join link" id="share-btn" data-share-text="share the join link" data-join-link="{{ join_link }}" />,
-      or let them scan the QR code below:
+      invite via code (<code>{{ invite.code }}</code>),
+      or allow them to scan the QR code below:
     {% endblocktranslate %}
     <div class="qrcode" id="qrcode"></div>
   {% endfor %}

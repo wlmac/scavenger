@@ -3,16 +3,16 @@
 {% load static %}
 
 {% block title %}
-Logout
+{% translate "Logout" %}
 {% endblock %}
 
 {% block header %}
-logout
+{% translate "logout" %}
 {% endblock %}
 
 {% block body %}
   <form style="display: inline;" action="{% url 'account_logout' %}" method="post">
     {% csrf_token %}
-    <input class="fakea" type="submit" value="logout" />
+    <input class="fakea" type="submit" value="{% translate 'logout' %}" />
   </form>
 {% endblock %}

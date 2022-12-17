@@ -3,12 +3,15 @@
 {% load static %}
 
 {% block title %}
-Scavenger Hunt
+{% translate "Scavenger Hunt" %}
 {% endblock %}
 
 {% block body %}
 {% if START_BEFORE %}
-    The hunt has not begun yet.
+  {% translate "The hunt has not begun yet." %}
 {% endif %}
-Please <a href="{% url 'oauth_login' %}">login</a>.
+{% url 'oauth_login' as login_url %}
+{% blocktranslate %}
+Please <a href="{{ login_url }}">login</a>.
+{% endblocktranslate %}
 {% endblock %}

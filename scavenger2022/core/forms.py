@@ -23,10 +23,10 @@ class TeamMakeForm(forms.ModelForm):
 class TeamJoinForm(forms.Form):
     code = forms.CharField(
         label=_l("join code"),
-        max_length=6,
+        max_length=8,
         strip=True,
         required=True,
-        widget=forms.TextInput(attrs={"placeholder": "1a2b3c"}),
+        widget=forms.TextInput(attrs={"placeholder": "1a2b3c4d"}),
     )
 
 

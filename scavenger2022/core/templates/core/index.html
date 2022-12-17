@@ -3,11 +3,13 @@
 {% load static %}
 
 {% block title %}
-Scavenger Hunt
+{% translate "Scavenger Hunt" %}
 {% endblock %}
 
 {% block header %}
-welcome, {{ request.user.username }}!
+{% blocktranslate with username=request.user.username %}
+welcome, {{ username }}!
+{% endblocktranslate %}
 {% endblock %}
 
 {% block head_end %}
@@ -24,7 +26,7 @@ welcome, {{ request.user.username }}!
   {% if not request.user.team.solo %}
     {% url 'team_invite' as invite_url %}
     {% blocktranslate %}
-      or, do you still want to <a href="{{ invite_url }}">invite team members</a>?
+      or, would you like to <a href="{{ invite_url }}">invite more team members</a>?
     {% endblocktranslate %}
   {% endif %}
 {% else %}
