@@ -52,7 +52,7 @@ msgid ""
 "    the hunt has started! go decrypt your <a href=\"%(first_url)s\">first "
 "hint</a>!\n"
 "  "
-msgstr "がらくた集め、開始！<a href=\"%(first_url)s\">最初の二次元コード</a>を当てて！"
+msgstr "\nがらくた集め、開始！<a href=\"%(first_url)s\">最初の二次元コード</a>を当てて！"
 
 #: core/templates/core/index.html:26
 #, python-format
@@ -61,14 +61,14 @@ msgid ""
 "      or, do you still want to <a href=\"%(invite_url)s\">invite team "
 "members</a>?\n"
 "    "
-msgstr "未だ<a href=\"%(invite_url)s\">メンバー招待</a>も出来るよ。"
+msgstr "\n未だ<a href=\"%(invite_url)s\">メンバー招待</a>も出来るよ。"
 
 #: core/templates/core/index.html:33
 msgid ""
 "\n"
 "        you're going solo\n"
 "      "
-msgstr "ソロでする？"
+msgstr "\nソロでする？"
 
 #: core/templates/core/index.html:37
 #, python-format
@@ -76,7 +76,7 @@ msgid ""
 "\n"
 "        your team: %(team)s\n"
 "      "
-msgstr "あなたのチーム：%(team)s"
+msgstr "\nあなたのチーム：%(team)s"
 
 #: core/templates/core/index.html:45
 msgid "join a team"
@@ -116,7 +116,7 @@ msgid ""
 ">,\n"
 "      or let them scan the QR code below:\n"
 "    "
-msgstr "<input type=\"button\" value=\"参加リンクをコピー\" id=\"share-btn\" "
+msgstr "\n<input type=\"button\" value=\"参加リンクをコピー\" id=\"share-btn\" "
 "data-share-text=\"参加リンクを共有\" data-join-link=\"%(join_link)s\" /"
 ">するか、下記の二次元コードをスキャンしてにゃ："
 
