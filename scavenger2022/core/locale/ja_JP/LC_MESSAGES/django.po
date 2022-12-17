@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-17 01:39+0000\n"
+"POT-Creation-Date: 2022-12-17 20:51+0000\n"
 "PO-Revision-Date: 2022-12-16 20:24+EST\n"
 "Last-Translator: にぃゆい <+@nyiyui.ca>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,62 +18,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: core/templates/core/base.html:22
-msgid "starts in:"
-msgstr "開始時間："
+msgid "starts in"
+msgstr "あと"
 
 #: core/templates/core/base.html:23
-msgid "ends in:"
-msgstr "終了時間："
+msgid "__startsPost"
+msgstr "で始まるにゃ"
 
 #: core/templates/core/base.html:24
+msgid "__endsPre"
+msgstr "あと"
+
+#: core/templates/core/base.html:25
+msgid "remaining"
+msgstr "だよ〜"
+
+#: core/templates/core/base.html:26
 msgid "scavenger hunt ended!"
 msgstr "終了〜！"
 
-#: core/templates/core/base.html:145
+#: core/templates/core/base.html:148
 msgid "Home"
 msgstr "ホーム"
 
-#: core/templates/core/base.html:152
+#: core/templates/core/base.html:155
 msgid "Admin"
 msgstr "管理"
 
-#: core/templates/core/base.html:158
+#: core/templates/core/base.html:161
 msgid "current"
 msgstr "最新ヒント"
 
-#: core/templates/core/base.html:163 core/templates/core/logout.html:6
+#: core/templates/core/base.html:166 core/templates/core/logout.html:6
 msgid "Logout"
 msgstr "ログアウト"
-
-#: core/templates/core/credits.html:6
-msgid "Credits"
-msgstr "Credits"
-
-#: core/templates/core/credits.html:10
-msgid "credits"
-msgstr "credits"
-
-#: core/templates/core/credits.html:14
-msgid ""
-"\n"
-"project manager: ApocalypseCalculator<br />\n"
-"programming: nyiyui, JasonLovesDoggo, Jimmy Liu, cheollie, and Misheel "
-"Batkhuu<br />\n"
-"UI/UX design: cheollie<br />\n"
-"support: <a href=\"https://maclyonsden.com\">project metropolis</a> and "
-"SAC<br />\n"
-msgstr ""
-"\n"
-"project manager: ApocalypseCalculator<br />\n"
-"programming: nyiyui, JasonLovesDoggo, Jimmy Liu, cheollie, and Misheel "
-"Batkhuu<br />\n"
-"UI/UX design: cheollie<br />\n"
-"support: <a href=\"https://maclyonsden.com\">project metropolis</a> and "
-"SAC<br />\n"
-
-#: core/templates/core/credits.html:20
-msgid "hints"
-msgstr "ヒント"
 
 #: core/templates/core/gate.html:6 core/templates/core/index.html:6
 #, fuzzy
@@ -92,9 +70,11 @@ msgstr "未だ始まってないよ〜"
 msgid ""
 "\n"
 "Please <a href=\"%(login_url)s\">login</a>.\n"
-msgstr "\n<a href=\"%(login_url)s\">ログイン</a>してね。\n"
+msgstr ""
+"\n"
+"<a href=\"%(login_url)s\">ログイン</a>してね。\n"
 
-#: core/templates/core/index.html:11
+#: core/templates/core/index.html:10
 #, python-format
 msgid ""
 "\n"
@@ -103,7 +83,7 @@ msgstr ""
 "\n"
 "%(username)s、ようこそ！\n"
 
-#: core/templates/core/index.html:23
+#: core/templates/core/index.html:22
 #, python-format
 msgid ""
 "\n"
@@ -115,18 +95,23 @@ msgstr ""
 "がらくた集め、開始！<a href=\"%(first_url)s\">最初の二次元コード</a>を当て"
 "て！"
 
-#: core/templates/core/index.html:29
-#, python-format
+#: core/templates/core/index.html:28
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "      or, do you still want to <a href=\"%(invite_url)s\">invite team "
+#| "members</a>?\n"
+#| "    "
 msgid ""
 "\n"
-"      or, do you still want to <a href=\"%(invite_url)s\">invite team "
+"      or, would you like to <a href=\"%(invite_url)s\">invite more team "
 "members</a>?\n"
 "    "
 msgstr ""
 "\n"
 "未だ<a href=\"%(invite_url)s\">メンバー招待</a>も出来るよ。"
 
-#: core/templates/core/index.html:36
+#: core/templates/core/index.html:35
 msgid ""
 "\n"
 "        you're going solo\n"
@@ -135,7 +120,7 @@ msgstr ""
 "\n"
 "ソロプレイ"
 
-#: core/templates/core/index.html:40
+#: core/templates/core/index.html:39
 #, python-format
 msgid ""
 "\n"
@@ -145,25 +130,17 @@ msgstr ""
 "\n"
 "チームプレイ：%(team)s"
 
-#: core/templates/core/index.html:48 core/templates/core/team_join.html:10
+#: core/templates/core/index.html:47 core/templates/core/team_join.html:10
 msgid "join a team"
 msgstr "チームに参加"
 
-#: core/templates/core/index.html:51 core/templates/core/team_new.html:10
+#: core/templates/core/index.html:50 core/templates/core/team_new.html:10
 msgid "make a team"
 msgstr "チームを作る"
 
 #: core/templates/core/index.html:57
 msgid "go solo "
 msgstr "ソロプレイ"
-
-#: core/templates/core/logic_hints.html:8
-msgid "Logic Clues"
-msgstr ""
-
-#: core/templates/core/logic_hints.html:13
-msgid "All of your logic clues so far"
-msgstr ""
 
 #: core/templates/core/logout.html:10 core/templates/core/logout.html:16
 #, fuzzy
@@ -192,8 +169,10 @@ msgid "your next hint is:"
 msgstr "次のヒントは："
 
 #: core/templates/core/qr.html:68
-msgid "thank you for playing!"
-msgstr "やってくれてありがとう！(*˘︶˘*).｡.:*♡"
+msgid ""
+"Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> "
+"Congratulations valiant scavenger and thank you for playing!"
+msgstr ""
 
 #: core/templates/core/team_invite.html:7
 msgid "Invite Members"
@@ -204,14 +183,23 @@ msgid "invite members"
 msgstr "チームに招待"
 
 #: core/templates/core/team_invite.html:28
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "      either you can\n"
+#| "      <input type=\"button\" value=\"copy the join link\" id=\"share-btn"
+#| "\" data-share-text=\"share the join link\" data-join-link=\"%(join_link)s"
+#| "\" />,\n"
+#| "      or let them scan the QR code below:\n"
+#| "    "
 msgid ""
 "\n"
-"      either you can\n"
+"      you may either\n"
 "      <input type=\"button\" value=\"copy the join link\" id=\"share-btn\" "
 "data-share-text=\"share the join link\" data-join-link=\"%(join_link)s\" /"
 ">,\n"
-"      or let them scan the QR code below:\n"
+"      invite via code (<code>%(invite.code)s</code>),\n"
+"      or allow them to scan the QR code below:\n"
 "    "
 msgstr ""
 "\n"
@@ -277,3 +265,35 @@ msgstr "もう始まったから、新しいチーム作るのはダメだよ。
 #, python-format
 msgid "Made team %(team_name)s"
 msgstr "チーム%(team_name)sをつくったよ。"
+
+#~ msgid "ends in:"
+#~ msgstr "終了時間："
+
+#~ msgid "Credits"
+#~ msgstr "Credits"
+
+#~ msgid "credits"
+#~ msgstr "credits"
+
+#~ msgid ""
+#~ "\n"
+#~ "project manager: ApocalypseCalculator<br />\n"
+#~ "programming: nyiyui, JasonLovesDoggo, Jimmy Liu, cheollie, and Misheel "
+#~ "Batkhuu<br />\n"
+#~ "UI/UX design: cheollie<br />\n"
+#~ "support: <a href=\"https://maclyonsden.com\">project metropolis</a> and "
+#~ "SAC<br />\n"
+#~ msgstr ""
+#~ "\n"
+#~ "project manager: ApocalypseCalculator<br />\n"
+#~ "programming: nyiyui, JasonLovesDoggo, Jimmy Liu, cheollie, and Misheel "
+#~ "Batkhuu<br />\n"
+#~ "UI/UX design: cheollie<br />\n"
+#~ "support: <a href=\"https://maclyonsden.com\">project metropolis</a> and "
+#~ "SAC<br />\n"
+
+#~ msgid "hints"
+#~ msgstr "ヒント"
+
+#~ msgid "thank you for playing!"
+#~ msgstr "やってくれてありがとう！(*˘︶˘*).｡.:*♡"

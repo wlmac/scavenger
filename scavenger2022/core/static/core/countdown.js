@@ -1,5 +1,6 @@
 const e = document.getElementById("countdown")
-const eText = document.getElementById("countdown-text")
+const eTextPre = document.getElementById("countdown-text-pre")
+const eTextPost = document.getElementById("countdown-text-post")
 
 function assertClass(classList, className, contains) {
   if (contains) {
@@ -9,7 +10,7 @@ function assertClass(classList, className, contains) {
   }
 }
 
-const newCalculateTime = (start, end, starts, ends, ended) => () => {
+const newCalculateTime = (start, end, startsPre, startsPost, endsPre, endsPost, ended) => () => {
   let started = false
   let finished = false
   let d = Math.floor((end - Date.now()) / 1000)
@@ -43,7 +44,13 @@ const newCalculateTime = (start, end, starts, ends, ended) => () => {
     assertClass(e.classList, "soon-very2", d < 60 && d >= 10)
     assertClass(e.classList, "soon-very3", d < 10)
   }
-  eText.innerText = started ? (finished ? ended : ends) : starts
+  // TODO: js i18n
+  startsPre = startsPre.startsWith('__') ? '' : startsPre
+  startsPost = startsPost.startsWith('__') ? '' : startsPost
+  endsPre = endsPre.endsWith('__') ? '' : endsPre
+  endsPost = endsPost.endsWith('__') ? '' : endsPost
+  eTextPre.innerText = started ? (finished ? endedPre : endsPre) : startsPre
+  eTextPost.innerText = started ? (finished ? endedPost : endsPost) : startsPost
 }
 
 export default newCalculateTime
