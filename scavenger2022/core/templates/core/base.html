@@ -165,7 +165,10 @@
           </a>
         {% else %}
           <a href="{% url 'oauth_login' %}">
-            login
+            <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+            <span class="icon-alt">
+              {% translate "Login" %}
+            </span>
           </a>
         {% endif %}
       </span>
