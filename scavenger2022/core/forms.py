@@ -26,7 +26,7 @@ class TeamJoinForm(forms.Form):
         max_length=8,
         strip=True,
         required=True,
-        widget=forms.TextInput(attrs={"placeholder": "1a2b3c"}),
+        widget=forms.TextInput(attrs={"placeholder": "1a2b3c4d"}),
     )
 
 
