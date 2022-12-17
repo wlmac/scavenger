@@ -30,6 +30,7 @@
               types-requests
               django-stubs
             ]))
+            gettext
           ];
         };
       });
