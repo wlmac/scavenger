@@ -112,7 +112,6 @@ YASOI = dict(
 )
 
 MAX_TEAM_SIZE: Final[int] = 4
-FINAL_QR_ID: Final[int] = 0
 ALWAYS_LAST_QR_PK: Final[int] = 1
 ALWAYS_FIRST_QR_PK: Final[int] = 2
 HINTS_GROUP_PK: Final[int] = 1
