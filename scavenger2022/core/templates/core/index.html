@@ -26,7 +26,7 @@ welcome, {{ username }}!
   {% if not request.user.team.solo %}
     {% url 'team_invite' as invite_url %}
     {% blocktranslate %}
-      or, do you still want to <a href="{{ invite_url }}">invite team members</a>?
+      or, would you like to <a href="{{ invite_url }}">invite more team members</a>?
     {% endblocktranslate %}
   {% endif %}
 {% else %}
