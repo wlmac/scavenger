@@ -88,7 +88,7 @@ LOGIN_REDIRECT_URL = "/"
 
 AUTH_USER_MODEL = "core.User"
 
-LANGUAGE_CODE = "en_CA"
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "UTC"
 
