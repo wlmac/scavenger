@@ -8,11 +8,11 @@
 {% endblock %}
 
 {% block body %}
-    <ul class="logic_container">
+    <ol class="logic_container">
         <h2>All of your logic clues so far</h2>
         {% for clue in logic_clues %}
-           <li>{{ clue }}</li>
+           <li class="logic-hint">{{ clue }}</li>
         {% endfor %}
-    </ul>
+    </ol>
     <div class="padding"></div>
 {% endblock %}

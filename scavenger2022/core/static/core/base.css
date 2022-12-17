@@ -113,15 +113,23 @@ a:visited {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  padding-left: 0;
 }
 
 
 .logic_container > li {
   flex: 1 100%;
   text-align: center;
-  display: block;
   font-size: 1.17em;
   margin: 1em 0;
+  display: list-item;
+  list-style-position: inside;
+
+
+}
+.logic_container > li::before {
+        content: "\A";
+        white-space: pre;
 }
 
 .button {
