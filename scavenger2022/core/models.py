@@ -55,8 +55,9 @@ class QrCode(models.Model):
         pks = [a["pk"] for a in QrCode.objects.all().values("pk")]
         r.shuffle(pks)
         if isinstance((pk := settings.ALWAYS_LAST_QR_PK), int):
-            pks = pks[: (i := pks.index(pk))] + pks[i + 1 :]
-            pks.append(pk)
+            pks = pks[: (i := pks.index(pk))] + pks[i + 1 :] + [pk]
+        if isinstance((pk := settings.ALWAYS_FIRST_QR_PK), int):
+            pks = [pk] + pks[: (i := pks.index(pk))] + pks[i + 1 :]
         return pks
 
     def hint(self, team: "Team"):
