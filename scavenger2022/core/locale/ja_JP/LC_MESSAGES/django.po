@@ -1,0 +1,158 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-17 00:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: core/templates/core/base.html:22
+msgid "starts in:"
+msgstr "開始時間："
+
+#: core/templates/core/base.html:23
+msgid "ends in:"
+msgstr "終了時間："
+
+#: core/templates/core/base.html:24
+msgid "scavenger hunt ended!"
+msgstr "終了〜！"
+
+#: core/templates/core/base.html:145
+msgid "Home"
+msgstr "ホーム"
+
+#: core/templates/core/base.html:152
+msgid "Admin"
+msgstr "管理"
+
+#: core/templates/core/base.html:158
+msgid "current"
+msgstr "最新ヒント"
+
+#: core/templates/core/base.html:163
+msgid "Logout"
+msgstr "ログアウト"
+
+#: core/templates/core/index.html:20
+#, python-format
+msgid ""
+"\n"
+"    the hunt has started! go decrypt your <a href=\"%(first_url)s\">first "
+"hint</a>!\n"
+"  "
+msgstr "がらくた集め、開始！<a href=\"%(first_url)s\">最初の二次元コード</a>を当てて！"
+
+#: core/templates/core/index.html:26
+#, python-format
+msgid ""
+"\n"
+"      or, do you still want to <a href=\"%(invite_url)s\">invite team "
+"members</a>?\n"
+"    "
+msgstr "未だ<a href=\"%(invite_url)s\">メンバー招待</a>も出来るよ。"
+
+#: core/templates/core/index.html:33
+msgid ""
+"\n"
+"        you're going solo\n"
+"      "
+msgstr ""
+
+#: core/templates/core/index.html:37
+#, python-format
+msgid ""
+"\n"
+"        your team: %(team)s\n"
+"      "
+msgstr ""
+
+#: core/templates/core/index.html:45
+msgid "join a team"
+msgstr ""
+
+#: core/templates/core/index.html:48
+msgid "make a team"
+msgstr ""
+
+#: core/templates/core/index.html:54
+msgid "go solo "
+msgstr ""
+
+#: core/templates/core/qr.html:32
+msgid "your team found:"
+msgstr ""
+
+#: core/templates/core/qr.html:44
+msgid "your first hint is:"
+msgstr ""
+
+#: core/templates/core/qr.html:46
+msgid "your next hint is:"
+msgstr ""
+
+#: core/templates/core/qr.html:68
+msgid "thank you for playing!"
+msgstr ""
+
+#: core/templates/core/team_invite.html:28
+#, python-format
+msgid ""
+"\n"
+"      either you can\n"
+"      <input type=\"button\" value=\"copy the join link\" id=\"share-btn\" "
+"data-share-text=\"share the join link\" data-join-link=\"%(join_link)s\" /"
+">,\n"
+"      or let them scan the QR code below:\n"
+"    "
+msgstr ""
+
+#: core/templates/core/team_join.html:14
+msgid "either enter your team's join code"
+msgstr ""
+
+#: core/templates/core/team_join.html:20
+msgid "or, scan your team's QR code"
+msgstr ""
+
+#: core/views/qr.py:28
+msgid "Please join a team or choose to go solo before getting a hint."
+msgstr ""
+
+#: core/views/qr.py:46
+msgid "Contest has not started yet."
+msgstr ""
+
+#: core/views/team.py:23
+msgid "Since the hunt has already begun, switching teams is disallowed."
+msgstr ""
+
+#: core/views/team.py:40
+#, python-format
+msgid "Joined team %(team_name)s"
+msgstr ""
+
+#: core/views/team.py:46
+#, python-format
+msgid "Team %(team_name)s is full."
+msgstr ""
+
+#: core/views/team.py:63
+msgid "Since the hunt has already begun, making new teams is disallowed."
+msgstr ""
+
+#: core/views/team.py:76
+#, python-format
+msgid "Made team %(team_name)s"
+msgstr ""
