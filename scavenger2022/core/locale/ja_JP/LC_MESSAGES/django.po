@@ -133,7 +133,7 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"ソロでする？"
+"ソロプレイ"
 
 #: core/templates/core/index.html:40
 #, python-format
@@ -143,7 +143,7 @@ msgid ""
 "      "
 msgstr ""
 "\n"
-"あなたのチーム：%(team)s"
+"チームプレイ：%(team)s"
 
 #: core/templates/core/index.html:48 core/templates/core/team_join.html:10
 msgid "join a team"
