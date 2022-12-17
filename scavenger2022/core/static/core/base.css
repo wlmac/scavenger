@@ -40,8 +40,14 @@ h1 {
 }
 
 h2 {
+  margin: 0 0 0.5rem 0;
   font-size: 1.6rem;
   font-weight: 400;
+}
+
+ul {
+  margin: 0.5rem;
+  padding: 0.5rem;
 }
 
 main {
@@ -93,7 +99,7 @@ a:visited {
 
 .messages, .nodot {
   list-style: none;
-  padding: 1rem;
+  padding-left: 0;
 .}
 
 .imgicon {
