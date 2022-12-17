@@ -7,8 +7,7 @@
 {% endblock %}
 
 {% block header %}
-{{ request.user.username as username }}
-{% blocktranslate %}
+{% blocktranslate with username=request.user.username %}
 welcome, {{ username }}!
 {% endblocktranslate %}
 {% endblock %}
