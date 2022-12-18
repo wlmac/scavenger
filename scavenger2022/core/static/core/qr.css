@@ -1,5 +1,5 @@
 main {
-  text-align: left;
+  text-align: center;
 }
 
 .buffer {
@@ -16,6 +16,7 @@ main {
 .hint,
 .hint-top {
   font-size: 1.8rem;
+  text-align: center;
 }
 
 .padding {
@@ -24,4 +25,8 @@ main {
 
 .logic {
   font-size: 2rem
+}
+.container {
+  display: grid;
+  place-items: center;
 }

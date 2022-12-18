@@ -26,8 +26,9 @@
 {% endblock %}
 
 {% block body %}
+    <div class="text-container">
     {% if not first %}
-        <div class="buffer">
+        <div>
             {% translate "your team found:" %} <br />
             {% hint qr request.user.team as hint %}
 	    <span class="hint">{{ hint |mistune }}</span>
@@ -65,5 +66,6 @@
         {% else %}
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
-    </div>
+    </div></div>
+
 {% endblock %}
