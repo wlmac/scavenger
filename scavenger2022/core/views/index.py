@@ -16,8 +16,11 @@ def index(q):
 @require_http_methods(["GET"])
 def credits(q):
     try:
-        g = Group.objects.get(id=settings.HINTS_GROUP_PK)
+        hintsetters = User.objects.filter(
+            groups__in=[
+                Group.objects.get(id=settings.HINTS_GROUP_PK),
+            ]
+        ).all()
     except Group.DoesNotExist:
         hintsetters = []
-    hintsetters = User.objects.filter(groups__in=[g]).all()
     return render(q, "core/credits.html", dict(hintsetters=hintsetters))
