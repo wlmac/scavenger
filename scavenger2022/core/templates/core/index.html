@@ -49,7 +49,8 @@ welcome, {{ username }}!
       <li>
         <a class="button" href="{% url 'team_new' %}">{% translate "make a team" %}</a>
       </li>
-    {% elif not request.user.in_team or not request.user.team.solo %}
+    {% endif %}
+    {% if not request.user.in_team or not request.user.team.solo %}
       <li>
         <form action="{% url 'team_solo' %}" method="post">
             {% csrf_token %}

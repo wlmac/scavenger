@@ -17,9 +17,7 @@ def index(q):
 def credits(q):
     try:
         g = Group.objects.get(id=settings.HINTS_GROUP_PK)
-        hintsetters = ""
-        for user in User.objects.filter(groups__in=[g]):
-            hintsetters += f'<a href="https://maclyonsden.com/user/{user.get_full_name()}">{user.username}</a>, '
     except Group.DoesNotExist:
-        hintsetters = ""
-    return render(q, "core/credits.html", dict(hintsetters=hintsetters.rstrip(", ")))
+        hintsetters = []
+    hintsetters = User.objects.filter(groups__in=[g]).all()
+    return render(q, "core/credits.html", dict(hintsetters=hintsetters))

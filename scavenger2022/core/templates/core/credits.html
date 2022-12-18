@@ -3,20 +3,49 @@
 {% load static %}
 
 {% block title %}
-Credits
+{% translate 'Credits' %}
 {% endblock %}
 
 {% block header %}
-credits
+{% translate 'credits' %}
 {% endblock %}
 
 {% block body %}
-project manager: ApocalypseCalculator<br />
-programming: Ken Shibata, Jason Cameron, Jimmy Liu, Glen Lin, Joshua Wang & Chelsea Wong <br />
-content: Misheel Batkhuu <br/>
-UI/UX design: Chelsea Wong<br />
-support: <a href="https://maclyonsden.com">project metropolis</a> and SAC<br />
-<h2>hints</h2>
-{{ hintsetters|safe }}
-{% endblock %}
+<h2>{% translate 'project manager' %}</h2>
+<ul class="nodot">
+  <li>Patrick Lin</li>
+</ul>
 
+<h2>{% translate 'programming' %}</h2>
+<ul class="nodot">
+  <li>nyiyui</li>
+  <li>Jason Cameron</li>
+  <li>Jimmy Liu</li>
+  <li>Glen Lin</li>
+  <li>Joshua Wang</li>
+  <li>Chelsea Wong</li>
+</ul>
+
+<h2>{% translate 'content' %}</h2>
+<ul class="nodot">
+  <li>Misheel Batkhuu</li>
+</ul>
+
+<h2>{% translate 'UI/UX design' %}</h2>
+<ul class="nodot">
+  <li>Chelsea Wong</li>
+</ul>
+
+<h2>{% translate 'hints' %}</h2>
+<ul class="nodot">
+  {% for hs in hintsetters %}
+    <li>{{ hs.get_full_name }}</li>
+  {% endfor %}
+</ul>
+
+<h2>{% translate 'support' %}</h2>
+<ul class="nodot">
+  <li><a href="https://maclyonsden.com">project metropolis</a></li>
+  <li>Student Council</li>
+</ul>
+{% endblock %}
