@@ -1,10 +1,12 @@
 :root {
   --size: 1.4rem;
-  --bg: #fc5656;
+  --bg: #D93B3B;
   --fg: #eeeeee;
   --link: hsl(220deg 100% 90%);
   --linkv: hsl(260deg 100% 90%);
-  --accent: hsl(0deg 100% 83.3%);
+  --accent: #FFAAAA;
+  --cd-bg: #8A3131;
+  --cd-txt: #DCC1C1;
   /* #fc5656 */
 }
 
@@ -16,7 +18,7 @@
 
 body {
   margin: 0;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: var(--size);
   color: var(--fg);
   background: var(--bg);
@@ -68,6 +70,14 @@ body > nav {
   color: #f23749;
 }
 
+.cd_container {
+  width: calc(100vw - 2 * 1rem);
+  padding: 1rem;
+  color: var(--cd-txt);
+  background: var(--cd-bg);
+  
+}
+
 .spacer {
   float: right;
 }
@@ -76,7 +86,7 @@ body > nav {
   background: none !important;
   border: none;
   padding: 0 !important;
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: var(--size);
   color: var(--link);
   text-decoration: underline;
@@ -94,6 +104,7 @@ a:visited {
 .messages, .nodot {
   list-style: none;
   padding: 1rem;
+  margin: 0.5rem;
 .}
 
 .imgicon {
@@ -136,11 +147,11 @@ a:visited {
   background: var(--fg);
   transition: 0.3s;
   border: 0;
-  padding: 0.5rem;
+  padding: 0.8rem;
   font-size: var(--size);
-  font-family: 'Zen Kaku Gothic New', sans-serif;
+  font-family: 'Work Sans', sans-serif;
   font-weight: inherit;
-  color: #000 !important;
+  color: #943131 !important;
   /* TODO: match design font weight */
   text-decoration: none;
 }
@@ -194,6 +205,7 @@ a:visited {
 .identity {
   display: flex;
   flex-direction: column;
+  line-height: 1.5rem;
 }
 
 .identity > .team-name {

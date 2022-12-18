@@ -9,8 +9,7 @@
         <link rel="stylesheet" href="{% static 'core/base.css' %}" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;700&display=swap" rel="stylesheet">
-        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
         {% if START_BEFORE or END_BEFORE %}
           <script type="module">
@@ -36,7 +35,7 @@
 
 <div id="common-header">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     #common-nav {
       background: #073763;
     }
@@ -44,7 +43,7 @@
       margin: auto;
       max-width: 900px;
       font-size: 1rem;
-      font-family: 'Zen Kaku Gothic New', sans-serif;
+      font-family: 'Work Sans', sans-serif;
       font-weight: 400;
       color: #d0d0d0;
       padding: 4px;
@@ -109,7 +108,7 @@
     </main>
     <div style="flex-grow: 1;"></div>
     {% if START_BEFORE or END_BEFORE %}
-      <nav id="countdown-header">
+      <nav class="cd_container" id="countdown-header">
         <span id="countdown"></span>
         <span id="countdown-text"></span>
       </nav>
