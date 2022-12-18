@@ -12,18 +12,24 @@
 
 {% block head_end %}
 <style>
-  input#id_name {
-    flex-grow: 1;
-    width: 50px;
-    display: block;
-  }
+  .centered { display: flex; justify-content: center}
+    input {
+        background: inherit;
+        border: 2px solid #fff;
+        border-radius: 12px;
+        color: var(--fg);
+        font: inherit;
+        padding-left: 15px;
+    }
 </style>
 {% endblock %}
 
 {% block body %}
+    <div class="centered">
   <form action="{% url 'team_new' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input class="button" type="submit" value="{% translate 'make' %}" />
+    <input class="button" type="submit" value="{% translate 'create' %}" />
   </form>
+    </div>
 {% endblock %}

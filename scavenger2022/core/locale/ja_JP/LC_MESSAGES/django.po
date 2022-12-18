@@ -232,8 +232,8 @@ msgid "Make a Team"
 msgstr "チームを作る"
 
 #: core/templates/core/team_new.html:27
-msgid "make"
-msgstr "作る"
+msgid "create"
+msgstr "作成"
 
 #: core/views/qr.py:28
 msgid "Please join a team or choose to go solo before getting a hint."
