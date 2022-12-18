@@ -5,6 +5,7 @@ ul > li {
 ul > li {
   flex-grow: 1;
   display: flex;
+  justify-content: center;
 }
 
 ul > li :not(input).button {
