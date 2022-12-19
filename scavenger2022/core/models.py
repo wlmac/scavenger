@@ -102,6 +102,7 @@ class Team(models.Model):
 
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
+        self.save()
 
     @property
     def members(self):
@@ -124,7 +125,7 @@ class Team(models.Model):
 
     @property
     def qr_len(self):
-        """Amount of codes the team has completed (assuming no skips)"""
+        """Amount of codes the team has completed  (+1) (assuming no skips)"""
         return int(self.current_qr_i) + 1
 
     def __str__(self):

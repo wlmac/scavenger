@@ -65,7 +65,6 @@ def qr(request, key):
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     # TODO: check if they skipped?
     request.user.team.update_current_qr_i(i)
-    request.user.team.save()
     return render(request, "core/qr.html", context=context)
 
 
@@ -75,6 +74,10 @@ def qr(request, key):
 @after_start
 def qr_first(request):
     context = dict(first=True)
+    # check if the user is on the first qr code
+    # if request.user.team.current_qr_i != 0:
+    #    messages.error(request, _("You are not on the first QR code."))
+    #    return redirect(reverse("qr_current"))
     context["qr"] = QrCode.codes(request.user.team)[0]
     codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = QrCode.objects.get(id=codes[0])
