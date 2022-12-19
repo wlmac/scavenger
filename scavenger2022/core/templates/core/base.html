@@ -33,52 +33,6 @@
         {% block head_end %}{% endblock %}
     </head>
     <body>
-        <!-- GENDO START CommonHeader -->
-
-<div id="common-header">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-    #common-nav {
-      background: #073763;
-    }
-    #common-nav-inner {
-      margin: auto;
-      max-width: 900px;
-      font-size: 1rem;
-      font-family: 'Work Sans', sans-serif;
-      font-weight: 400;
-      color: #d0d0d0;
-      padding: 4px;
-    }
-    #common-nav-inner a {
-      color: #d0d0d0;
-      text-decoration: none;
-      padding-right: 10px;
-    }
-    #common-nav-inner a:hover {
-      text-decoration: underline;
-    }
-    #common-nav-inner .this {
-      color: #adadad;
-    }
-  </style>
-  <nav id="common-nav">
-    <div id="common-nav-inner">
-      <a href="https://maclyonsden.com" style="color: #fff;">
-        <img src="https://maclyonsden.com/static/core/img/themes/logos/dark-transparent.png" style="height: 27px; display: inline; vertical-align: middle;" alt="Metropolis logo" />
-        Metropolis
-      </a>
-      
-      
-        <a href="https://doodle.maclyonsden.com">Doodles</a>
-      
-      <span class="this">
-        Scavenger Hunt (2022)
-      </span>
-    </div>
-  </nav>
-</div>
-<!-- GENDO END CommonHeader -->
     <header>
       {% comment %} TODO: consider merging header and title {% endcomment %}
       {% if messages %}
