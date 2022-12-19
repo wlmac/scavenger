@@ -1,0 +1,12 @@
+<svg viewBox="0 0 216 81" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@900');
+      text {
+        font-family: 'Work Sans';
+      }
+    </style>
+  </defs>
+  <rect width="216" height="54" fill="#fff" />
+  <path id="curve" d="M0 54 c54 27,162 27,216 0" fill="#fff" />
+</svg>

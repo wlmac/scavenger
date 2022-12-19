@@ -1,4 +1,4 @@
-<svg viewBox="0 0 216 216" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="0 0 216 81" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@900');
@@ -7,9 +7,8 @@
       }
     </style>
   </defs>
-  <circle cx="0" cy="108" radius="5"/>
-  <path id="curve" d="M0 38 c54 -27,162 -27,216 0" fill="transparent" />
-  <text font-size="10" text-anchor="middle" x="108" y="9">
+  <path id="curve" d="M0 56 c54 -27,162 -27,216 0" fill="#0000" />
+  <text font-size="10" text-anchor="middle" x="108" y="27">
     SACMAS
   </text>
   <text>

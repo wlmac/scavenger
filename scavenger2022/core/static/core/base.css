@@ -257,3 +257,10 @@ input:placeholder {
 pre {
   white-space: pre-wrap;
 }
+
+.deco27 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+}
