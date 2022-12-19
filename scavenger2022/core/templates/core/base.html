@@ -3,40 +3,41 @@
 {% load base %}
 <!DOCTYPE html>
 <html lang="{{ get_current_language }}">
-    <head>
-        <title>{% block title %}{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="{% static 'core/base.css' %}" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
-	<link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-        {% if START_BEFORE or END_BEFORE %}
-          <script type="module">
-            import newCalculateTime from "{% static 'core/countdown.js' %}"
+  <head>
+      <title>{% block title %}{% endblock %}</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" href="{% static 'core/base.css' %}" />
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
+      <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+      <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+      {% if START_BEFORE or END_BEFORE %}
+        <script type="module">
+          import newCalculateTime from "{% static 'core/countdown.js' %}"
 
-            const calculateTime = newCalculateTime(
-              {{ START.timestamp }} * 1000,
-              {{ END.timestamp }} * 1000,
-	      "{% translate 'starts in' %}",
-	      "{% translate '__startsPost' %}",
-	      "{% translate '__endsPre' %}",
-	      "{% translate 'remaining' %}",
-              "{% translate 'scavenger hunt ended!' %}",
-            )
+          const calculateTime = newCalculateTime(
+            {{ START.timestamp }} * 1000,
+            {{ END.timestamp }} * 1000,
+            "{% translate 'starts in' %}",
+            "{% translate '__startsPost' %}",
+            "{% translate '__endsPre' %}",
+            "{% translate 'remaining' %}",
+            "{% translate 'scavenger hunt ended!' %}",
+          )
 
-            calculateTime()
+          calculateTime()
 
-            setInterval(calculateTime, 1000)
-          </script>
-        {% endif %}
-        {% block head_end %}{% endblock %}
-    </head>
-    <body>
+          setInterval(calculateTime, 1000)
+        </script>
+      {% endif %}
+      {% block head_end %}{% endblock %}
+  </head>
+  <body>
+    <div style="margin: 0; padding: 0; height: 10rem;"></div>
+    <object class="deco27" style="height: 10rem;" data="{% static 'core/overcast.svg' %}" type="image/svg+xml" role="presentation"></object>
+    <object class="deco27" style="max-height: 10rem;" data="{% static 'core/banner.svg' %}" type="image/svg+xml" role="presentation"></object>
     <header>
-      <object class="deco27" style="height: 10rem;" data="{% static 'core/overcast.svg' %}" type="image/svg+xml" role="presentation"></object>
-      <object class="deco27" style="max-height: 10rem;" data="{% static 'core/banner.svg' %}" type="image/svg+xml" role="presentation"></object>
       {% comment %} TODO: consider merging header and title {% endcomment %}
       {% if messages %}
       <ul class="messages">
