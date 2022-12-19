@@ -7,6 +7,6 @@
       }
     </style>
   </defs>
-  <rect width="216" height="54" fill="#fff" />
+  <rect width="216" height="55" fill="#fff" />
   <path id="curve" d="M0 54 c54 27,162 27,216 0" fill="#fff" />
 </svg>
