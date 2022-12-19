@@ -12,7 +12,7 @@ class User(AbstractUser):
     metropolis_id = models.IntegerField()
     refresh_token = models.CharField(max_length=128)
     team = models.ForeignKey(
-        "Team", related_name="members", on_delete=models.CASCADE, blank=True, null=True
+        "Team", related_name="members", on_delete=models.SET_NULL, blank=True, null=True
     )
 
     @property
@@ -181,6 +181,7 @@ class LogicPuzzleHint(models.Model):
     @classmethod
     def get_clue(cls, team: Team) -> str | None:
         try:
+            print(team.qr_len, "hielo")
             hint = cls.objects.get(qr_index=team.qr_len)
             return hint.hint
         except cls.DoesNotExist:
