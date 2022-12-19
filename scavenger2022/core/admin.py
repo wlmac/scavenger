@@ -31,7 +31,7 @@ class LogicPuzzleAdmin(admin.ModelAdmin):
 
 
 class TeamAdmin(admin.ModelAdmin):
-    readonly_fields = ("current_qr_i", "path")
+    readonly_fields = ("path",)
     inlines = [
         InviteInLine,
     ]
