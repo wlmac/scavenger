@@ -56,9 +56,11 @@ class QrCode(models.Model):
         pks = pks[: settings.PATH_LENGTH]
         r.shuffle(pks)
         if isinstance((pk := settings.ALWAYS_LAST_QR_PK), int):
-            pks = pks[: (i := pks.index(pk))] + pks[i + 1 :] + [pk]
+            i = pks.index(pk) if pk in pks else r.randrange(0, len(pks))
+            pks = pks[:i] + pks[i + 1 :] + [pk]
         if isinstance((pk := settings.ALWAYS_FIRST_QR_PK), int):
-            pks = [pk] + pks[: (i := pks.index(pk))] + pks[i + 1 :]
+            i = pks.index(pk) if pk in pks else r.randrange(0, len(pks))
+            pks = [pk] + pks[:i] + pks[i + 1 :]
         return pks
 
     def hint(self, team: "Team"):
