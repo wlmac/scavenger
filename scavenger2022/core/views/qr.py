@@ -58,7 +58,10 @@ def after_start(f):
 def qr(request, key):
     context = dict(first=False)
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
-    i = (codes := QrCode.code_pks(request.user.team)).index(qr.id)
+    codes = QrCode.code_pks(request.user.team)
+    if qr.id not in codes:
+        return "wrong qr"
+    i = codes.index(qr.id)
     context["nextqr"] = (
         None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
     )
