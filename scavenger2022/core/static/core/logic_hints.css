@@ -1,0 +1,42 @@
+#kms {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: space-between;
+  max-width: 20rem; /* idk if this vals corr */
+}
+.bodge {
+  flex-grow: 1;
+}
+.logic_container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-left: 0;
+}
+
+.logic-hint{
+    margin: 0.5rem;
+}
+
+li {
+  flex: 1 100%;
+  text-align: left;
+  font-size: 1.17em;
+  margin: 1em 0;
+  /* display: list-item; */
+  list-style-position: inside;
+  list-style: none;
+}
+.li-num {
+    margin: 0.4rem;
+    margin-right: 0.5rem;
+    padding: 0.2rem 0.8rem;
+    list-style: decimal;
+  content: "kms\A";
+  /* white-space: pre; */
+  background: var(--fg);
+  color: var(--bg);
+}

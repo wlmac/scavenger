@@ -2,17 +2,26 @@
 {% load static %}
 {% load i18n %}
 
+{% block head_end %}
+    <link rel="stylesheet" href="{% static 'core/logic_hints.css' %}"/>
+{% endblock %}
+
 {% block title %}
     {% comment %} TODO: Create a progress bar (or some percentage indicator) {% endcomment %}
     Logic Clues
 {% endblock %}
 
 {% block body %}
+<h1>your found clues:</h1>
+<h3>(used to find the final QR code)</h3>
+<div id="kms">
     <ol class="logic_container">
-        <h2>All of your logic clues so far</h2>
         {% for clue in logic_clues %}
-           <li class="logic-hint">{{ clue }}</li>
+            <li class="logic-hint">
+                <span class="li-num" role="presentation" aria-hidden="true">{{ forloop.counter }}</span>
+                <span style="font-weight: 400">{{ clue }}</span>
+            </li>
         {% endfor %}
     </ol>
-    <div class="padding"></div>
+</div>
 {% endblock %}
