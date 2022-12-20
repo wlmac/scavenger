@@ -127,6 +127,9 @@ a:visited {
   margin: auto;
 }
 
+.button2 {
+  color:white;
+}
 
 .button {
   background: var(--fg);

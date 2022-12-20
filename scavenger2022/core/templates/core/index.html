@@ -57,7 +57,7 @@ welcome, {{ username }}!
       <li>
         <form action="{% url 'team_solo' %}" method="post">
             {% csrf_token %}
-            <input class="button" type="submit" value="{% translate 'go solo '%}" />
+            <input class="button button2" type="submit" value="{% translate 'go solo '%}" />
         </form>
       </li>
     {% endif %}
