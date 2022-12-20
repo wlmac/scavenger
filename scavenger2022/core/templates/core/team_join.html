@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block body %}
-  {% translate "either enter your team's join code" %}
+  <h3>{% translate "either enter your team's join code" %}</h3>
   <form action="{% url 'join' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="{% translate 'Join' %}" />
   </form>
-  {% translate "or, scan your team's QR code" %}
+  <h3>{% translate "or, scan your team's QR code" %}</h3>
 {% endblock %}

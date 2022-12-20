@@ -16,6 +16,7 @@ welcome, {{ username }}!
   <link rel="stylesheet" href="{% static 'core/index.css' %}"/>
 {% endblock %}
 
+
 {% block body %}
 {% if request.user.in_team and not START_BEFORE %}
   {% url 'qr_first' as first_url %}
@@ -30,6 +31,7 @@ welcome, {{ username }}!
     {% endblocktranslate %}
   {% endif %}
 {% else %}
+  <h3>
   {% if request.user.in_team %}
     {% if request.user.team.solo %}
       {% blocktranslate %}
@@ -41,6 +43,7 @@ welcome, {{ username }}!
       {% endblocktranslate %}
     {% endif %}
   {% endif %}
+  </h3>
   <ul class="nodot">
     {% if not request.user.in_team or request.user.team.solo %}
       <li>

@@ -9,7 +9,7 @@
       <link rel="stylesheet" href="{% static 'core/base.css' %}" />
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
       <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
       <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
       {% if START_BEFORE or END_BEFORE %}
@@ -68,7 +68,7 @@
     </main>
     <div style="flex-grow: 1;"></div>
     {% if START_BEFORE or END_BEFORE %}
-      <nav class="cd_container" id="countdown-header">
+      <nav id="countdown-header">
         <span id="countdown-text-pre"></span>
         <span id="countdown"></span>
         <span id="countdown-text-post"></span>
