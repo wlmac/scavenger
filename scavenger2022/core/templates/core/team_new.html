@@ -13,27 +13,6 @@
 {% block head_end %}
 <style>
   .centered { display: flex; justify-content: center}
-    input {
-      background: var(--fg);
-      border: 3px solid #fff;
-      color: var(--cd-bg);
-      font: inherit;
-      margin-right: 0;
-      border-radius: 0.3rem 0 0 0.3rem;
-    }
-
-    input[type=submit] {
-      background: var(--bg);
-      color: white;
-      font: inherit;
-      margin-left: 0;
-      border-radius: 0 0.3rem 0.3rem 0;
-    }
-
-    input:placeholder {
-      color: #ccc;
-    }
-
 </style>
 {% endblock %}
 
@@ -42,7 +21,7 @@
   <form action="{% url 'team_new' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input class="button" type="submit" value="{% translate 'create' %}" />
+    <input type="submit" value="{% translate 'create' %}" />
   </form>
     </div>
 {% endblock %}
