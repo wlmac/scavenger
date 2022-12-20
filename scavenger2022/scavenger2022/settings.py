@@ -115,6 +115,7 @@ MAX_TEAM_SIZE: Final[int] = 4
 ALWAYS_LAST_QR_PK: Final[int] = 1
 ALWAYS_FIRST_QR_PK: Final[int] = 2
 HINTS_GROUP_PK: Final[int] = 1
+PATH_LENGTH: Final[int] = 15
 
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:

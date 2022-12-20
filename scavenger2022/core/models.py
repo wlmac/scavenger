@@ -53,6 +53,7 @@ class QrCode(models.Model):
     def code_pks(cls, team: "Team"):
         r = random.Random(team.id)
         pks = [a["pk"] for a in QrCode.objects.all().values("pk")]
+        pks = pks[: settings.PATH_LENGTH]
         r.shuffle(pks)
         if isinstance((pk := settings.ALWAYS_LAST_QR_PK), int):
             pks = pks[: (i := pks.index(pk))] + pks[i + 1 :] + [pk]
