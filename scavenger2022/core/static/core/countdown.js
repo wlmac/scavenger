@@ -49,8 +49,8 @@ const newCalculateTime = (start, end, startsPre, startsPost, endsPre, endsPost, 
   startsPost = startsPost.startsWith('__') ? '' : startsPost
   endsPre = endsPre.endsWith('__') ? '' : endsPre
   endsPost = endsPost.endsWith('__') ? '' : endsPost
-  eTextPre.innerText = started ? (finished ? endedPre : endsPre) : startsPre
-  eTextPost.innerText = started ? (finished ? endedPost : endsPost) : startsPost
+  eTextPre.innerText = started ? (finished ? ended : endsPre) : startsPre
+  eTextPost.innerText = started ? (finished ? ended : endsPost) : startsPost
 }
 
 export default newCalculateTime
