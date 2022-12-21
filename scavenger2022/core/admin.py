@@ -78,7 +78,6 @@ class QrCodeAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(UserAdmin_):
-    exclude = ("password",)
     readonly_fields = (
         "username",
         "first_name",
