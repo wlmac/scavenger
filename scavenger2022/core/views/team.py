@@ -94,4 +94,5 @@ def solo(q):
 @require_http_methods(["GET"])
 @team_required
 def invite(q):
-    return render(q, "core/team_invite.html")
+    invites = Invite.objects.filter(team=q.user.team).values_list("code", flat=True)
+    return render(q, "core/team_invite.html", context=dict(invites=invites))

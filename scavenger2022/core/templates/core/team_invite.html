@@ -4,34 +4,40 @@
 {% load qr %}
 
 {% block title %}
-{% translate "Invite Members" %}
+    {% translate "Invite Members" %}
 {% endblock %}
 
 {% block header %}
-{% translate "invite members" %}
+    {% translate "invite members" %}
 {% endblock %}
 
 {% block head_end %}
-  <script src="{% static 'core/qrcode.min.js' %}"></script>
-  <script type="module" src="{% static 'core/qr.js' %}"></script>
-  <style>
-    .qrcode img {
-      background: #fff;
-      padding: calc(8px * 4); /* eyeballed to 4 modules  */
-    }
-  </style>
+    <script src="{% static 'core/qrcode.min.js' %}"></script>
+    <script type="module" src="{% static 'core/qr.js' %}"></script>
+    <style>
+        .qrcode img {
+            background: #fff;
+            padding: calc(8px * 4); /* eyeballed to 4 modules  */
+        }
+
+        .qr-uri {
+            border-radius: 0.3rem;
+            padding: 0.3rem 0.5rem
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-  {% for invite in request.user.team.invites.all %}
-    {% join_url invite.code as join_link %}
-    {% blocktranslate %}
-      you may either
-      <input type="button" value="copy the join link" id="share-btn" data-share-text="share the join link" data-join-link="{{ join_link }}" />,
-      invite via code (<code>{{ invite.code }}</code>),
-      or allow them to scan the QR code below:
-    {% endblocktranslate %}
-    <div class="qrcode" id="qrcode"></div>
-  {% endfor %}
+    {% for code in invites %}
+        {% join_url code as join_link %}
+        {% blocktranslate %}
+            you may either
+            <input type="button" class="qr-uri" value="copy the join link" id="share-btn"
+                   data-share-text="click here to copy the join code" data-join-link="{{ join_link }}"/>,
+            share via invite code <code>{{ code }}</code>,
+            or allow them to scan the QR code below:
+        {% endblocktranslate %}
+        <div class="qrcode" id="qrcode"></div>
+    {% endfor %}
 {% endblock %}
 

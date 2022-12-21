@@ -1,11 +1,13 @@
 const btn = document.getElementById('share-btn')
 const link = window.location.origin + btn.dataset.joinLink
-if (navigator.share) {
-  console.log('share api avail')
-  btn.value = btn.dataset.shareText
-}
-btn.addEventListener('click', async (e) => {
-  await ((navigator.share) ? navigator.share(link) : await navigator.clipboard.writeText(link))
+ const shareData = {
+  title: 'MacLyonsDen Scavenger Hunt',
+  text: 'Scavenger hunt team invite code!',
+  url: link
+};
+
+btn.addEventListener('click',  (e) => {
+   ((navigator.share) ? navigator.share(shareData) : navigator.clipboard.writeText(link))
 })
 
 new QRCode(document.getElementById("qrcode"), {

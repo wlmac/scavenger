@@ -8,6 +8,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+def generate_invite_code():
+    return secrets.token_hex(4)
+
+
 class User(AbstractUser):
     metropolis_id = models.IntegerField()
     refresh_token = models.CharField(max_length=128)
@@ -75,6 +79,11 @@ class QrCode(models.Model):
             r.random()
         return Hint.objects.get(id=r.choice(pks)["pk"])
 
+    def save(self, *args, **kwargs):
+        if self._state.adding:  # only generate key on creation not on update
+            Invite.objects.create(team=self, code=generate_invite_code()).save()
+        return super().save(*args, **kwargs)
+
 
 class Hint(models.Model):
     qr_code = models.ForeignKey(QrCode, related_name="hints", on_delete=models.CASCADE)
@@ -133,10 +142,6 @@ class Team(models.Model):
 
     def __str__(self):
         return str(self.name)
-
-
-def generate_invite_code():
-    return secrets.token_hex(4)
 
 
 class Invite(models.Model):
