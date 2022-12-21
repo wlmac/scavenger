@@ -12,4 +12,4 @@ def hint(qr, team):
 
 @register.simple_tag
 def join_url(code):
-    return format_html("%s?%s" % (reverse("join"), f"?code={code}"))
+    return format_html("%s%s" % (reverse("join"), f"?code={code}"))
