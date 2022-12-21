@@ -30,11 +30,26 @@ class LogicPuzzleAdmin(admin.ModelAdmin):
     ordering = ("qr_index",)
 
 
+@admin.action(description="Mark selected teams as inactive")
+def set_inactive(modeladmin, request, queryset):
+    if request.user.is_superuser:
+        queryset.update(is_active=False)
+
+
+@admin.action(description="Mark selected teams as active")
+def set_active(
+    modeladmin, request, queryset
+):  # note you could probably remove this one.
+    if request.user.is_superuser:
+        queryset.update(is_active=True)
+
+
 class TeamAdmin(admin.ModelAdmin):
     readonly_fields = ("path",)
     inlines = [
         InviteInLine,
     ]
+    actions = [set_inactive, set_active]
 
     @admin.display(description="Path")
     def path(self, team):
