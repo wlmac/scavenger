@@ -78,19 +78,23 @@ class QrCodeAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(UserAdmin_):
+    exclude = ('password',)
     readonly_fields = (
         "username",
         "first_name",
         "last_name",
         "email",
     )
+    admin_field = list(UserAdmin_.fieldsets)
+    admin_field[0][1]["fields"] = ('username',) # passwords are not controlled by scavenger. So we don't need this field.
     fieldsets = tuple(
-        list(UserAdmin_.fieldsets)  # type: ignore
+        admin_field  # type: ignore
         + [
             ("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"])),
             ("Game", dict(fields=["team"])),
         ]
     )
+
 
 
 admin.site.register(User, UserAdmin)
