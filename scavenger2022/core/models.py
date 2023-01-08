@@ -6,6 +6,7 @@ import secrets
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.html import format_html
 
 
 def generate_invite_code():
@@ -44,6 +45,19 @@ class QrCode(models.Model):
     )
     notes = models.TextField(help_text="Internal notes", blank=True)
     key = models.CharField(max_length=64, unique=True, default=generate_hint_key)
+    image_url = models.URLField(
+        help_text="A URL to an image of where the QR code is located (try imgur)",
+        blank=True,
+    )
+
+    def image_tag(self):
+        from django.utils.html import escape
+
+        if self.image_url:
+            return format_html('<img src="%s" />' % escape(self.image_url))
+
+    image_tag.short_description = "QR Image"
+    image_tag.allow_tags = True
 
     def __str__(self):
         return f"{self.id} {self.short or self.location}"
