@@ -1,6 +1,6 @@
 __pycache__
 .build
-scavenger2022/db.sqlite3
+wlmac-scavenger/db.sqlite3
 *.pyc
-scavenger2022/venv/
+wlmac-scavenger/venv/
 .mypy_cache

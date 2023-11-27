@@ -31,7 +31,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "scavenger2022.urls"
+ROOT_URLCONF = "wlmac-scavenger.urls"
 
 TEMPLATES = [
     {
@@ -50,7 +50,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "scavenger2022.wsgi.application"
+WSGI_APPLICATION = "wlmac-scavenger.wsgi.application"
 
 
 # Database

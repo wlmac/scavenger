@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "scavenger2022"
-version = "0.2.0"
-description = ""
+name = "wlmac-scavenger"
+version = "1.0.0"
+description = "Ephemeral SAC Scavenger Hunt website by Project Metropolis"
 authors = ["nyiyui <+@nyiyui.ca>",  "Jason Cameron <jasoncameron.all@gmail.com>",]
 
 [tool.poetry.dependencies]
@@ -22,4 +22,4 @@ build-backend = "poetry.core.masonry.api"
 plugins = ["mypy_django_plugin.main"]
 
 [tool.django-stubs]
-django_settings_module = "scavenger2022.settings"
+django_settings_module = "wlmac-scavenger.settings"

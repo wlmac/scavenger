@@ -9,7 +9,7 @@
       supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
-      projectDir = self + /scavenger2022;
+      projectDir = self + /wlmac-scavenger;
     in
     {
       packages = forAllSystems (system: {
