@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0013_logicpuzzlehint_alter_qrcode_notes"),
         ("core", "0013_remove_team_completed_qr_codes_and_more"),

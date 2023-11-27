@@ -12,7 +12,6 @@ def gen_hint_keys(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("core", "0006_alter_user_chosen"),
     ]
