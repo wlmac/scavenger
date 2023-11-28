@@ -1,29 +1,20 @@
 {
   description = "Ephemeral SAC Scavenger Hunt website by Project Metropolis";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
-  #inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
 
   outputs = { self, nixpkgs }:
     let
       supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
-      projectDir = self;
     in
     {
-      packages = forAllSystems (system: {
-        default = pkgs.${system}.poetry2nix.mkPoetryApplication { inherit projectDir; };
-      });
-
       devShells = forAllSystems (system: {
         default = pkgs.${system}.mkShellNoCC {
           packages = with pkgs.${system}; [
-            (poetry2nix.mkPoetryEnv {
-              inherit projectDir;
-            })
-            (python310.withPackages (pp: with pp; [
-              poetry
+            poetry
+            (python311.withPackages (pp: with pp; [
               black
               isort
               mypy
