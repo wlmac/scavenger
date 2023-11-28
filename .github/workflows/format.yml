@@ -20,7 +20,7 @@ jobs:
             echo 'no changes!'
           else
             git config user.name 'GitHub Actions'
-            git config user.email 'etc-nixos+github-actions@nyiyui.ca'
+            git config user.email 'format+github-actions@nyiyui.ca'
             git add .
             git commit -am "format"
             git push
