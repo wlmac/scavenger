@@ -1,0 +1,28 @@
+name: format
+on:
+  push:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v20
+        with:
+          gitub_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: nixfmt
+        run: "nix develop --command nixfmt */*.nix"
+      - name: black
+        run: "nix develop --command black --safe ."
+      - name: commit and push
+        run: |
+          if git diff --exit-code; then
+            echo 'no changes!'
+          else
+            git config user.name 'GitHub Actions'
+            git config user.email 'etc-nixos+github-actions@nyiyui.ca'
+            git add .
+            git commit -am "format"
+            git push
+          fi
+

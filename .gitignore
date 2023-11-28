@@ -1,6 +1,5 @@
 __pycache__
 .build
-wlmac-scavenger/db.sqlite3
 *.pyc
-wlmac-scavenger/venv/
 .mypy_cache
+.direnv
