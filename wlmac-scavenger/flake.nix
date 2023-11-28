@@ -22,6 +22,7 @@
               django-stubs
             ]))
             gettext
+            nixfmt
           ];
         };
       });
