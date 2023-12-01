@@ -11,9 +11,9 @@ jobs:
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: nixfmt
-        run: "cd wlmac-scavenger && nix develop --command nixfmt flake.nix"
+        run: "nix develop --command nixfmt flake.nix"
       - name: black
-        run: "cd wlmac-scavenger && nix develop --command black --safe ."
+        run: "nix develop --command black --safe ."
       - name: commit and push
         run: |
           if git diff --exit-code; then
