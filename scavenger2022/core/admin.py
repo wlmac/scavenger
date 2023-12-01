@@ -84,8 +84,12 @@ class UserAdmin(UserAdmin_):
         "last_name",
         "email",
     )
+    admin_field = list(UserAdmin_.fieldsets)
+    admin_field[0][1]["fields"] = (
+        "username",
+    )  # passwords are not controlled by scavenger. So we don't need this field.
     fieldsets = tuple(
-        list(UserAdmin_.fieldsets)  # type: ignore
+        admin_field
         + [
             ("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"])),
             ("Game", dict(fields=["team"])),

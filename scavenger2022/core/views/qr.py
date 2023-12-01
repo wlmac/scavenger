@@ -60,7 +60,8 @@ def qr(request, key):
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
     codes = QrCode.code_pks(request.user.team)
     if qr.id not in codes:
-        return "wrong qr"
+        context["offpath"] = True
+        return render(request, "core/qr.html", context=context)
     i = codes.index(qr.id)
     context["nextqr"] = (
         None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])

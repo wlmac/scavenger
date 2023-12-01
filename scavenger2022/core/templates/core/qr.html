@@ -37,6 +37,7 @@
             {% endif %}
         </div>
     {% endif %}
+    {% if not offpath %}
     <div class="hint">
         <div class="hint-top">
             {% if nextqr %}
@@ -68,5 +69,5 @@
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
     </div></div>
-
+    {% endif %}
 {% endblock %}
