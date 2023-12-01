@@ -45,7 +45,7 @@ def oauth_login(q):
     redirect_uri = q.build_absolute_uri(reverse("oauth_auth"))
     state = secrets.token_urlsafe(32)
     q.session["yasoi_state"] = state
-    pkce_params = pkce1(q)
+    #pkce_params = pkce1(q)
     return redirect(
         settings.YASOI["authorize_url"]
         + "?"
@@ -56,7 +56,7 @@ def oauth_login(q):
                 redirect_uri=redirect_uri,
                 scope=settings.YASOI["scope"],
                 state=state,
-                **pkce_params,
+                #**pkce_params,
             )
         )
     )
@@ -66,12 +66,12 @@ def oauth_login(q):
 def oauth_auth(q):
     redirect_uri = q.build_absolute_uri(reverse("oauth_auth"))
     given_state = q.GET["state"]
-    expected_state = q.session["yasoi_state"]
-    if expected_state != given_state:
-        raise TypeError("state mismatch")
+    #expected_state = q.session["yasoi_state"]
+    #if expected_state != given_state:
+    #    raise TypeError("state mismatch")
     if "error" in q.GET:
         raise RuntimeError(f'{q.GET["error"]}: {q.GET.get("error_description")}')
-    pkce_params = pkce2(q)
+    #pkce_params = pkce2(q)
     code = q.GET["code"]
     q2 = requests.post(
         settings.YASOI["token_url"],
@@ -80,12 +80,14 @@ def oauth_auth(q):
             code=code,
             redirect_uri=redirect_uri,
             **{key: settings.YASOI[key] for key in ("client_id", "client_secret")},
-            **pkce_params,
+           # **pkce_params,
         ),
     )
     if q2.status_code == 400:
         data = q2.json()
         raise RuntimeError(f"{data['error']}: {data.get('error_description')}")
+    elif q2.status_code == 401:
+        raise RuntimeError("unauthorized")
     q2.raise_for_status()
     # TODO: handle errors (*˘︶˘*).｡.:*♡
     s2d = q2.json()
