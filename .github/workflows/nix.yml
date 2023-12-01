@@ -16,5 +16,5 @@ jobs:
       with:
         name: project-metropolis
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - run: cd wlmac-scavenger && nix build
-    - run: cd wlmac-scavenger && nix flake check
+    - run:  nix build
+    - run:  nix flake check
