@@ -165,9 +165,10 @@ class Team(models.Model):
         return str(self.name)
 
     def save(self, *args, **kwargs):
+        data = super().save(*args, **kwargs)
         if self._state.adding:  # only generate key on creation not on update
             Invite.objects.create(team=self, code=generate_invite_code())
-        return super().save(*args, **kwargs)
+        return data
 
 
 class Invite(models.Model):
