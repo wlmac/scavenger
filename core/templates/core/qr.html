@@ -52,7 +52,7 @@
         </div>
         {% if nextqr %}
             {% hint nextqr request.user.team as hint %}
-	    <span class="hint">{{ hint |mistune }}</span>
+	    <span class="hint">{{ hint|mistune }}</span>
             {% if request.user.is_superuser %}
                 <br />({{ nextqr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nextqr.id %}">change</a>)
             {% endif %}
@@ -65,6 +65,7 @@
                 </div>
             {% endif %}
         {% else %}
+            {% ending_block qr.hunt %}
             You found Derek! Now, solve the entirety of the logic puzzle to find which of the 5 SAC members in question this locker belongs to <a href="https://forms.gle/eAghxHxWRiXWgeKF9">here</a>! Oh, and close the locker, a dead Derek smells bad.
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}

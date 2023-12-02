@@ -8,6 +8,7 @@ from django.db.models import QuerySet
 
 from .forms import *
 
+
 @admin.action(
     permissions=["change"],
     description=_("Set selected users as a Location Setter"),
@@ -77,12 +78,22 @@ class TeamAdmin(admin.ModelAdmin):
     @admin.display(description="Path")
     def path(self, team):
         return "\n".join(
-            map(lambda pk: str(QrCode.objects.get(id=pk)), QrCode.code_pks(team))
+            map(
+                lambda pk: str(QrCode.objects.get(id=pk)),
+                QrCode.code_pks(team),
+            )
         )
 
 
 class QrCodeAdmin(admin.ModelAdmin):
-    fields = ["short", "location", "notes", "key", "image_tag", "image_url"]
+    fields = [
+        "short",
+        "location",
+        "notes",
+        "key",
+        "image_tag",
+        "image_url",
+    ]
     readonly_fields = ["url", "key", "image_tag"]
     list_display = ["location", "url"]
     inlines = [HintsInLine]
@@ -115,7 +126,10 @@ class UserAdmin(UserAdmin_):
     fieldsets = tuple(
         admin_field
         + [
-            ("Metropolis Integration (OAuth)", dict(fields=["metropolis_id"])),
+            (
+                "Metropolis Integration (OAuth)",
+                dict(fields=["metropolis_id"]),
+            ),
             ("Game", dict(fields=["team"])),
         ]
     )
@@ -125,3 +139,5 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(QrCode, QrCodeAdmin)
 admin.site.register(LogicPuzzleHint, LogicPuzzleAdmin)
+admin.site.register(Hunt)
+

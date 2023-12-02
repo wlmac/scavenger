@@ -38,7 +38,7 @@ def after_start(f):
     def wrapped(*args, **kwargs):
         request = args[0]
         if (
-            not request.user.has_perm("core.view_before_start")
+            not request.user.has_perm("core.view_before_start")#  or current_hunt. todo impl
             and settings.START > datetime.datetime.now()
         ):
             messages.error(
@@ -58,6 +58,7 @@ def after_start(f):
 def qr(request, key):
     context = dict(first=False)
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
+    context["hunt"] = qr.hunt
     codes = QrCode.code_pks(request.user.team)
     if qr.id not in codes:
         context["offpath"] = True

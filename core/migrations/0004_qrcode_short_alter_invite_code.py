@@ -24,7 +24,9 @@ class Migration(migrations.Migration):
             model_name="invite",
             name="code",
             field=models.CharField(
-                default=core.models.generate_invite_code, max_length=32, unique=True
+                default=core.models.generate_invite_code,
+                max_length=32,
+                unique=True,
             ),
         ),
     ]

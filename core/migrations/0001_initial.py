@@ -28,11 +28,16 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "password",
+                    models.CharField(max_length=128, verbose_name="password"),
+                ),
                 (
                     "last_login",
                     models.DateTimeField(
-                        blank=True, null=True, verbose_name="last login"
+                        blank=True,
+                        null=True,
+                        verbose_name="last login",
                     ),
                 ),
                 (
@@ -61,19 +66,25 @@ class Migration(migrations.Migration):
                 (
                     "first_name",
                     models.CharField(
-                        blank=True, max_length=150, verbose_name="first name"
+                        blank=True,
+                        max_length=150,
+                        verbose_name="first name",
                     ),
                 ),
                 (
                     "last_name",
                     models.CharField(
-                        blank=True, max_length=150, verbose_name="last name"
+                        blank=True,
+                        max_length=150,
+                        verbose_name="last name",
                     ),
                 ),
                 (
                     "email",
                     models.EmailField(
-                        blank=True, max_length=254, verbose_name="email address"
+                        blank=True,
+                        max_length=254,
+                        verbose_name="email address",
                     ),
                 ),
                 (
@@ -95,7 +106,8 @@ class Migration(migrations.Migration):
                 (
                     "date_joined",
                     models.DateTimeField(
-                        default=django.utils.timezone.now, verbose_name="date joined"
+                        default=django.utils.timezone.now,
+                        verbose_name="date joined",
                     ),
                 ),
                 ("metropolis_id", models.IntegerField()),
@@ -135,7 +147,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="QrCode",
             fields=[
-                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "id",
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 (
                     "location",
                     models.CharField(
@@ -152,21 +167,30 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="Team",
             fields=[
-                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "id",
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 ("name", models.CharField(max_length=64, unique=True)),
                 ("is_active", models.BooleanField(default=True)),
                 ("is_open", models.BooleanField(default=False)),
-                ("current_qr_code", models.IntegerField(blank=True, null=True)),
+                (
+                    "current_qr_code",
+                    models.IntegerField(blank=True, null=True),
+                ),
                 (
                     "completed_qr_codes",
                     models.ManyToManyField(
-                        blank=True, related_name="completed_qr_codes", to="core.qrcode"
+                        blank=True,
+                        related_name="completed_qr_codes",
+                        to="core.qrcode",
                     ),
                 ),
                 (
                     "members",
                     models.ManyToManyField(
-                        related_name="team", to=settings.AUTH_USER_MODEL
+                        related_name="team",
+                        to=settings.AUTH_USER_MODEL,
                     ),
                 ),
             ],
@@ -188,7 +212,8 @@ class Migration(migrations.Migration):
                 (
                     "team",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="core.team"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="core.team",
                     ),
                 ),
             ],

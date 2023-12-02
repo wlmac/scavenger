@@ -17,7 +17,11 @@ class User(AbstractUser):
     metropolis_id = models.IntegerField()
     refresh_token = models.CharField(max_length=128)
     team = models.ForeignKey(
-        "Team", related_name="members", on_delete=models.SET_NULL, blank=True, null=True
+        "Team",
+        related_name="members",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
 
     @property
@@ -125,6 +129,7 @@ class Team(models.Model):
     )  # todo use this field to have a club-like page so you can join an open team (future feature)
     current_qr_i = models.IntegerField(default=0)
     solo = models.BooleanField(default=False)
+    hunt = models.ForeignKey("Hunt", on_delete=models.CASCADE, related_name="teams")
 
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
@@ -170,17 +175,59 @@ class Invite(models.Model):
     code = models.CharField(max_length=32, unique=True)
 
 
-# class Hunt(models.Model):
-#    id = models.AutoField(primary_key=True)
-#    name = models.CharField(max_length=64)
-#    start = models.DateTimeField()
-#    end = models.DateTimeField()
-#    is_active = models.BooleanField(default=False)
-#    team_size = models.IntegerField(default=4, help_text="Max Team size")
-#    final_qr_id = models.IntegerField(null=True, blank=True)
-#
-#    def __str__(self):
-#        return self.name
+class Hunt(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=64)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    team_size = models.PositiveSmallIntegerField(default=4, help_text="Max Team size")
+    path_length = models.PositiveSmallIntegerField(default=15, help_text="Length of the path: The amount of codes each time will have to find before the end.")
+    starting_location = models.ForeignKey(
+        QrCode, on_delete=models.PROTECT, related_name="starting_location"
+    )
+    ending_location = models.ForeignKey(
+        QrCode, on_delete=models.PROTECT, related_name="ending_location"
+    )
+    early_access_users = models.ManyToManyField(
+        User,
+        related_name="early_access_users",
+        help_text="Users that can access this hunt before it starts",
+    )
+    form_url = models.URLField(help_text="Google form to fill out after the hunt", null=True, blank=True)
+    ending_text = models.TextField(
+        help_text="Text to display after the hunt is over. If you want to include a url (e.g. a google form) at the end use text inside of double curly brackets {{ }} to show where the form will go. "
+                  "The text inside the brackets is what will be shown to the user. "
+                  "e.g. {{this form}}, users will only see 'this form' but can click it to get to the form specified above",
+        max_length=250,
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(start__lt=models.F("end")),
+                name="start_before_end",
+            ),
+            # starting location cannot be the same as ending
+            models.CheckConstraint(
+                check=~models.Q(starting_location=models.F("ending_location")),
+                name="start_not_equal_end",
+            ),
+            # make sure ending_text contains {{ }} for the form
+            models.CheckConstraint(
+                check=models.Q(ending_text__contains="{{") & models.Q(
+                    ending_text__contains="}}"
+                ),
+                name="form_in_ending_text",
+            ),
+            # Ensure there isn't a different hunt running in that timespan
+            models.CheckConstraint(
+                check=models.Q(start__gt=models.F("end")),
+                name="no_overlapping_hunts", # todo check if this works
+            ),
+        ]
 
 
 class LogicPuzzleHint(models.Model):
@@ -195,7 +242,9 @@ class LogicPuzzleHint(models.Model):
         unique=True,
     )
 
-    # belongs_to = models.ForeignKey(Hunt, related_name="logic_puzzle_hunt", on_delete=models.CASCADE)
+    belongs_to = models.ForeignKey(
+        Hunt, related_name="logic_puzzle", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return str(self.hint)

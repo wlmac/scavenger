@@ -37,7 +37,8 @@ def join(request):
                 invite.invites += 1
                 invite.save()
                 messages.success(
-                    request, _("Joined team %(team_name)s") % dict(team_name=team.name)
+                    request,
+                    _("Joined team %(team_name)s") % dict(team_name=team.name),
                 )
                 return redirect("/")
             else:
