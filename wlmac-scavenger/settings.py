@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "fontawesomefree",
     "core",
-    "impersonate"
+    "impersonate",
 ]
 
 MIDDLEWARE = [
@@ -30,7 +30,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "impersonate.middleware.ImpersonateMiddleware"
+    "impersonate.middleware.ImpersonateMiddleware",
 ]
 
 ROOT_URLCONF = "wlmac-scavenger.urls"
