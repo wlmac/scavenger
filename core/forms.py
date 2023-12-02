@@ -7,18 +7,10 @@ from .models import *
 class TeamMakeForm(forms.ModelForm):
     class Meta:
         widgets = dict(
-            name=forms.TextInput(attrs={"placeholder": "youmas"}),
+            name=forms.TextInput(attrs={"placeholder": "Json's Team"}),
         )
         model = Team
-        exclude = (
-            "id",
-            "members",
-            "is_active",
-            "is_open",
-            "solo",
-            "current_qr_i",
-        )
-
+        fields = ("name",)
 
 class TeamJoinForm(forms.Form):
     code = forms.CharField(

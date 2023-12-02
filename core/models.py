@@ -6,6 +6,7 @@ import secrets
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 from django.utils.html import format_html
 
 
@@ -205,10 +206,16 @@ class Hunt(models.Model):
         "e.g. {{this form}}, users will only see 'this form' but can click it to get to the form specified above",
         max_length=250,
     )
-
+    
     def __str__(self):
         return self.name
 
+    @classmethod
+    def current_hunt(cls):
+        try:
+            return cls.objects.get(start__lt=timezone.now(), end__gt=timezone.now())
+        except cls.DoesNotExist:
+            return None
     class Meta:
         constraints = [
             models.CheckConstraint(

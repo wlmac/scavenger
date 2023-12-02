@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="307a4b14-2203-4e9e-9b96-a5d1f2c938d0" name="Changes" comment="Updated group name. &#10;&#10;changed some styling &#10;&#10;updated some docs.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="307a4b14-2203-4e9e-9b96-a5d1f2c938d0" name="Changes" comment="updated lock.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/views/team.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/views/team.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="2022" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -43,12 +44,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1701469634" />
+                    <option name="branchName" value="temp" />
+                    <option name="lastUsedInstant" value="1701554290" />
                   </RecentBranch>
                   <RecentBranch>
-                    <option name="branchName" value="2022" />
-                    <option name="lastUsedInstant" value="1701122345" />
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1701469634" />
                   </RecentBranch>
                 </list>
               </option>
@@ -121,7 +122,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.10" />
       <option name="WORKING_DIRECTORY" value="C:\Users\jason\projects\metro\scavenger\wlmac-scavenger" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -148,6 +148,9 @@
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="307a4b14-2203-4e9e-9b96-a5d1f2c938d0" name="Changes" comment="" />
@@ -277,7 +280,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701540841563</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="updated lock.">
+      <option name="closed" value="true" />
+      <created>1701554376823</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1701554376823</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,7 +331,8 @@
     <MESSAGE value="test gpg signing" />
     <MESSAGE value="fix: .save being  placed in the wrong model&#10;&#10;feat: auto-create groups" />
     <MESSAGE value="Updated group name. &#10;&#10;changed some styling &#10;&#10;updated some docs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated group name. &#10;&#10;changed some styling &#10;&#10;updated some docs." />
+    <MESSAGE value="updated lock." />
+    <option name="LAST_COMMIT_MESSAGE" value="updated lock." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/scavenger$auth.coverage" NAME="auth Coverage Results" MODIFIED="1701139640006" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wlmac-scavenger/core/views" />
