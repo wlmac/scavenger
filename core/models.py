@@ -208,7 +208,7 @@ class Hunt(models.Model):
         "e.g. {{this form}}, users will only see 'this form' but can click it to get to the form specified above",
         max_length=250,
     )
-    
+
     def __str__(self):
         return self.name
 
@@ -218,21 +218,21 @@ class Hunt(models.Model):
             return cls.objects.get(start__lt=timezone.now(), end__gt=timezone.now())
         except cls.DoesNotExist:
             return None
-    
+
     def clean(self):
         """
         Due to how this was designed, it is not possible to have multiple hunts running at the same time.
         This method prevents that from happening.
         """
         overlapping_events = self.objects.filter(
-            start_date__lte=self.start,
-            end_date__gte=self.end
+            start_date__lte=self.start, end_date__gte=self.end
         ).exclude(pk=self.pk)
-        
+
         if overlapping_events.exists():
-            raise ValidationError('This event overlaps with existing events. Please choose a different time. Or Delete the other event.')
-    
-    
+            raise ValidationError(
+                "This event overlaps with existing events. Please choose a different time. Or Delete the other event."
+            )
+
     class Meta:
         constraints = [
             models.CheckConstraint(
@@ -251,7 +251,6 @@ class Hunt(models.Model):
                 name="form_in_ending_text",
             ),
             # Ensure there isn't a different hunt running in that timespan
-           
         ]
 
 
