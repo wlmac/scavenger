@@ -44,7 +44,12 @@ class QrCode(models.Model):
         help_text="Location of the QR code. Be specific—it's internal",
     )
     notes = models.TextField(help_text="Internal notes", blank=True)
-    key = models.CharField(max_length=64, unique=True, default=generate_hint_key, help_text="Key to access the hint, used in the QR code ")
+    key = models.CharField(
+        max_length=64,
+        unique=True,
+        default=generate_hint_key,
+        help_text="Key to access the hint, used in the QR code ",
+    )
     image_url = models.URLField(
         help_text="A URL to an image of where the QR code is located (try imgur)",
         blank=True,
