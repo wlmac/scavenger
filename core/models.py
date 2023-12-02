@@ -5,6 +5,7 @@ import secrets
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.html import format_html
@@ -138,7 +139,7 @@ class Team(models.Model):
 
     @property
     def members(self):
-        """Returns all members of the team, it's  a related manager so to convert to queryset use .all() or filter it."""
+        """Returns all members of the team, it's a related manager so to convert to queryset use .all() or filter it."""
         return User.objects.filter(team=str(self.id))
 
     @property
@@ -158,7 +159,7 @@ class Team(models.Model):
 
     @property
     def qr_len(self):
-        """Amount of codes the team has completed  (+1) (assuming no skips)"""
+        """Amount of codes the team has completed (+1) (assuming no skips)"""
         return int(self.current_qr_i) + 1
 
     def __str__(self):
@@ -217,6 +218,21 @@ class Hunt(models.Model):
             return cls.objects.get(start__lt=timezone.now(), end__gt=timezone.now())
         except cls.DoesNotExist:
             return None
+    
+    def clean(self):
+        """
+        Due to how this was designed, it is not possible to have multiple hunts running at the same time.
+        This method prevents that from happening.
+        """
+        overlapping_events = self.objects.filter(
+            start_date__lte=self.start,
+            end_date__gte=self.end
+        ).exclude(pk=self.pk)
+        
+        if overlapping_events.exists():
+            raise ValidationError('This event overlaps with existing events. Please choose a different time. Or Delete the other event.')
+    
+    
     class Meta:
         constraints = [
             models.CheckConstraint(
@@ -235,10 +251,7 @@ class Hunt(models.Model):
                 name="form_in_ending_text",
             ),
             # Ensure there isn't a different hunt running in that timespan
-            models.CheckConstraint(
-                check=models.Q(start__gt=models.F("end")),
-                name="no_overlapping_hunts",  # todo check if this works
-            ),
+           
         ]
 
 
