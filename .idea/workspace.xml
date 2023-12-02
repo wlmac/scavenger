@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="307a4b14-2203-4e9e-9b96-a5d1f2c938d0" name="Changes" comment="updated reqs">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/Scavenger_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wlmac-scavenger/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/wlmac-scavenger/requirements.txt" afterDir="false" />
+    <list default="true" id="307a4b14-2203-4e9e-9b96-a5d1f2c938d0" name="Changes" comment="fix: .save being  placed in the wrong model&#10;&#10;feat: auto-create groups">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/scavenger.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scavenger.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,8 +43,8 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="2023" />
-                    <option name="lastUsedInstant" value="1701122346" />
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1701469634" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="2022" />
@@ -91,15 +85,20 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/jason/projects/metro/metropolis",
+    "last_opened_file_path": "C:/Users/jason/projects/personal/foodle",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.django.DjangoModulesConfigurable",
+    "settings.editor.selected.configurable": "vcs.Git",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jason\projects\metro\scavenger" />
+    </key>
+  </component>
   <component name="RunManager" selected="Makefile Target.requirements.txt">
     <configuration name="requirements.txt" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/wlmac-scavenger/Makefile" target="requirements.txt" workingDirectory="" arguments="">
@@ -152,7 +151,8 @@
       <workItem from="1701109961368" duration="4885000" />
       <workItem from="1701134001243" duration="12667000" />
       <workItem from="1701397449296" duration="6195000" />
-      <workItem from="1701461869442" duration="563000" />
+      <workItem from="1701461869442" duration="7469000" />
+      <workItem from="1701478000925" duration="3622000" />
     </task>
     <task id="LOCAL-00001" summary="renamed project to wlmac-scavenger">
       <option name="closed" value="true" />
@@ -218,11 +218,62 @@
       <option name="project" value="LOCAL" />
       <updated>1701462441770</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="chore: moved all django elements up one level&#10;&#10;merged .gitignores">
+      <option name="closed" value="true" />
+      <created>1701466754271</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1701466754271</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fix: updated path for nix GHA">
+      <option name="closed" value="true" />
+      <created>1701469882361</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1701469882361</updated>
+    </task>
+    <task id="LOCAL-00011" summary="missed this">
+      <option name="closed" value="true" />
+      <created>1701470030240</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1701470030240</updated>
+    </task>
+    <task id="LOCAL-00012" summary="test gpg signing">
+      <option name="closed" value="true" />
+      <created>1701470524658</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1701470524658</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix: .save being  placed in the wrong model&#10;&#10;feat: auto-create groups">
+      <option name="closed" value="true" />
+      <created>1701480283198</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1701480283198</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -244,7 +295,12 @@
     <MESSAGE value="FIX: nix conf?" />
     <MESSAGE value="temp fix: disable identify verification" />
     <MESSAGE value="updated reqs" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated reqs" />
+    <MESSAGE value="chore: moved all django elements up one level&#10;&#10;merged .gitignores" />
+    <MESSAGE value="fix: updated path for nix GHA" />
+    <MESSAGE value="missed this" />
+    <MESSAGE value="test gpg signing" />
+    <MESSAGE value="fix: .save being  placed in the wrong model&#10;&#10;feat: auto-create groups" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: .save being  placed in the wrong model&#10;&#10;feat: auto-create groups" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/scavenger$auth.coverage" NAME="auth Coverage Results" MODIFIED="1701139640006" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/wlmac-scavenger/core/views" />

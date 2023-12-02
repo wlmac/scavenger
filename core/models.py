@@ -130,13 +130,14 @@ class Team(models.Model):
         """Returns all members of the team, it's  a related manager so to convert to queryset use .all() or filter it."""
         return User.objects.filter(team=str(self.id))
 
+    @property
     def is_full(self):
         return self.members.count() >= settings.MAX_TEAM_SIZE
 
     def join(self, user: User):
         if user in self.members.all():
             return
-        if self.is_full():
+        if self.is_full:
             raise IndexError("Team is full")
         user.team = self
         user.save()

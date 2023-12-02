@@ -19,3 +19,12 @@ A scavenger hunt website designed to prevent any form of cheating and RNG-based 
   Misheel Batkhuu
 ### UI/UX design 
   Chelsea Wong
+
+
+# setup
+
+do normal django setup
+then run 
+```bash
+python manage.py init
+```

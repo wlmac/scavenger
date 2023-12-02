@@ -25,7 +25,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/wlmac-scavenger/core/templates" />
+        <option value="$MODULE_DIR$/core/templates" />
       </list>
     </option>
   </component>

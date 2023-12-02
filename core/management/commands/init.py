@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group, Permission
 from core import models
 
 GROUPS_PERMISSIONS = {
-    'Problem Setters': {
+    'Location Setter': {
         models.QrCode: ['add', 'change', 'delete'],
         models.Hint: ['add', 'change', 'delete', 'view'],
         models.LogicPuzzleHint: ['view'],
