@@ -12,6 +12,7 @@ class TeamMakeForm(forms.ModelForm):
         model = Team
         fields = ("name",)
 
+
 class TeamJoinForm(forms.Form):
     code = forms.CharField(
         label=_l("join code"),
