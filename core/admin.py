@@ -140,4 +140,3 @@ admin.site.register(Team, TeamAdmin)
 admin.site.register(QrCode, QrCodeAdmin)
 admin.site.register(LogicPuzzleHint, LogicPuzzleAdmin)
 admin.site.register(Hunt)
-

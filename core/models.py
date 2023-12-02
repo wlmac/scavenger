@@ -181,7 +181,10 @@ class Hunt(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
     team_size = models.PositiveSmallIntegerField(default=4, help_text="Max Team size")
-    path_length = models.PositiveSmallIntegerField(default=15, help_text="Length of the path: The amount of codes each time will have to find before the end.")
+    path_length = models.PositiveSmallIntegerField(
+        default=15,
+        help_text="Length of the path: The amount of codes each time will have to find before the end.",
+    )
     starting_location = models.ForeignKey(
         QrCode, on_delete=models.PROTECT, related_name="starting_location"
     )
@@ -193,11 +196,13 @@ class Hunt(models.Model):
         related_name="early_access_users",
         help_text="Users that can access this hunt before it starts",
     )
-    form_url = models.URLField(help_text="Google form to fill out after the hunt", null=True, blank=True)
+    form_url = models.URLField(
+        help_text="Google form to fill out after the hunt", null=True, blank=True
+    )
     ending_text = models.TextField(
         help_text="Text to display after the hunt is over. If you want to include a url (e.g. a google form) at the end use text inside of double curly brackets {{ }} to show where the form will go. "
-                  "The text inside the brackets is what will be shown to the user. "
-                  "e.g. {{this form}}, users will only see 'this form' but can click it to get to the form specified above",
+        "The text inside the brackets is what will be shown to the user. "
+        "e.g. {{this form}}, users will only see 'this form' but can click it to get to the form specified above",
         max_length=250,
     )
 
@@ -217,15 +222,14 @@ class Hunt(models.Model):
             ),
             # make sure ending_text contains {{ }} for the form
             models.CheckConstraint(
-                check=models.Q(ending_text__contains="{{") & models.Q(
-                    ending_text__contains="}}"
-                ),
+                check=models.Q(ending_text__contains="{{")
+                & models.Q(ending_text__contains="}}"),
                 name="form_in_ending_text",
             ),
             # Ensure there isn't a different hunt running in that timespan
             models.CheckConstraint(
                 check=models.Q(start__gt=models.F("end")),
-                name="no_overlapping_hunts", # todo check if this works
+                name="no_overlapping_hunts",  # todo check if this works
             ),
         ]
 

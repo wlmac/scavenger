@@ -25,5 +25,9 @@ def ending_block(hunt):
     if match:
         ending_text = match.group(1).strip()
         return format_html(
-            hunt.ending_text.replace(match.group(0), '<a href="{}">{}</a>'.format(hunt.ending_form, ending_text)))
+            hunt.ending_text.replace(
+                match.group(0),
+                '<a href="{}">{}</a>'.format(hunt.ending_form, ending_text),
+            )
+        )
     return hunt.ending_text

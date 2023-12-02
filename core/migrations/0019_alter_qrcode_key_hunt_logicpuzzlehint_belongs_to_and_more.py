@@ -6,6 +6,7 @@ from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 
+
 def create_hunt(apps, schema_editor):
     # Create a Hunt object if needed
     from core.models import Hunt, QrCode
@@ -13,18 +14,26 @@ def create_hunt(apps, schema_editor):
     if QrCode.objects.count() == 0:
         return
     # COULD ERROR IF ONLY ONE QR OBJ EXISTS
-    Hunt.objects.get_or_create(name="First Hunt", start=timezone.now() - timezone.timedelta(days=2), end=timezone.now(),
-                               starting_location=QrCode.objects.first(), ending_location=QrCode.objects.last(),
-                               form_url="https://forms.gle/eAghxHxWRiXWgeKF9",
-                               ending_text="You found Derek! Now, solve the entirety of the logic puzzle to find which of the 5 SAC members in question this locker belongs to {{here}}! Oh, and close the locker, a dead Derek smells bad.")
+    Hunt.objects.get_or_create(
+        name="First Hunt",
+        start=timezone.now() - timezone.timedelta(days=2),
+        end=timezone.now(),
+        starting_location=QrCode.objects.first(),
+        ending_location=QrCode.objects.last(),
+        form_url="https://forms.gle/eAghxHxWRiXWgeKF9",
+        ending_text="You found Derek! Now, solve the entirety of the logic puzzle to find which of the 5 SAC members in question this locker belongs to {{here}}! Oh, and close the locker, a dead Derek smells bad.",
+    )
+
 
 def undo_create_hunt(apps, schema_editor):
     # Create a Hunt object if needed
     from core.models import Hunt
+
     try:
         Hunt.objects.get(name="First Hunt").delete()
     except Hunt.DoesNotExist:
         pass
+
 
 class Migration(migrations.Migration):
     dependencies = [

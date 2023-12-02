@@ -38,7 +38,9 @@ def after_start(f):
     def wrapped(*args, **kwargs):
         request = args[0]
         if (
-            not request.user.has_perm("core.view_before_start")#  or current_hunt. todo impl
+            not request.user.has_perm(
+                "core.view_before_start"
+            )  #  or current_hunt. todo impl
             and settings.START > datetime.datetime.now()
         ):
             messages.error(
