@@ -1,9 +1,33 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as UserAdmin_
+from django.contrib.auth.models import Group
 from django.utils.safestring import mark_safe
-from django.utils.translation import gettext_lazy as _l
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+from django.db.models import QuerySet
+
 from .forms import *
+
+@admin.action(
+    permissions=["change"],
+    description=_("Set selected users as a Location Setter"),
+)
+def set_as_location_setter(modeladmin, request, queryset: QuerySet[User]):
+    for user in queryset:
+        user.is_staff = True
+        # set their group to location setter
+        user.groups.add(Group.objects.get(name="Location Setter"))
+
+
+@admin.action(
+    permissions=["change"],
+    description=_("Set selected users as a Logic Puzzle Setter"),
+)
+def set_as_logic_setter(modeladmin, request, queryset: QuerySet[User]):
+    for user in queryset:
+        user.is_staff = True
+        # set their group to location setter
+        user.groups.add(Group.objects.get(name="Logic Logic Puzzle Setters"))
 
 
 class HintsInLine(admin.StackedInline):
@@ -70,7 +94,7 @@ class QrCodeAdmin(admin.ModelAdmin):
             return format_html(
                 mark_safe('<a href="{}">{}</a>'),
                 (url := reverse("qr", kwargs=dict(key=qr.key))),
-                _l("Link to Hint Page"),
+                _("Link to Hint Page"),
             )
         else:
             return ""
@@ -83,6 +107,7 @@ class UserAdmin(UserAdmin_):
         "last_name",
         "email",
     )
+    actions = [set_as_location_setter, set_as_logic_setter]
     admin_field = list(UserAdmin_.fieldsets)
     admin_field[0][1]["fields"] = (
         "username",
