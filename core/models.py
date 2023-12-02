@@ -44,7 +44,7 @@ class QrCode(models.Model):
         help_text="Location of the QR code. Be specific—it's internal",
     )
     notes = models.TextField(help_text="Internal notes", blank=True)
-    key = models.CharField(max_length=64, unique=True, default=generate_hint_key)
+    key = models.CharField(max_length=64, unique=True, default=generate_hint_key, help_text="Key to access the hint, used in the QR code ")
     image_url = models.URLField(
         help_text="A URL to an image of where the QR code is located (try imgur)",
         blank=True,
@@ -92,11 +92,6 @@ class QrCode(models.Model):
         ):  # todo make not O(n) as we have to loop through all hints to keep random state intact. (please note it really only iterates like 20-30 times at max so it doesn't rly matter )
             r.random()
         return Hint.objects.get(id=r.choice(pks)["pk"])
-
-    def save(self, *args, **kwargs):
-        if self._state.adding:  # only generate key on creation not on update
-            Invite.objects.create(team=self, code=generate_invite_code()).save()
-        return super().save(*args, **kwargs)
 
 
 class Hint(models.Model):
@@ -156,6 +151,11 @@ class Team(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:  # only generate key on creation not on update
+            Invite.objects.create(team=self, code=generate_invite_code()).save()
+        return super().save(*args, **kwargs)
 
 
 class Invite(models.Model):
