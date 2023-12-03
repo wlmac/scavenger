@@ -5,3 +5,4 @@ __pycache__
 .direnv
 /db.sqlite3
 /venv
+.idea/workspace.xml
