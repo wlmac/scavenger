@@ -3,12 +3,9 @@ from __future__ import annotations
 import random
 import secrets
 
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from django.utils import timezone
 from django.utils.html import format_html
 
 
@@ -20,11 +17,7 @@ class User(AbstractUser):
     metropolis_id = models.IntegerField()
     refresh_token = models.CharField(max_length=128)
     team = models.ForeignKey(
-        "Team",
-        related_name="members",
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
+        "Team", related_name="members", on_delete=models.SET_NULL, blank=True, null=True
     )
 
     @property
@@ -83,12 +76,12 @@ class QrCode(models.Model):
     def code_pks(cls, team: "Team"):
         r = random.Random(team.id)
         pks = [a["pk"] for a in QrCode.objects.all().values("pk")]
-        pks = pks[: team.hunt.path_length]
+        pks = pks[: settings.PATH_LENGTH]
         r.shuffle(pks)
-        if isinstance((pk := team.hunt.ending_location_id), int):
+        if isinstance((pk := settings.ALWAYS_LAST_QR_PK), int):
             i = pks.index(pk) if pk in pks else r.randrange(0, len(pks))
             pks = pks[:i] + pks[i + 1 :] + [pk]
-        if isinstance((pk := team.hunt.starting_location_id), int):
+        if isinstance((pk := settings.ALWAYS_FIRST_QR_PK), int):
             i = pks.index(pk) if pk in pks else r.randrange(0, len(pks))
             pks = [pk] + pks[:i] + pks[i + 1 :]
         return pks
@@ -132,7 +125,6 @@ class Team(models.Model):
     )  # todo use this field to have a club-like page so you can join an open team (future feature)
     current_qr_i = models.IntegerField(default=0)
     solo = models.BooleanField(default=False)
-    hunt = models.ForeignKey("Hunt", on_delete=models.CASCADE, related_name="teams")
 
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
@@ -140,16 +132,12 @@ class Team(models.Model):
 
     @property
     def members(self):
-        """Returns all members of the team, it's a related manager so to convert to queryset use .all() or filter it."""
+        """Returns all members of the team, it's  a related manager so to convert to queryset use .all() or filter it."""
         return User.objects.filter(team=str(self.id))
 
     @property
     def is_full(self):
-        return self.members.count() >= self.hunt.max_team_size
-
-    @property
-    def is_empty(self):
-        return self.members.count() == 0
+        return self.members.count() >= settings.MAX_TEAM_SIZE
 
     def join(self, user: User):
         if user in self.members.all():
@@ -164,17 +152,16 @@ class Team(models.Model):
 
     @property
     def qr_len(self):
-        """Amount of codes the team has completed (+1) (assuming no skips)"""
+        """Amount of codes the team has completed  (+1) (assuming no skips)"""
         return int(self.current_qr_i) + 1
 
     def __str__(self):
         return str(self.name)
 
     def save(self, *args, **kwargs):
-        data = super().save(*args, **kwargs)
         if self._state.adding:  # only generate key on creation not on update
-            Invite.objects.create(team=self, code=generate_invite_code())
-        return data
+            Invite.objects.create(team=self, code=generate_invite_code()).save()
+        return super().save(*args, **kwargs)
 
 
 class Invite(models.Model):
@@ -182,80 +169,18 @@ class Invite(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="invites")
     code = models.CharField(max_length=32, unique=True)
 
-    def __str__(self):
-        return str(self.team.name)
 
-
-class Hunt(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=64)
-    start = models.DateTimeField(blank=False, null=False)
-    end = models.DateTimeField(blank=False, null=False)
-    max_team_size = models.PositiveSmallIntegerField(
-        default=4, help_text="Max Team size"
-    )
-    path_length = models.PositiveSmallIntegerField(
-        default=15,
-        help_text="Length of the path: The amount of codes each time will have to find before the end.",
-    )
-    starting_location = models.ForeignKey(
-        QrCode, on_delete=models.PROTECT, related_name="starting_location"
-    )
-    ending_location = models.ForeignKey(
-        QrCode, on_delete=models.PROTECT, related_name="ending_location"
-    )
-    early_access_users = models.ManyToManyField(
-        User,
-        related_name="early_access_users",
-        help_text="Users that can access this hunt before it starts",
-        blank=True,
-    )
-    form_url = models.URLField(
-        help_text="Google form to fill out after the hunt", null=True, blank=True
-    )
-    ending_text = models.TextField(
-        help_text="Text to display after the hunt is over. If you want to include a url (e.g. a google form) at the end use text inside of double curly brackets {{ }} to show where the form will go. "
-        "The text inside the brackets is what will be shown to the user. "
-        "e.g. {{this form}}, users will only see 'this form' but can click it to get to the form specified above",
-        max_length=250,
-    )
-
-    def __str__(self):
-        return self.name
-
-    @classmethod
-    def current_hunt(cls):
-        try:
-            return cls.objects.get(start__lte=timezone.now(), end__gte=timezone.now())
-        except cls.DoesNotExist:
-            return None
-
-    def clean(self):
-        """
-        Due to how this was designed, it is not possible to have multiple hunts running at the same time.
-        This method prevents that from happening.
-        """
-
-        overlapping_events = Hunt.objects.filter(
-            start__lte=self.start, end__gte=self.end  # todo fix
-        ).exclude(pk=self.pk)
-        if overlapping_events.exists():
-            raise ValidationError(
-                "This event overlaps with existing events. Please choose a different time. Or Delete the other event."
-            )
-
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                check=models.Q(start__lt=models.F("end")),
-                name="start_before_end",
-            ),
-            # starting location cannot be the same as ending
-            models.CheckConstraint(
-                check=~models.Q(starting_location=models.F("ending_location")),
-                name="start_not_equal_end",
-            ),
-        ]
+# class Hunt(models.Model):
+#    id = models.AutoField(primary_key=True)
+#    name = models.CharField(max_length=64)
+#    start = models.DateTimeField()
+#    end = models.DateTimeField()
+#    is_active = models.BooleanField(default=False)
+#    team_size = models.IntegerField(default=4, help_text="Max Team size")
+#    final_qr_id = models.IntegerField(null=True, blank=True)
+#
+#    def __str__(self):
+#        return self.name
 
 
 class LogicPuzzleHint(models.Model):
@@ -270,9 +195,7 @@ class LogicPuzzleHint(models.Model):
         unique=True,
     )
 
-    belongs_to = models.ForeignKey(
-        Hunt, related_name="logic_puzzle", on_delete=models.CASCADE
-    )
+    # belongs_to = models.ForeignKey(Hunt, related_name="logic_puzzle_hunt", on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.hint)
@@ -291,16 +214,3 @@ class LogicPuzzleHint(models.Model):
             return hint.hint
         except cls.DoesNotExist:
             return None
-
-
-@receiver(pre_save, sender=User)
-def remove_empty_teams(sender, instance: User, **kwargs):
-    obj = User.objects.get(id=instance.id)  # get the current object from the database
-    if obj.team is not None and obj.team != instance.team:
-        print("switching teams")
-        # raise ValueError(
-        #    "User cannot be in multiple teams at the same time. Please leave your current team before joining a new one."
-
-        if instance.team.members.count() == 0:
-            print("deleting team")
-            obj.team.delete()

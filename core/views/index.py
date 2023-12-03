@@ -9,9 +9,7 @@ from ..models import User
 @require_http_methods(["GET"])
 def index(q):
     return render(
-        q,
-        "core/index.html" if q.user.is_authenticated else "core/gate.html",
-        {},
+        q, "core/index.html" if q.user.is_authenticated else "core/gate.html", {}
     )
 
 

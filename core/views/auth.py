@@ -31,8 +31,7 @@ def pkce1(q):
     code_challenge = code_challenge.rstrip("=")
     code_challenge_method = "S256"
     return dict(
-        code_challenge=code_challenge,
-        code_challenge_method=code_challenge_method,
+        code_challenge=code_challenge, code_challenge_method=code_challenge_method
     )
 
 
@@ -95,8 +94,7 @@ def oauth_auth(q):
     access_token = s2d["access_token"]
     refresh_token = s2d["refresh_token"]
     q3 = requests.get(
-        settings.YASOI["me_url"],
-        headers={"Authorization": f"Bearer {access_token}"},
+        settings.YASOI["me_url"], headers={"Authorization": f"Bearer {access_token}"}
     )
     q3.raise_for_status()
     s3d = q3.json()

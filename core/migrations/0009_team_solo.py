@@ -5,10 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        (
-            "core",
-            "0008_alter_invite_code_alter_qrcode_key_alter_team_name",
-        ),
+        ("core", "0008_alter_invite_code_alter_qrcode_key_alter_team_name"),
     ]
 
     operations = [

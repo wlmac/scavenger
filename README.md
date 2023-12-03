@@ -28,11 +28,3 @@ then run
 ```bash
 python manage.py init
 ```
-
-## Before you start a new hunt
-```bash
-python manage.py new_event
-```
-if you want to retain the old teams, import the old teams into the new event
-
-
