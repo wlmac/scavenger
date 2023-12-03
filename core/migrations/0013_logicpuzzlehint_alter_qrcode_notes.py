@@ -12,14 +12,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="LogicPuzzleHint",
             fields=[
-                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "id",
+                    models.AutoField(primary_key=True, serialize=False),
+                ),
                 (
                     "hint",
                     models.TextField(
-                        help_text="Hint for the logic puzzle", max_length=1024
+                        help_text="Hint for the logic puzzle",
+                        max_length=1024,
                     ),
                 ),
-                ("notes", models.TextField(blank=True, help_text="Internal notes")),
+                (
+                    "notes",
+                    models.TextField(blank=True, help_text="Internal notes"),
+                ),
                 (
                     "qr_index",
                     models.IntegerField(

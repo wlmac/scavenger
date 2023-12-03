@@ -19,7 +19,9 @@ class Migration(migrations.Migration):
             model_name="qrcode",
             name="key",
             field=models.CharField(
-                default=core.models.generate_hint_key, max_length=64, unique=True
+                default=core.models.generate_hint_key,
+                max_length=64,
+                unique=True,
             ),
         ),
         migrations.AlterField(

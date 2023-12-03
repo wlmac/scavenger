@@ -315,6 +315,16 @@ Django = ">=3.2"
 django-js-asset = ">=2.0"
 
 [[package]]
+name = "django-impersonate"
+version = "1.9.2"
+description = "Django app to allow superusers to impersonate other users."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-impersonate-1.9.2.tar.gz", hash = "sha256:5eae7f1fe25ffd1af7fc7f338cb0c9b2d84bb874a95c3f07b65e2bcd1ee1f8b2"},
+]
+
+[[package]]
 name = "django-js-asset"
 version = "2.1.0"
 description = "script tag with additional attributes for django.forms.Media"
@@ -452,4 +462,5 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "aee0a61f76c65794400278d18a29f5e43425b4de4019238ab81fbf9e3896060f"
+content-hash = "9f7ca6a088c6b910bc55cc7a9368ce083a9279353d61dffbfb277e44472113bf"
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-17 20:51+0000\n"
+"POT-Creation-Date: 2023-12-02 21:51-0500\n"
 "PO-Revision-Date: 2022-12-16 20:24+EST\n"
 "Last-Translator: にぃゆい <+@nyiyui.ca>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,55 +17,103 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: core/templates/core/base.html:22
+#: .\core\admin.py:14
+msgid "Set selected users as a Location Setter"
+msgstr ""
+
+#: .\core\admin.py:25
+msgid "Set selected users as a Logic Puzzle Setter"
+msgstr ""
+
+#: .\core\admin.py:117
+msgid "Link to Hint Page"
+msgstr ""
+
+#: .\core\templates\core\base.html:22
 msgid "starts in"
 msgstr "あと"
 
-#: core/templates/core/base.html:23
+#: .\core\templates\core\base.html:23
 msgid "__startsPost"
 msgstr "で始まるにゃ"
 
-#: core/templates/core/base.html:24
+#: .\core\templates\core\base.html:24
 msgid "__endsPre"
 msgstr "あと"
 
-#: core/templates/core/base.html:25
+#: .\core\templates\core\base.html:25
 msgid "remaining"
 msgstr "だよ〜"
 
-#: core/templates/core/base.html:26
+#: .\core\templates\core\base.html:26
 msgid "scavenger hunt ended!"
 msgstr "終了〜！"
 
-#: core/templates/core/base.html:148
+#: .\core\templates\core\base.html:105
 msgid "Home"
 msgstr "ホーム"
 
-#: core/templates/core/base.html:155
+#: .\core\templates\core\base.html:112
 msgid "Admin"
 msgstr "管理"
 
-#: core/templates/core/base.html:161
+#: .\core\templates\core\base.html:117
 msgid "current"
 msgstr "最新ヒント"
 
-#: core/templates/core/base.html:166 core/templates/core/logout.html:6
+#: .\core\templates\core\base.html:121 .\core\templates\core\logout.html:6
 msgid "Logout"
 msgstr "ログアウト"
 
-#: core/templates/core/gate.html:6 core/templates/core/index.html:6
+#: .\core\templates\core\base.html:128
+msgid "Login"
+msgstr ""
+
+#: .\core\templates\core\credits.html:6
+msgid "Credits"
+msgstr "Credits"
+
+#: .\core\templates\core\credits.html:10
+msgid "credits"
+msgstr "credits"
+
+#: .\core\templates\core\credits.html:14
+msgid "project manager"
+msgstr ""
+
+#: .\core\templates\core\credits.html:19
+msgid "programming"
+msgstr ""
+
+#: .\core\templates\core\credits.html:29
+msgid "content"
+msgstr ""
+
+#: .\core\templates\core\credits.html:34
+msgid "UI/UX design"
+msgstr ""
+
+#: .\core\templates\core\credits.html:39
+msgid "hints"
+msgstr "ヒント"
+
+#: .\core\templates\core\credits.html:46
+msgid "support"
+msgstr ""
+
+#: .\core\templates\core\gate.html:6 .\core\templates\core\index.html:6
 #, fuzzy
 #| msgid "scavenger hunt ended!"
 msgid "Scavenger Hunt"
 msgstr "終了〜！"
 
-#: core/templates/core/gate.html:11
+#: .\core\templates\core\gate.html:11
 #, fuzzy
 #| msgid "Contest has not started yet."
 msgid "The hunt has not begun yet."
 msgstr "未だ始まってないよ〜"
 
-#: core/templates/core/gate.html:14
+#: .\core\templates\core\gate.html:14
 #, python-format
 msgid ""
 "\n"
@@ -74,7 +122,7 @@ msgstr ""
 "\n"
 "<a href=\"%(login_url)s\">ログイン</a>してね。\n"
 
-#: core/templates/core/index.html:10
+#: .\core\templates\core\index.html:10
 #, python-format
 msgid ""
 "\n"
@@ -83,7 +131,7 @@ msgstr ""
 "\n"
 "%(username)s、ようこそ！\n"
 
-#: core/templates/core/index.html:22
+#: .\core\templates\core\index.html:23
 #, python-format
 msgid ""
 "\n"
@@ -95,7 +143,7 @@ msgstr ""
 "がらくた集め、開始！<a href=\"%(first_url)s\">最初の二次元コード</a>を当て"
 "て！"
 
-#: core/templates/core/index.html:28
+#: .\core\templates\core\index.html:29
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -111,7 +159,7 @@ msgstr ""
 "\n"
 "未だ<a href=\"%(invite_url)s\">メンバー招待</a>も出来るよ。"
 
-#: core/templates/core/index.html:35
+#: .\core\templates\core\index.html:37
 msgid ""
 "\n"
 "        you're going solo\n"
@@ -120,7 +168,7 @@ msgstr ""
 "\n"
 "ソロプレイ"
 
-#: core/templates/core/index.html:39
+#: .\core\templates\core\index.html:41
 #, python-format
 msgid ""
 "\n"
@@ -130,59 +178,59 @@ msgstr ""
 "\n"
 "チームプレイ：%(team)s"
 
-#: core/templates/core/index.html:47 core/templates/core/team_join.html:10
+#: .\core\templates\core\index.html:50 .\core\templates\core\team_join.html:10
 msgid "join a team"
 msgstr "チームに参加"
 
-#: core/templates/core/index.html:50 core/templates/core/team_new.html:10
+#: .\core\templates\core\index.html:53 .\core\templates\core\team_new.html:10
 msgid "make a team"
 msgstr "チームを作る"
 
-#: core/templates/core/index.html:57
+#: .\core\templates\core\index.html:60
 msgid "go solo "
 msgstr "ソロプレイ"
 
-#: core/templates/core/logout.html:10 core/templates/core/logout.html:16
+#: .\core\templates\core\logout.html:10 .\core\templates\core\logout.html:16
 #, fuzzy
 #| msgid "Logout"
 msgid "logout"
 msgstr "ログアウト"
 
-#: core/templates/core/qr.html:10
+#: .\core\templates\core\qr.html:10
 msgid "Hint"
 msgstr "ヒント"
 
-#: core/templates/core/qr.html:32
+#: .\core\templates\core\qr.html:33
 msgid "your team found:"
 msgstr "次のコードを見つけたよ："
 
-#: core/templates/core/qr.html:36
+#: .\core\templates\core\qr.html:37
 msgid "change"
 msgstr "管理"
 
-#: core/templates/core/qr.html:44
+#: .\core\templates\core\qr.html:46
 msgid "your first hint is:"
 msgstr "最初のヒントは："
 
-#: core/templates/core/qr.html:46
+#: .\core\templates\core\qr.html:48
 msgid "your next hint is:"
 msgstr "次のヒントは："
 
-#: core/templates/core/qr.html:68
+#: .\core\templates\core\qr.html:72
 msgid ""
 "Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> "
 "Congratulations valiant scavenger and thank you for playing!"
 msgstr ""
 
-#: core/templates/core/team_invite.html:7
+#: .\core\templates\core\team_invite.html:7
 msgid "Invite Members"
 msgstr "チームに招待"
 
-#: core/templates/core/team_invite.html:11
+#: .\core\templates\core\team_invite.html:11
 msgid "invite members"
 msgstr "チームに招待"
 
-#: core/templates/core/team_invite.html:28
+#: .\core\templates\core\team_invite.html:33
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -194,86 +242,85 @@ msgstr "チームに招待"
 #| "    "
 msgid ""
 "\n"
-"      you may either\n"
-"      <input type=\"button\" value=\"copy the join link\" id=\"share-btn\" "
-"data-share-text=\"share the join link\" data-join-link=\"%(join_link)s\" /"
-">,\n"
-"      invite via code (<code>%(invite.code)s</code>),\n"
-"      or allow them to scan the QR code below:\n"
-"    "
+"            you may either\n"
+"            <input type=\"button\" class=\"qr-uri\" value=\"copy the join "
+"link\" id=\"share-btn\"\n"
+"                   data-share-text=\"click here to copy the join code\" data-"
+"join-link=\"%(join_link)s\"/>,\n"
+"            share via invite code <code>%(code)s</code>,\n"
+"            or allow them to scan the QR code below:\n"
+"        "
 msgstr ""
 "\n"
 "<input type=\"button\" value=\"参加リンクをコピー\" id=\"share-btn\" data-"
 "share-text=\"参加リンクを共有\" data-join-link=\"%(join_link)s\" />するか、下"
 "記の二次元コードをスキャンしてにゃ："
 
-#: core/templates/core/team_join.html:6
+#: .\core\templates\core\team_join.html:6
 #, fuzzy
 #| msgid "join a team"
 msgid "Join a Team"
 msgstr "チームに参加"
 
-#: core/templates/core/team_join.html:14
+#: .\core\templates\core\team_join.html:14
 msgid "either enter your team's join code"
 msgstr "チームの参加コードを入れるか"
 
-#: core/templates/core/team_join.html:18
+#: .\core\templates\core\team_join.html:18
 msgid "Join"
 msgstr "参加"
 
-#: core/templates/core/team_join.html:20
+#: .\core\templates\core\team_join.html:20
 msgid "or, scan your team's QR code"
 msgstr "チームの二次元コードをスキャンしてにゃ"
 
-#: core/templates/core/team_new.html:6
+#: .\core\templates\core\team_new.html:6
 #, fuzzy
 #| msgid "make a team"
 msgid "Make a Team"
 msgstr "チームを作る"
 
-#: core/templates/core/team_new.html:27
+#: .\core\templates\core\team_new.html:24
 msgid "create"
 msgstr "作成"
 
-#: core/views/qr.py:28
+#: .\core\views\qr.py:28
 msgid "Please join a team or choose to go solo before getting a hint."
 msgstr "ヒントを見る前に、ソロプレイするかチームでするか決めてにゃ！"
 
-#: core/views/qr.py:46
+#: .\core\views\qr.py:48
 msgid "Contest has not started yet."
 msgstr "未だ始まってないよ〜"
 
-#: core/views/team.py:23
-msgid "Since the hunt has already begun, switching teams is disallowed."
+#: .\core\views\team.py:24
+#, fuzzy
+#| msgid "Since the hunt has already begun, switching teams is disallowed."
+msgid ""
+"Since the hunt has already begun, switching teams is disallowed. If you need "
+"to switch teams, please contact an admin."
 msgstr "もう始まってるから、チーム変えるのはダメダメだからね。"
 
-#: core/views/team.py:40
+#: .\core\views\team.py:44
 #, python-format
 msgid "Joined team %(team_name)s"
 msgstr "チーム%(team_name)sに参加したにゃ"
 
-#: core/views/team.py:46
+#: .\core\views\team.py:50
 #, python-format
 msgid "Team %(team_name)s is full."
 msgstr "チーム%(team_name)sはもう満杯だよ"
 
-#: core/views/team.py:63
+#: .\core\views\team.py:67
 msgid "Since the hunt has already begun, making new teams is disallowed."
 msgstr "もう始まったから、新しいチーム作るのはダメだよ。"
 
-#: core/views/team.py:76
+#: .\core\views\team.py:83
 #, python-format
 msgid "Made team %(team_name)s"
 msgstr "チーム%(team_name)sをつくったよ。"
 
 #~ msgid "ends in:"
 #~ msgstr "終了時間："
-
-#~ msgid "Credits"
-#~ msgstr "Credits"
-
-#~ msgid "credits"
-#~ msgstr "credits"
 
 #~ msgid ""
 #~ "\n"
@@ -291,9 +338,6 @@ msgstr "チーム%(team_name)sをつくったよ。"
 #~ "UI/UX design: cheollie<br />\n"
 #~ "support: <a href=\"https://maclyonsden.com\">project metropolis</a> and "
 #~ "SAC<br />\n"
-
-#~ msgid "hints"
-#~ msgstr "ヒント"
 
 #~ msgid "thank you for playing!"
 #~ msgstr "やってくれてありがとう！(*˘︶˘*).｡.:*♡"
