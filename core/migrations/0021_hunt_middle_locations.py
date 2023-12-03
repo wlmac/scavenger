@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0020_remove_hunt_form_in_ending_text_and_more'),
+        ("core", "0020_remove_hunt_form_in_ending_text_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='hunt',
-            name='middle_locations',
-            field=models.ManyToManyField(blank=True, help_text='Possible locations that are not the start or end', related_name='hunt', to='core.qrcode'),
+            model_name="hunt",
+            name="middle_locations",
+            field=models.ManyToManyField(
+                blank=True,
+                help_text="Possible locations that are not the start or end",
+                related_name="hunt",
+                to="core.qrcode",
+            ),
         ),
     ]

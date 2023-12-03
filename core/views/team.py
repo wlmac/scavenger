@@ -18,7 +18,7 @@ from .qr import team_required
 @require_http_methods(["GET", "POST"])
 def join(request):
     hunt_ = Hunt.current_hunt()
-    if hunt_.start < datetime.datetime.now() and request.user.team is not None:
+    if hunt_.started and request.user.team is not None:
         messages.error(
             request,
             _(

@@ -230,11 +230,39 @@ class Hunt(models.Model):
         return self.name
 
     @classmethod
-    def current_hunt(cls):
+    def lastest_hunt(cls) -> Hunt | None:
+        """
+        Returns the latest hunt, ended or not.
+        :return: Hunt or None
+        """
+        try:
+            Hunt.objects.filter(start__lte=timezone.now()).order_by("start").last()
+        except IndexError:
+            return None
+
+    @classmethod
+    def current_hunt(cls) -> Hunt | None:
         try:
             return cls.objects.get(start__lte=timezone.now(), end__gte=timezone.now())
         except cls.DoesNotExist:
             return None
+
+    @classmethod
+    def next_hunt(cls) -> Hunt | None:
+        try:
+            return (
+                cls.objects.filter(start__gte=timezone.now()).order_by("start").first()
+            )
+        except IndexError:
+            return None
+
+    @property
+    def started(self):
+        return self.start < timezone.now()
+
+    @property
+    def ended(self):
+        return self.end < timezone.now()
 
     def clean(self):
         """

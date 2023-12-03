@@ -51,24 +51,24 @@ def after_start(f):
         request = args[0]
         if any(
             [
+                hunt_.started and not hunt_.ended,
                 request.user.has_perm("core.view_before_start"),
-                (hunt_.start < datetime.datetime.now() < hunt_.end),
-                hunt_.early_access_users.filter(user=request.user).exists(),
+                hunt_.early_access_users.contains(request.user),
                 request.user.is_superuser,
             ]
         ):
             return f(*args, **kwargs)
 
         # if they DON'T have perms and the hunt hasn't started
-        if hunt_.start > datetime.datetime.now():
+        if hunt_.ended:
             messages.error(
                 request,
-                _("Contest has not started yet."),
+                _("Contest has ended."),
             )
         else:
             messages.error(
                 request,
-                _("Contest has ended."),
+                _("Contest has not started yet."),
             )
         return redirect(reverse("index"))
 
