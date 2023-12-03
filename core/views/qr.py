@@ -52,8 +52,8 @@ def during_hunt(f):
         if any(
             [
                 hunt_.started and not hunt_.ended,
-                request.user.has_perm("core.view_before_start"),
-                hunt_.early_access_users.contains(request.user),
+                request.user.has_perm("core.view_before_start") and not hunt_.ended,
+                hunt_.testers.contains(request.user),
                 request.user.is_superuser,
             ]
         ):

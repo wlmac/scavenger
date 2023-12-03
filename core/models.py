@@ -210,10 +210,10 @@ class Hunt(models.Model):
         help_text="Possible locations that are not the start or end",
         blank=True,
     )
-    early_access_users = models.ManyToManyField(
+    testers = models.ManyToManyField(
         User,
-        related_name="early_access_users",
-        help_text="Users that can access this hunt before it starts",
+        related_name="testers",
+        help_text="Users that can access this hunt before it starts as well as after",
         blank=True,
     )
     form_url = models.URLField(
