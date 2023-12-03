@@ -69,7 +69,7 @@ def set_active(
 
 
 class TeamAdmin(admin.ModelAdmin):
-    readonly_fields = ("path",)
+    readonly_fields = ("path", "members")
     inlines = [
         InviteInLine,
     ]
@@ -81,6 +81,15 @@ class TeamAdmin(admin.ModelAdmin):
             map(
                 lambda pk: str(QrCode.objects.get(id=pk)),
                 QrCode.code_pks(team),
+            )
+        )
+    
+    @admin.display(description="Members")
+    def members(self, team):
+        return "\n".join(
+            map(
+                lambda user: str(user),
+                team.members.all(),
             )
         )
 
