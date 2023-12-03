@@ -31,7 +31,7 @@ def undo_create_hunt(apps, schema_editor):
 
     try:
         Hunt.objects.get(name="First Hunt").delete()
-    except Hunt.DoesNotExist:
+    except (Hunt.DoesNotExist, django.db.utils.OperationalError):
         pass
 
 

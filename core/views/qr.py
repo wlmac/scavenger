@@ -34,7 +34,6 @@ def team_required(f):
 
 
 def after_start(f):
-    hunt_ = Hunt.current_hunt()
     """
 	Decorator for views that checks that the hunt has started.
 	
@@ -47,6 +46,8 @@ def after_start(f):
 
     @wraps(f)
     def wrapped(*args, **kwargs):
+        hunt_ = Hunt.current_hunt()
+    
         request = args[0]
         if any(
             [
