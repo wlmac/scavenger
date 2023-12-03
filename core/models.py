@@ -34,6 +34,8 @@ class User(AbstractUser):
             return True
         except AttributeError:
             return False
+
+
 def generate_hint_key():
     return secrets.token_urlsafe(48)
 
@@ -144,11 +146,11 @@ class Team(models.Model):
     @property
     def is_full(self):
         return self.members.count() >= self.hunt.max_team_size
-    
+
     @property
     def is_empty(self):
         return self.members.count() == 0
-    
+
     def join(self, user: User):
         if user in self.members.all():
             return
@@ -174,6 +176,7 @@ class Team(models.Model):
             Invite.objects.create(team=self, code=generate_invite_code())
         return data
 
+
 class Invite(models.Model):
     invites = models.IntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="invites")
@@ -185,7 +188,9 @@ class Hunt(models.Model):
     name = models.CharField(max_length=64)
     start = models.DateTimeField(blank=False, null=False)
     end = models.DateTimeField(blank=False, null=False)
-    max_team_size = models.PositiveSmallIntegerField(default=4, help_text="Max Team size")
+    max_team_size = models.PositiveSmallIntegerField(
+        default=4, help_text="Max Team size"
+    )
     path_length = models.PositiveSmallIntegerField(
         default=15,
         help_text="Length of the path: The amount of codes each time will have to find before the end.",
@@ -227,7 +232,7 @@ class Hunt(models.Model):
         Due to how this was designed, it is not possible to have multiple hunts running at the same time.
         This method prevents that from happening.
         """
-        
+
         overlapping_events = Hunt.objects.filter(
             start__lte=self.start, end__gte=self.end  # todo fix
         ).exclude(pk=self.pk)
@@ -292,7 +297,7 @@ def remove_empty_teams(sender, instance: User, **kwargs):
         print("switching teams")
         # raise ValueError(
         #    "User cannot be in multiple teams at the same time. Please leave your current team before joining a new one."
-        
+
         if instance.team.members.count() == 0:
             print("deleting team")
             obj.team.delete()

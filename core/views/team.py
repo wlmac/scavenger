@@ -88,7 +88,9 @@ def make(request):
 
 @login_required
 def solo(q: HttpRequest):
-    team = Team.objects.create(solo=True, hunt=Hunt.current_hunt(), name=f"{q.user.username}'s Solo Team")
+    team = Team.objects.create(
+        solo=True, hunt=Hunt.current_hunt(), name=f"{q.user.username}'s Solo Team"
+    )
     q.user.team = team
     q.user.save()
     return redirect(reverse("index"))

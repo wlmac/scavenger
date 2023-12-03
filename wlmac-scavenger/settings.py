@@ -113,7 +113,9 @@ YASOI = dict(
     scope="me_meta internal",
 )
 
-HINTS_GROUP_PK: Final[int] = 1  # the pk of the hints group (defined in commands/init.py)
+HINTS_GROUP_PK: Final[
+    int
+] = 1  # the pk of the hints group (defined in commands/init.py)
 
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:

@@ -83,7 +83,7 @@ class TeamAdmin(admin.ModelAdmin):
                 QrCode.code_pks(team),
             )
         )
-    
+
     @admin.display(description="Members")
     def members(self, team):
         return "\n".join(

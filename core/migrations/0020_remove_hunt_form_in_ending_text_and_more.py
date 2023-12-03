@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("core", "0019_alter_qrcode_key_hunt_logicpuzzlehint_belongs_to_and_more"),
     ]
-    
+
     operations = [
         migrations.RemoveConstraint(
             model_name="hunt",
