@@ -33,7 +33,7 @@ def team_required(f):
     return wrapped
 
 
-def after_start(f):
+def during_hunt(f):
     """
 	Decorator for views that checks that the hunt has started.
 	
@@ -78,7 +78,7 @@ def after_start(f):
 @login_required
 @require_http_methods(["GET", "POST"])
 @team_required
-@after_start
+@during_hunt
 def qr(request, key):
     context = dict(first=False)
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
@@ -101,7 +101,7 @@ def qr(request, key):
 @login_required
 @require_http_methods(["GET", "POST"])
 @team_required
-@after_start
+@during_hunt
 def qr_first(request):
     context = dict(first=True)
     # check if the user is on the first qr code
@@ -118,7 +118,7 @@ def qr_first(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 @team_required
-@after_start
+@during_hunt
 def qr_current(request):
     i = request.user.team.current_qr_i
     context = dict(first=i == 0, current=True)
@@ -134,7 +134,7 @@ def qr_current(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 @team_required
-@after_start
+@during_hunt
 def qr_catalog(request):
     i = request.user.team.current_qr_i
     context = dict(first=i == 0, current=True)
@@ -190,7 +190,7 @@ class SignalStream:
 @login_required
 @require_http_methods(["GET"])
 @team_required
-@after_start
+@during_hunt
 def qr_signal(request):
     s = StreamingHttpResponse(
         SignalStream(signal=global_notifs, pk=request.user.team.id),
