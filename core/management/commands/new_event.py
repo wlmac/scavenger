@@ -16,9 +16,9 @@ class LazyEncoder(DjangoJSONEncoder):
 class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
-
+    
     help = "Prepares the database for the scavenger hunt. (Nukes all teams)"
-
+    
     def handle(self, *args, **options):
         # Loop groups
         try:
