@@ -92,7 +92,7 @@ AUTH_USER_MODEL = "core.User"
 
 LANGUAGE_CODE = "en"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Toronto"
 
 USE_I18N = True
 
@@ -113,15 +113,7 @@ YASOI = dict(
     scope="me_meta internal",
 )
 
-MAX_TEAM_SIZE: Final[int] = 4  # max # of people per team
-ALWAYS_LAST_QR_PK: Final[
-    int
-] = 1  # the pk of the last qr code (that all teams must go to last)
-ALWAYS_FIRST_QR_PK: Final[
-    int
-] = 2  # the pk of the first qr code (that all teams must go to first)
-HINTS_GROUP_PK: Final[int] = 1  # the pk of the hints group (defined in init.py)
-PATH_LENGTH: Final[int] = 15  # how many locations each team must ind
+HINTS_GROUP_PK: Final[int] = 1  # the pk of the hints group (defined in commands/init.py)
 
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:

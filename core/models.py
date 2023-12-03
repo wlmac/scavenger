@@ -3,10 +3,11 @@ from __future__ import annotations
 import random
 import secrets
 
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.html import format_html
 
@@ -33,8 +34,6 @@ class User(AbstractUser):
             return True
         except AttributeError:
             return False
-
-
 def generate_hint_key():
     return secrets.token_urlsafe(48)
 
@@ -82,12 +81,12 @@ class QrCode(models.Model):
     def code_pks(cls, team: "Team"):
         r = random.Random(team.id)
         pks = [a["pk"] for a in QrCode.objects.all().values("pk")]
-        pks = pks[: settings.PATH_LENGTH]
+        pks = pks[: team.hunt.path_length]
         r.shuffle(pks)
-        if isinstance((pk := settings.ALWAYS_LAST_QR_PK), int):
+        if isinstance((pk := team.hunt.ending_location_id), int):
             i = pks.index(pk) if pk in pks else r.randrange(0, len(pks))
             pks = pks[:i] + pks[i + 1 :] + [pk]
-        if isinstance((pk := settings.ALWAYS_FIRST_QR_PK), int):
+        if isinstance((pk := team.hunt.starting_location_id), int):
             i = pks.index(pk) if pk in pks else r.randrange(0, len(pks))
             pks = [pk] + pks[:i] + pks[i + 1 :]
         return pks
@@ -144,8 +143,12 @@ class Team(models.Model):
 
     @property
     def is_full(self):
-        return self.members.count() >= settings.MAX_TEAM_SIZE
-
+        return self.members.count() >= self.hunt.max_team_size
+    
+    @property
+    def is_empty(self):
+        return self.members.count() == 0
+    
     def join(self, user: User):
         if user in self.members.all():
             return
@@ -171,7 +174,6 @@ class Team(models.Model):
             Invite.objects.create(team=self, code=generate_invite_code())
         return data
 
-
 class Invite(models.Model):
     invites = models.IntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="invites")
@@ -181,9 +183,9 @@ class Invite(models.Model):
 class Hunt(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    team_size = models.PositiveSmallIntegerField(default=4, help_text="Max Team size")
+    start = models.DateTimeField(blank=False, null=False)
+    end = models.DateTimeField(blank=False, null=False)
+    max_team_size = models.PositiveSmallIntegerField(default=4, help_text="Max Team size")
     path_length = models.PositiveSmallIntegerField(
         default=15,
         help_text="Length of the path: The amount of codes each time will have to find before the end.",
@@ -198,6 +200,7 @@ class Hunt(models.Model):
         User,
         related_name="early_access_users",
         help_text="Users that can access this hunt before it starts",
+        blank=True,
     )
     form_url = models.URLField(
         help_text="Google form to fill out after the hunt", null=True, blank=True
@@ -215,7 +218,7 @@ class Hunt(models.Model):
     @classmethod
     def current_hunt(cls):
         try:
-            return cls.objects.get(start__lt=timezone.now(), end__gt=timezone.now())
+            return cls.objects.get(start__lte=timezone.now(), end__gte=timezone.now())
         except cls.DoesNotExist:
             return None
 
@@ -224,10 +227,10 @@ class Hunt(models.Model):
         Due to how this was designed, it is not possible to have multiple hunts running at the same time.
         This method prevents that from happening.
         """
-        overlapping_events = self.objects.filter(
-            start_date__lte=self.start, end_date__gte=self.end
+        
+        overlapping_events = Hunt.objects.filter(
+            start__lte=self.start, end__gte=self.end  # todo fix
         ).exclude(pk=self.pk)
-
         if overlapping_events.exists():
             raise ValidationError(
                 "This event overlaps with existing events. Please choose a different time. Or Delete the other event."
@@ -244,13 +247,6 @@ class Hunt(models.Model):
                 check=~models.Q(starting_location=models.F("ending_location")),
                 name="start_not_equal_end",
             ),
-            # make sure ending_text contains {{ }} for the form
-            models.CheckConstraint(
-                check=models.Q(ending_text__contains="{{")
-                & models.Q(ending_text__contains="}}"),
-                name="form_in_ending_text",
-            ),
-            # Ensure there isn't a different hunt running in that timespan
         ]
 
 
@@ -287,3 +283,16 @@ class LogicPuzzleHint(models.Model):
             return hint.hint
         except cls.DoesNotExist:
             return None
+
+
+@receiver(pre_save, sender=User)
+def remove_empty_teams(sender, instance: User, **kwargs):
+    obj = User.objects.get(id=instance.id)  # get the current object from the database
+    if obj.team is not None and obj.team != instance.team:
+        print("switching teams")
+        # raise ValueError(
+        #    "User cannot be in multiple teams at the same time. Please leave your current team before joining a new one."
+        
+        if instance.team.members.count() == 0:
+            print("deleting team")
+            obj.team.delete()

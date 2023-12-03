@@ -3,13 +3,13 @@ import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.utils.translation import gettext as _
 
-from ..models import Team, Invite, generate_invite_code
+from ..models import Team, Invite, generate_invite_code, Hunt
 from ..forms import TeamJoinForm, TeamMakeForm
 from .qr import team_required
 
@@ -17,10 +17,13 @@ from .qr import team_required
 @login_required
 @require_http_methods(["GET", "POST"])
 def join(request):
-    if settings.START < datetime.datetime.now() and not request.user.team is None:
+    if settings.START < datetime.datetime.now() and request.user.team is not None:
         messages.error(
             request,
-            _("Since the hunt has already begun, switching teams is disallowed."),
+            _(
+                "Since the hunt has already begun, switching teams is disallowed. "
+                "If you need to switch teams, please contact an admin."
+            ),
         )
         return redirect(reverse("index"))
     if request.method == "POST":
@@ -67,11 +70,11 @@ def make(request):
     if request.method == "POST":
         form = TeamMakeForm(request.POST)
         if form.is_valid():
-            form.save()
-            team = request.user.team = form.instance
+            raw: Team = form.save(commit=False)
+            raw.hunt = Hunt.current_hunt()
+            raw.save()
+            request.user.team = raw
             request.user.save()
-            invite = Invite(team=team, code=generate_invite_code())
-            invite.save()
             messages.success(
                 request,
                 _("Made team %(team_name)s")
@@ -84,9 +87,9 @@ def make(request):
 
 
 @login_required
-def solo(q):
-    q.user.team = (team := Team(solo=True))
-    team.save()
+def solo(q: HttpRequest):
+    team = Team.objects.create(solo=True, hunt=Hunt.current_hunt(), name=f"{q.user.username}'s Solo Team")
+    q.user.team = team
     q.user.save()
     return redirect(reverse("index"))
 
@@ -96,4 +99,5 @@ def solo(q):
 @team_required
 def invite(q):
     invites = Invite.objects.filter(team=q.user.team).values_list("code", flat=True)
+    print(invites)  # todo fix
     return render(q, "core/team_invite.html", context=dict(invites=invites))
