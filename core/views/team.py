@@ -61,7 +61,7 @@ def join(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 def make(request):
-	if settings.START < datetime.datetime.now() and request.user.team is not None:
+    if settings.START < datetime.datetime.now() and request.user.team is not None:
         messages.error(
             request,
             _("Since the hunt has already begun, making new teams is disallowed."),
@@ -76,7 +76,7 @@ def make(request):
             request.user.team = raw
             request.user.save()
             Invite.objects.get_or_create(
-	            team=raw, code=generate_invite_code(), invites=0
+                team=raw, code=generate_invite_code(), invites=0
             )
             messages.success(
                 request,
@@ -91,9 +91,9 @@ def make(request):
 
 @login_required
 def solo(q: HttpRequest):
-	team = Team.objects.create(
-		solo=True, hunt=Hunt.current_hunt(), name=f"{q.user.username}'s Solo Team"
-	)
+    team = Team.objects.create(
+        solo=True, hunt=Hunt.current_hunt(), name=f"{q.user.username}'s Solo Team"
+    )
     q.user.team = team
     q.user.save()
     return redirect(reverse("index"))
@@ -105,7 +105,7 @@ def solo(q: HttpRequest):
 def invite(q):
     invites = Invite.objects.filter(team=q.user.team).values_list("code", flat=True)
     if invites.count() == 0:
-	    print("No invites found, creating one")
-	    Invite.objects.create(team=q.user.team, code=generate_invite_code(), invites=0)
-	    return invite(q)
+        print("No invites found, creating one")
+        Invite.objects.create(team=q.user.team, code=generate_invite_code(), invites=0)
+        return invite(q)
     return render(q, "core/team_invite.html", context=dict(invites=invites))
