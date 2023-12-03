@@ -204,6 +204,12 @@ class Hunt(models.Model):
     ending_location = models.ForeignKey(
         QrCode, on_delete=models.PROTECT, related_name="ending_location"
     )
+    middle_locations = models.ManyToManyField(
+        QrCode,
+        related_name="hunt",
+        help_text="Possible locations that are not the start or end",
+        blank=True,
+    )
     early_access_users = models.ManyToManyField(
         User,
         related_name="early_access_users",
