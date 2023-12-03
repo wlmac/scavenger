@@ -35,19 +35,19 @@ def team_required(f):
 
 def after_start(f):
     """
-	Decorator for views that checks that the hunt has started.
-	
-	User can access the view if they meet ANY of the following conditions:
-	- They have the view_before_start permission
-	- The hunt has started
-	- They are on the early access list for that hunt
-	- They are a superuser
-	"""
+    Decorator for views that checks that the hunt has started.
+
+    User can access the view if they meet ANY of the following conditions:
+    - They have the view_before_start permission
+    - The hunt has started
+    - They are on the early access list for that hunt
+    - They are a superuser
+    """
 
     @wraps(f)
     def wrapped(*args, **kwargs):
         hunt_ = Hunt.current_hunt()
-    
+
         request = args[0]
         if any(
             [
