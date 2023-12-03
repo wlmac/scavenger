@@ -124,5 +124,3 @@ except IOError:
     raise TypeError("local_settings.py not found")
 
 SECRET_KEY  # type: ignore
-START  # type: ignore
-END  # type: ignore
