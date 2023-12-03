@@ -35,12 +35,12 @@ def team_required(f):
 
 def during_hunt(f):
     """
-    Decorator for views that checks that the hunt has started.
+    Decorator for views that checks that the hunt is currently active.
 
     User can access the view if they meet ANY of the following conditions:
-    - They have the view_before_start permission
-    - The hunt has started
-    - They are on the early access list for that hunt
+    - They have the view_before_start permission and the hunt hasn't ended
+    - The hunt has started and hasn't ended
+    - They are on the testers list for that hunt
     - They are a superuser
     """
 
