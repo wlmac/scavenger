@@ -19,23 +19,23 @@ from ..models import QrCode, LogicPuzzleHint, Team, Hunt
 
 
 def team_required(f):
-	@wraps(f)
-	def wrapped(*args, **kwargs):
-		request = args[0]
-		if request.user.team is None:
-			messages.error(
-				request,
-				_("Please join a team or choose to go solo before getting a hint."),
-			)
-			return redirect(reverse("index"))
-		return f(*args, **kwargs)
-	
-	return wrapped
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        request = args[0]
+        if request.user.team is None:
+            messages.error(
+                request,
+                _("Please join a team or choose to go solo before getting a hint."),
+            )
+            return redirect(reverse("index"))
+        return f(*args, **kwargs)
+
+    return wrapped
 
 
 def after_start(f):
-	hunt_ = Hunt.current_hunt()
-	"""
+    hunt_ = Hunt.current_hunt()
+    """
 	Decorator for views that checks that the hunt has started.
 	
 	User can access the view if they meet ANY of the following conditions:
@@ -44,34 +44,34 @@ def after_start(f):
 	- They are on the early access list for that hunt
 	- They are a superuser
 	"""
-	
-	@wraps(f)
-	def wrapped(*args, **kwargs):
-		request = args[0]
-		if any(
-				[
-					request.user.has_perm("core.view_before_start"),
-					(hunt_.start < datetime.datetime.now() < hunt_.end),
-					hunt_.early_access_users.filter(user=request.user).exists(),
-					request.user.is_superuser,
-				]
-		):
-			return f(*args, **kwargs)
-		
-		# if they DON'T have perms and the hunt hasn't started
-		if hunt_.start > datetime.datetime.now():
-			messages.error(
-				request,
-				_("Contest has not started yet."),
-			)
-		else:
-			messages.error(
-				request,
-				_("Contest has ended."),
-			)
-		return redirect(reverse("index"))
-	
-	return wrapped
+
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        request = args[0]
+        if any(
+            [
+                request.user.has_perm("core.view_before_start"),
+                (hunt_.start < datetime.datetime.now() < hunt_.end),
+                hunt_.early_access_users.filter(user=request.user).exists(),
+                request.user.is_superuser,
+            ]
+        ):
+            return f(*args, **kwargs)
+
+        # if they DON'T have perms and the hunt hasn't started
+        if hunt_.start > datetime.datetime.now():
+            messages.error(
+                request,
+                _("Contest has not started yet."),
+            )
+        else:
+            messages.error(
+                request,
+                _("Contest has ended."),
+            )
+        return redirect(reverse("index"))
+
+    return wrapped
 
 
 @login_required
@@ -79,22 +79,22 @@ def after_start(f):
 @team_required
 @after_start
 def qr(request, key):
-	context = dict(first=False)
-	context["qr"] = qr = get_object_or_404(QrCode, key=key)
-	context["qr"]: QrCode
-	context["hunt"]: Hunt = qr.hunt
-	codes = QrCode.code_pks(request.user.team)
-	if qr.id not in codes:
-		context["offpath"] = True
-		return render(request, "core/qr.html", context=context)
-	i = codes.index(qr.id)
-	context["nextqr"] = (
-		None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
-	)
-	context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
-	# TODO: check if they skipped?
-	request.user.team.update_current_qr_i(i)
-	return render(request, "core/qr.html", context=context)
+    context = dict(first=False)
+    context["qr"] = qr = get_object_or_404(QrCode, key=key)
+    context["qr"]: QrCode
+    context["hunt"]: Hunt = qr.hunt
+    codes = QrCode.code_pks(request.user.team)
+    if qr.id not in codes:
+        context["offpath"] = True
+        return render(request, "core/qr.html", context=context)
+    i = codes.index(qr.id)
+    context["nextqr"] = (
+        None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
+    )
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
+    # TODO: check if they skipped?
+    request.user.team.update_current_qr_i(i)
+    return render(request, "core/qr.html", context=context)
 
 
 @login_required
@@ -102,16 +102,16 @@ def qr(request, key):
 @team_required
 @after_start
 def qr_first(request):
-	context = dict(first=True)
-	# check if the user is on the first qr code
-	# if request.user.team.current_qr_i != 0:
-	#    messages.error(request, _("You are not on the first QR code."))
-	#    return redirect(reverse("qr_current"))
-	context["qr"] = QrCode.codes(request.user.team)[0]
-	codes = QrCode.code_pks(request.user.team)
-	context["nextqr"] = QrCode.objects.get(id=codes[0])
-	context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
-	return render(request, "core/qr.html", context=context)
+    context = dict(first=True)
+    # check if the user is on the first qr code
+    # if request.user.team.current_qr_i != 0:
+    #    messages.error(request, _("You are not on the first QR code."))
+    #    return redirect(reverse("qr_current"))
+    context["qr"] = QrCode.codes(request.user.team)[0]
+    codes = QrCode.code_pks(request.user.team)
+    context["nextqr"] = QrCode.objects.get(id=codes[0])
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
+    return render(request, "core/qr.html", context=context)
 
 
 @login_required
@@ -119,15 +119,15 @@ def qr_first(request):
 @team_required
 @after_start
 def qr_current(request):
-	i = request.user.team.current_qr_i
-	context = dict(first=i == 0, current=True)
-	context["qr"] = QrCode.codes(request.user.team)[request.user.team.current_qr_i]
-	codes = QrCode.code_pks(request.user.team)
-	context["nextqr"] = (
-		None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
-	)
-	context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
-	return render(request, "core/qr.html", context=context)
+    i = request.user.team.current_qr_i
+    context = dict(first=i == 0, current=True)
+    context["qr"] = QrCode.codes(request.user.team)[request.user.team.current_qr_i]
+    codes = QrCode.code_pks(request.user.team)
+    context["nextqr"] = (
+        None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
+    )
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
+    return render(request, "core/qr.html", context=context)
 
 
 @login_required
@@ -135,10 +135,10 @@ def qr_current(request):
 @team_required
 @after_start
 def qr_catalog(request):
-	i = request.user.team.current_qr_i
-	context = dict(first=i == 0, current=True)
-	context["qr"] = QrCode.codes(request.user.team)[: request.user.team.current_qr_i]
-	return render(request, "core/qr_catalog.html", context=context)
+    i = request.user.team.current_qr_i
+    context = dict(first=i == 0, current=True)
+    context["qr"] = QrCode.codes(request.user.team)[: request.user.team.current_qr_i]
+    return render(request, "core/qr_catalog.html", context=context)
 
 
 global_notifs = Signal()
@@ -146,44 +146,44 @@ global_notifs = Signal()
 
 @receiver(signals.post_save, sender=Team)
 def team_change(sender, **kwargs):
-	global_notifs.send("team_change", orig_sender=sender, kwargs=kwargs)
+    global_notifs.send("team_change", orig_sender=sender, kwargs=kwargs)
 
 
 class SignalStream:
-	def __init__(self, signal, pk: int):
-		self.signal = signal
-		self.pk = pk
-		self.q = LifoQueue()
-		self.end = False
-		self.__setup()
-	
-	def __setup(self):
-		self.signal.connect(self.__receive)
-		self.q.put(("init", {}))
-	
-	def __del__(self):
-		self.signal.disconnect(self.__receive)
-	
-	def __receive(self, sender, **kwargs):
-		self.q.put((sender, kwargs))
-	
-	def __iter__(self):
-		return self
-	
-	def __next__(self):
-		while 1:
-			if self.end:
-				raise StopIteration
-			sender, kwargs = self.q.get()
-			if sender == "team_change":
-				team = kwargs["kwargs"]["instance"]
-				if self.pk == team.id:
-					self.end = True
-					return f"event: {sender}\ndata: null\n"
-				else:
-					continue
-			else:
-				return f"event: {sender}\ndata: null\n"
+    def __init__(self, signal, pk: int):
+        self.signal = signal
+        self.pk = pk
+        self.q = LifoQueue()
+        self.end = False
+        self.__setup()
+
+    def __setup(self):
+        self.signal.connect(self.__receive)
+        self.q.put(("init", {}))
+
+    def __del__(self):
+        self.signal.disconnect(self.__receive)
+
+    def __receive(self, sender, **kwargs):
+        self.q.put((sender, kwargs))
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        while 1:
+            if self.end:
+                raise StopIteration
+            sender, kwargs = self.q.get()
+            if sender == "team_change":
+                team = kwargs["kwargs"]["instance"]
+                if self.pk == team.id:
+                    self.end = True
+                    return f"event: {sender}\ndata: null\n"
+                else:
+                    continue
+            else:
+                return f"event: {sender}\ndata: null\n"
 
 
 @login_required
@@ -191,9 +191,9 @@ class SignalStream:
 @team_required
 @after_start
 def qr_signal(request):
-	s = StreamingHttpResponse(
-		SignalStream(signal=global_notifs, pk=request.user.team.id),
-		content_type="text/event-stream",
-	)
-	s["Cache-Control"] = "no-cache"
-	return s
+    s = StreamingHttpResponse(
+        SignalStream(signal=global_notifs, pk=request.user.team.id),
+        content_type="text/event-stream",
+    )
+    s["Cache-Control"] = "no-cache"
+    return s
