@@ -181,7 +181,7 @@ class Invite(models.Model):
     invites = models.IntegerField(default=0)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="invites")
     code = models.CharField(max_length=32, unique=True)
-    
+
     def __str__(self):
         return str(self.team.name)
 
