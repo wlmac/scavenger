@@ -3,49 +3,51 @@
 {% load static %}
 
 {% block title %}
-{% translate 'Credits' %}
+    {% translate 'Credits' %}
 {% endblock %}
 
 {% block header %}
-{% translate 'credits' %}
+    {% translate 'credits' %}
 {% endblock %}
 
 {% block body %}
-<h2>{% translate 'project manager' %}</h2>
-<ul class="nodot">
-  <li>Patrick Lin</li>
-</ul>
+    <h2>{% translate 'project manager' %}</h2>
+    <ul class="nodot">
+        <li>Patrick Lin</li>
+    </ul>
 
-<h2>{% translate 'programming' %}</h2>
-<ul class="nodot">
-    <li>Jason Cameron</li>
-    <li>nyiyui</li>
-    <li>Jimmy Liu</li>
-    <li>Glen Lin</li>
-    <li>Joshua Wang</li>
-    <li>Chelsea Wong</li>
-</ul>
+    <h2>{% translate 'programming' %}</h2>
+    <ul class="nodot">
+        <li>Jason Cameron</li>
+        <li>nyiyui</li>
+        <li>Jimmy Liu</li>
+        <li>Glen Lin</li>
+        <li>Joshua Wang</li>
+    </ul>
 
-<h2>{% translate 'content' %}</h2>
-<ul class="nodot">
-  <li>Misheel Batkhuu</li>
-</ul>
+    <h2>{% translate 'content' %}</h2>
+    <ul class="nodot">
+        <li>Misheel Batkhuu</li>
+        <li>Warisha Shams</li>
+    </ul>
 
-<h2>{% translate 'UI/UX design' %}</h2>
-<ul class="nodot">
-  <li>Chelsea Wong</li>
-</ul>
+    <h2>{% translate 'UI/UX design' %}</h2>
+    <ul class="nodot">
+        <li>Chelsea Wong</li>
+        <li>Daniel Ye</li>
+        <li>Patrick Bian</li>
+    </ul>
 
-<h2>{% translate 'hints' %}</h2>
-<ul class="nodot">
-  {% for hs in hintsetters %}
-    <li>{{ hs.get_full_name }}</li>
-  {% endfor %}
-</ul>
+    <h2>{% translate 'hints' %}</h2>
+    <ul class="nodot">
+        {% for hs in hintsetters %}
+            <li>{{ hs.get_full_name }}</li>
+        {% endfor %}
+    </ul>
 
-<h2>{% translate 'support' %}</h2>
-<ul class="nodot">
-  <li><a href="https://maclyonsden.com">project metropolis</a></li>
-  <li>Student Council</li>
-</ul>
+    <h2>{% translate 'support' %}</h2>
+    <ul class="nodot">
+        <li><a href="https://maclyonsden.com">project metropolis</a></li>
+        <li>Student Council</li>
+    </ul>
 {% endblock %}
