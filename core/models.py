@@ -81,16 +81,26 @@ class QrCode(models.Model):
 
     @classmethod
     def code_pks(cls, team: "Team"):
-        r = random.Random(team.id)
-        pks = [a["pk"] for a in QrCode.objects.all().values("pk")]
-        pks = pks[: team.hunt.path_length]
+        """
+        Returns the QR codes that the team has to find in order.
+        The algorithm behind this system is as follows:
+        1. Get the hunt that the team belongs to
+        2. Get the QR codes that are in the middle of the path for the specified hunt
+        3. Shuffle QR codes (using the team id appended to hunt id as the key)
+        4. Get the first n QR codes (n being the path length)
+        5. Add the starting and ending QR codes to list
+        6. Return the list
+        """
+        hunt: Hunt = team.hunt
+        r = random.Random(str(hunt.id) + str(team.id))
+        hunt_codes = hunt.middle_locations.all()
+        pks = [a["pk"] for a in hunt_codes.values("pk")]
         r.shuffle(pks)
-        if isinstance((pk := team.hunt.ending_location_id), int):
-            i = pks.index(pk) if pk in pks else r.randrange(0, len(pks))
-            pks = pks[:i] + pks[i + 1 :] + [pk]
-        if isinstance((pk := team.hunt.starting_location_id), int):
-            i = pks.index(pk) if pk in pks else r.randrange(0, len(pks))
-            pks = [pk] + pks[:i] + pks[i + 1 :]
+        pks = pks[: hunt.path_length]
+        if hunt_end := hunt.ending_location:
+            pks.append(hunt_end.id)
+        if hunt_start := hunt.starting_location:
+            pks.insert(0, hunt_start.id)
         return pks
 
     def hint(self, team: "Team"):
@@ -195,14 +205,23 @@ class Hunt(models.Model):
         default=4, help_text="Max Team size"
     )
     path_length = models.PositiveSmallIntegerField(
-        default=15,
-        help_text="Length of the path: The amount of codes each time will have to find before the end.",
+        default=13,
+        help_text="Length of the path: The amount of codes each time will have to find before the end. (not including start/end)",
     )
     starting_location = models.ForeignKey(
-        QrCode, on_delete=models.PROTECT, related_name="starting_location"
+        QrCode,
+        on_delete=models.PROTECT,
+        related_name="starting_location",
+        blank=True,
+        null=True,
+        help_text="(Optional) A specified starting location for the hunt. All teams will have to scan this QR code as their first.",
     )
     ending_location = models.ForeignKey(
-        QrCode, on_delete=models.PROTECT, related_name="ending_location"
+        QrCode,
+        on_delete=models.PROTECT,
+        related_name="ending_location",
+        blank=True,
+        help_text="(Optional) A specified ending location for the hunt. All teams will get as their last location.",
     )
     middle_locations = models.ManyToManyField(
         QrCode,

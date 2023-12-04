@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as UserAdmin_
 from django.contrib.auth.models import Group
 from django.utils.safestring import mark_safe
@@ -120,6 +120,26 @@ class QrCodeAdmin(admin.ModelAdmin):
             return ""
 
 
+class HuntAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        
+        # todo: add warning if admin attempts to change path length or middle locations when hunt has started (will basically re-randomize the hunt (I THINK))
+        
+        #extras = 1 if obj.starting_location else 0
+        #extras += 1 if obj.ending_location else 0
+        
+        if obj.path_length > obj.middle_locations.count():
+            messages.warning(
+                request,
+                "The path length is longer than the amount of locations. "
+                "If you do not increase middle locations or decrease path length, "
+                "the path length will be reduced to the amount of locations.",
+            )
+            # raise ValidationError(
+            #    "The path length is longer than the amount of locations. Please increase the amount of locations or decrease the path length."
+            # )
+        super().save_model(request, obj, form, change)
+
 class UserAdmin(UserAdmin_):
     readonly_fields = (
         "username",
@@ -148,5 +168,5 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(QrCode, QrCodeAdmin)
 admin.site.register(LogicPuzzleHint, LogicPuzzleAdmin)
-admin.site.register(Hunt)
+admin.site.register(Hunt, HuntAdmin)
 admin.site.register(Invite)
