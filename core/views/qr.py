@@ -106,7 +106,6 @@ def qr(request, key):
     context = dict(first=False)
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
     context["qr"]: QrCode
-    context["hunt"]: Hunt = qr.hunt
     codes = QrCode.code_pks(request.user.team)
     if qr.id not in codes:
         context["offpath"] = True
@@ -131,7 +130,7 @@ def qr_first(request):
     # if request.user.team.current_qr_i != 0:
     #    messages.error(request, _("You are not on the first QR code."))
     #    return redirect(reverse("qr_current"))
-    context["qr"] = QrCode.codes(request.user.team)[0]
+    context["qr"] = QrCode.codes(request.user.team).first()
     codes = QrCode.code_pks(request.user.team)
     context["nextqr"] = QrCode.objects.get(id=codes[0])
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
@@ -145,10 +144,9 @@ def qr_first(request):
 def qr_current(request):
     i = request.user.team.current_qr_i
     context = dict(first=i == 0, current=True)
-    context["qr"] = QrCode.codes(request.user.team)[request.user.team.current_qr_i]
-    codes = QrCode.code_pks(request.user.team)
+    context["qr"] = codes = QrCode.codes(request.user.team)[request.user.team.current_qr_i]
     context["nextqr"] = (
-        None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
+        None if codes.count() <= (j := i + 1) else codes[j]
     )
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     return render(request, "core/qr.html", context=context)

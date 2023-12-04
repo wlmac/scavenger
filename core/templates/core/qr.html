@@ -65,7 +65,7 @@
                 </div>
             {% endif %}
         {% else %}
-            {% ending_block qr.hunt %}
+            {% ending_block request.user.team.hunt %}
             You found Derek! Now, solve the entirety of the logic puzzle to find which of the 5 SAC members in question this locker belongs to <a href="https://forms.gle/eAghxHxWRiXWgeKF9">here</a>! Oh, and close the locker, a dead Derek smells bad.
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
