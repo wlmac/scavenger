@@ -158,7 +158,7 @@ def qr_current(request):
 def qr_catalog(request):
     i = request.user.team.current_qr_i
     context = dict(first=i == 0, current=True)
-    context["qr"] = QrCode.codes(request.user.team).all()[
+    context["qr"] = QrCode.codes(request.user.team)[
         : request.user.team.current_qr_i
     ]
     return render(request, "core/qr_catalog.html", context=context)
