@@ -7,5 +7,5 @@ __pycache__
 /venv
 .idea/workspace.xml
 .idea/misc.xml
-
+.idea/scavenger.iml
 ```
