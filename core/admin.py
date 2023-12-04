@@ -113,7 +113,7 @@ class QrCodeAdmin(admin.ModelAdmin):
         if qr.id:
             return format_html(
                 mark_safe('<a href="{}">{}</a>'),
-                (url := reverse("qr", kwargs=dict(key=qr.key))),
+                reverse("qr", kwargs=dict(key=qr.key)),
                 _("Link to Hint Page"),
             )
         else:
