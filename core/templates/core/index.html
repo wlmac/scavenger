@@ -21,7 +21,7 @@ welcome, {{ username }}!
 {% if request.user.in_team and not START_BEFORE %}
   {% url 'qr_first' as first_url %}
   {% blocktranslate %}
-    the hunt has started! go decrypt your <a href="{{ first_url }}">first hint</a>!
+      {{ hunt_name }} has started! go decrypt your <a href="{{ first_url }}">first hint</a>!
   {% endblocktranslate %}
   <br />
   {% if not request.user.team.solo %}

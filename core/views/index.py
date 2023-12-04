@@ -3,15 +3,18 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.views.decorators.http import require_http_methods
 
-from ..models import User
+from ..models import User, Hunt
 
 
 @require_http_methods(["GET"])
 def index(q):
+    hunt = Hunt.current_hunt() or Hunt.next_hunt()
+    context = dict(first=False)
+    context["hunt_name"] = hunt or "The hunt"
     return render(
         q,
         "core/index.html" if q.user.is_authenticated else "core/gate.html",
-        {},
+        context,
     )
 
 
