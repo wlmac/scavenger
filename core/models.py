@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import random
 import secrets
+from typing import List
 
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import QuerySet
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -75,7 +77,7 @@ class QrCode(models.Model):
         return f"{self.id} {self.short or self.location}"
 
     @classmethod
-    def codes(cls, team: "Team"):
+    def codes(cls, team: "Team") -> List[QrCode]:
         pks = QrCode.code_pks(team)
         return [QrCode.objects.get(id=a) for a in pks]
 
