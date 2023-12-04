@@ -13,6 +13,7 @@ fontawesomefree = "^6.2.1"
 mistune = "^3.0.2"
 django-ckeditor = "^6.0.0"
 django-impersonate = "^1.9.2"
+black = "^23.11.0"
 [tool.poetry.dev-dependencies]
 
 [build-system]
