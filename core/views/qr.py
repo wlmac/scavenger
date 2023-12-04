@@ -104,10 +104,14 @@ def during_hunt(f):
 @during_hunt
 def qr(request, key):
     context = dict(first=False)
-    context["qr"] = qr = get_object_or_404(QrCode, key=key)
     context["qr"]: QrCode
+    context["qr"] = qr = get_object_or_404(QrCode, key=key)
     codes = QrCode.code_pks(request.user.team)
-    if qr.id not in codes:
+    if qr.id != codes[request.user.team.current_qr_i]:
+        """
+        Either the user skipped ahead (is on path) or they found a random qr code (not on path)
+        Either way... not allowed
+        """
         context["offpath"] = True
         return render(request, "core/qr.html", context=context)
     i = codes.index(qr.id)
@@ -115,8 +119,7 @@ def qr(request, key):
         None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
     )
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
-    # TODO: check if they skipped?
-    request.user.team.update_current_qr_i(i)
+    request.user.team.update_current_qr_i(i + 1)
     return render(request, "core/qr.html", context=context)
 
 
