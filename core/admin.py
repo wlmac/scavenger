@@ -122,12 +122,11 @@ class QrCodeAdmin(admin.ModelAdmin):
 
 class HuntAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
-        
         # todo: add warning if admin attempts to change path length or middle locations when hunt has started (will basically re-randomize the hunt (I THINK))
-        
-        #extras = 1 if obj.starting_location else 0
-        #extras += 1 if obj.ending_location else 0
-        
+
+        # extras = 1 if obj.starting_location else 0
+        # extras += 1 if obj.ending_location else 0
+
         if obj.path_length > obj.middle_locations.count():
             messages.warning(
                 request,
@@ -139,6 +138,7 @@ class HuntAdmin(admin.ModelAdmin):
             #    "The path length is longer than the amount of locations. Please increase the amount of locations or decrease the path length."
             # )
         super().save_model(request, obj, form, change)
+
 
 class UserAdmin(UserAdmin_):
     readonly_fields = (
