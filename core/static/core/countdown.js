@@ -11,6 +11,13 @@ function assertClass(classList, className, contains) {
 }
 
 const newCalculateTime = (start, end, startsPre, startsPost, endsPre, endsPost, ended) => () => {
+  /*
+  starts: before start
+  ends: after start before end (during)
+  ended: after end
+
+
+   */
   let started = false
   let finished = false
   let d = Math.floor((end - Date.now()) / 1000)
