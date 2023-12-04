@@ -77,7 +77,7 @@ class QrCode(models.Model):
         return f"{self.id} {self.short or self.location}"
 
     @classmethod
-    def codes(cls, team: "Team") -> List[QrCode]:
+    def codes(cls, team: "Team") -> List[QrCode]: # todo: have this return an ordered QuerySet instead of a list
         pks = QrCode.code_pks(team)
         return [QrCode.objects.get(id=a) for a in pks]
 
