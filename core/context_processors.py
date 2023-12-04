@@ -1,18 +1,30 @@
 import datetime
 
 from core.models import Hunt
-from django.conf import settings
 from django.utils import timezone
 
 
 def start(request):
     hunt = Hunt.current_hunt()
     now = timezone.now()
+    if hunt is not None:
+        event_start = hunt.start
+        event_end = hunt.end
+    elif Hunt.next_hunt() is not None:
+        hunt = Hunt.next_hunt()
+        event_start = hunt.start
+        event_end = hunt.end
+    else:
+        print("WARNING: No hunt is scheduled")
+        print("Please add a hunt in the future to the database")
+        event_start = timezone.now() + datetime.timedelta(weeks=75)
+        event_end = event_start + datetime.timedelta(hours=3)
+
     return dict(
-        START=(start := hunt.start),
-        START_BEFORE=start > now,
-        START_UNTIL=start - now,
-        END=(end := hunt.end),
-        END_BEFORE=end > now,
-        END_UNTIL=end - now,
+        START=event_start,
+        START_BEFORE=event_start > now,
+        START_UNTIL=event_start - now,
+        END=event_end,
+        END_BEFORE=event_end > now,
+        END_UNTIL=event_end - now,
     )
