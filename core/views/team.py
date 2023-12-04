@@ -11,13 +11,14 @@ from django.utils.translation import gettext as _
 
 from ..models import Team, Invite, generate_invite_code, Hunt
 from ..forms import TeamJoinForm, TeamMakeForm
-from .qr import team_required
+from .qr import team_required, upcoming_hunt_required
 
 
 @login_required
 @require_http_methods(["GET", "POST"])
+@upcoming_hunt_required
 def join(request):
-    hunt_ = Hunt.current_hunt()
+    hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
     if hunt_.started and request.user.team is not None:
         messages.error(
             request,
@@ -61,9 +62,10 @@ def join(request):
 
 @login_required
 @require_http_methods(["GET", "POST"])
+@upcoming_hunt_required
 def make(request):
-    hunt_ = Hunt.current_hunt()
-    if hunt_.start < datetime.datetime.now() and request.user.team is not None:
+    hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
+    if hunt_.started and request.user.team is not None:
         messages.error(
             request,
             _("Since the hunt has already begun, making new teams is disallowed."),
@@ -73,7 +75,7 @@ def make(request):
         form = TeamMakeForm(request.POST)
         if form.is_valid():
             raw: Team = form.save(commit=False)
-            raw.hunt = Hunt.current_hunt()
+            raw.hunt = Hunt.current_hunt() or Hunt.next_hunt()
             raw.save()
             request.user.team = raw
             request.user.save()
@@ -92,9 +94,11 @@ def make(request):
 
 
 @login_required
+@upcoming_hunt_required
 def solo(q: HttpRequest):
+    hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
     team = Team.objects.create(
-        solo=True, hunt=Hunt.current_hunt(), name=f"{q.user.username}'s Solo Team"
+        solo=True, hunt=hunt_, name=f"{q.user.username}'s Solo Team"
     )
     q.user.team = team
     q.user.save()
@@ -104,6 +108,7 @@ def solo(q: HttpRequest):
 @login_required
 @require_http_methods(["GET"])
 @team_required
+@upcoming_hunt_required  # redundant
 def invite(q):
     invites = Invite.objects.filter(team=q.user.team).values_list("code", flat=True)
     if invites.count() == 0:

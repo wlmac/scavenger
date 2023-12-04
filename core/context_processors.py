@@ -5,9 +5,8 @@ from django.utils import timezone
 
 
 def start(request):
-    hunt = Hunt.current_hunt()
     now = timezone.now()
-    if hunt is not None:
+    if hunt := Hunt.current_hunt() is not None:
         event_start = hunt.start
         event_end = hunt.end
     elif Hunt.next_hunt() is not None:
@@ -17,7 +16,7 @@ def start(request):
     else:
         print("WARNING: No hunt is scheduled")
         print("Please add a hunt in the future to the database")
-        event_start = timezone.now() + datetime.timedelta(weeks=75)
+        event_start = now + datetime.timedelta(weeks=75)
         event_end = event_start + datetime.timedelta(hours=3)
 
     return dict(

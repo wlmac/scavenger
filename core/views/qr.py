@@ -32,6 +32,19 @@ def team_required(f):
 
     return wrapped
 
+def upcoming_hunt_required(f):
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        request = args[0]
+        if Hunt.current_hunt() is None and Hunt.next_hunt() is None:
+            messages.error(
+                request,
+                _("No hunts are in the database, please contact an admin.")
+            )
+            return redirect(reverse("index"))
+        return f(*args, **kwargs) # todo: maybe return the hunt object to be used in the view? (more efficient)
+
+    return wrapped
 
 def during_hunt(f):
     """
@@ -45,10 +58,17 @@ def during_hunt(f):
     """
 
     @wraps(f)
+    @upcoming_hunt_required
     def wrapped(*args, **kwargs):
-        hunt_ = Hunt.current_hunt()
-
+        hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
         request = args[0]
+        if hunt_ is None:
+            messages.error(
+                request,
+                _("No hunt is currently active."),
+            )
+            return redirect(reverse("index"))
+
         if any(
             [
                 hunt_.started and not hunt_.ended,
