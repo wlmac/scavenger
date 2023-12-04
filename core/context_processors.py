@@ -6,7 +6,7 @@ from django.utils import timezone
 
 def start(request):
     now = timezone.now()
-    if hunt := Hunt.current_hunt() is not None:
+    if (hunt := Hunt.current_hunt()) is not None:
         event_start = hunt.start
         event_end = hunt.end
     elif Hunt.next_hunt() is not None:
