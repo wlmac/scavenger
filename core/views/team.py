@@ -61,11 +61,13 @@ def join(request):
 @require_http_methods(["GET", "POST"])
 @upcoming_hunt_required
 def make(request):
-    hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
-    if hunt_.started and request.user.team is not None:
+    hunt_ = Hunt.current_hunt()
+    if hunt_.allow_creation_post_start is None:
         messages.error(
             request,
-            _("Since the hunt has already begun, making new teams is disallowed."),
+            _(
+                "Since the hunt has already begun, making new teams is disallowed. Please contact an admin if you need to make a new team."
+            ),
         )
         return redirect(reverse("index"))
     if request.method == "POST":

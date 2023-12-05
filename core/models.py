@@ -138,7 +138,7 @@ class Hint(models.Model):
 class Team(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=64, unique=True, null=True)
+    name = models.CharField(max_length=64, null=True)
     is_open = models.BooleanField(
         default=False
     )  # todo use this field to have a club-like page so you can join an open team (future feature)
@@ -184,7 +184,17 @@ class Team(models.Model):
         data = super().save(*args, **kwargs)
         if self._state.adding:  # only generate key on creation not on update
             Invite.objects.create(team=self, code=generate_invite_code())
+
         return data
+
+    class Meta:
+        # team.name must be insensitive unique per hunt
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "hunt"],
+                name="unique_team_name_per_hunt",
+            )
+        ]
 
 
 class Invite(models.Model):
