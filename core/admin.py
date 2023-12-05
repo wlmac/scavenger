@@ -11,24 +11,22 @@ from .forms import *
 
 @admin.action(
     permissions=["change"],
-    description=_("Set selected users as a Location Setter"),
-)
-def set_as_location_setter(modeladmin, request, queryset: QuerySet[User]):
-    for user in queryset:
-        user.is_staff = True
-        # set their group to location setter
-        user.groups.add(Group.objects.get(name="Location Setter"))
-
-
-@admin.action(
-    permissions=["change"],
     description=_("Set selected users as a Logic Puzzle Setter"),
 )
 def set_as_logic_setter(modeladmin, request, queryset: QuerySet[User]):
     for user in queryset:
         user.is_staff = True
         # set their group to location setter
-        user.groups.add(Group.objects.get(name="Logic Logic Puzzle Setters"))
+        user.groups.add(Group.objects.get_or_create(name="Logic Logic Puzzle Setters"))
+
+
+@admin.action(
+    permissions=["change"],
+    description=_("Remove selected users as a Logic Puzzle Setter"),
+)
+def remove_as_logic_setter(modeladmin, request, queryset: QuerySet[User]):
+    for user in queryset:
+        user.groups.remove(Group.objects.get(name="Logic Logic Puzzle Setters"))
 
 
 class HintsInLine(admin.StackedInline):
@@ -54,26 +52,13 @@ class LogicPuzzleAdmin(admin.ModelAdmin):
     ordering = ("qr_index",)
 
 
-@admin.action(description="Mark selected teams as inactive")
-def set_inactive(modeladmin, request, queryset):
-    if request.user.is_superuser:
-        queryset.update(is_active=False)
-
-
-@admin.action(description="Mark selected teams as active")
-def set_active(
-    modeladmin, request, queryset
-):  # note you could probably remove this one.
-    if request.user.is_superuser:
-        queryset.update(is_active=True)
-
-
 class TeamAdmin(admin.ModelAdmin):
     readonly_fields = ("path", "members")
     inlines = [
         InviteInLine,
     ]
-    actions = [set_inactive, set_active]
+    search_fields = ("name", "members__username")
+    list_filter = ("hunt",)
 
     @admin.display(description="Path")
     def path(self, team):
@@ -146,7 +131,7 @@ class UserAdmin(UserAdmin_):
         "last_name",
         "email",
     )
-    actions = [set_as_location_setter, set_as_logic_setter]
+    actions = [set_as_logic_setter, remove_as_logic_setter]
     admin_field = list(UserAdmin_.fieldsets)
     admin_field[0][1]["fields"] = (
         "username",
