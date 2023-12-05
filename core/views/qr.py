@@ -45,6 +45,29 @@ def upcoming_hunt_required(f):
 
     return wrapped
 
+def block_if_current_hunt(f):
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        request = args[0]
+        hunt_ = Hunt.current_hunt()
+        if request.user.is_impersonate or request.user.is_superuser:  # if the user is an admin or is being impersonated (by a SU), allow them to create a team
+            return f(
+                *args, **kwargs
+            )
+        if hunt_ is not None and not hunt_.allow_creation_post_start:
+            messages.error(
+                request,
+                _(
+                    "Since the hunt has already begun, creating/switching/joining teams is disallowed. "
+                    "If you need to do one of the above, please contact an organizer."
+                ),
+            )
+            return redirect(reverse("index"))
+        return f(
+            *args, **kwargs
+        )
+    
+    return wrapped
 
 def during_hunt(f):
     """
