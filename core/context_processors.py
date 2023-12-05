@@ -12,7 +12,7 @@ def hunt(request) -> dict:
         hunt: the current hunt or the closest hunt
         FUTURE_HUNT_EXISTS: bool, if a future hunt exists
     """
-    
+
     return dict(
         hunt=Hunt.current_hunt() or Hunt.closest_hunt(),
         FUTURE_HUNT_EXISTS=Hunt.next_hunt() is not None,

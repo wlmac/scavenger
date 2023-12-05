@@ -18,8 +18,10 @@ welcome, {{ username }}!
 
 
 {% block body %}
-{% if request.user.in_team and not START_BEFORE %}
-  {% url 'qr_first' as first_url %}
+    {% if IN_HUNT or FUTURE_HUNT_EXISTS %}
+{% if request.user.in_team and IN_HUNT %}
+  {% url 'qr_first' as first_url %} {% comment %}todo: add logic to swich text to /current{% endcomment %}
+    {% url 'qr_current' as current_url %}
   {% blocktranslate %}
       {{ hunt_name }} has started! go decrypt your <a href="{{ first_url }}">first hint</a>!
   {% endblocktranslate %}
@@ -63,4 +65,11 @@ welcome, {{ username }}!
     {% endif %}
   </ul>
 {% endif %}
+{% else %}
+    <h2>
+        {% blocktranslate %}
+        no future scavenger hunt is scheduled, please check back later
+        {% endblocktranslate %}
+    {% endif %}
+    </h2>
 {% endblock %}

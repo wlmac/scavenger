@@ -37,9 +37,7 @@ def upcoming_hunt_required(f):
     def wrapped(*args, **kwargs):
         request = args[0]
         if Hunt.current_hunt() is None and Hunt.next_hunt() is None:
-            messages.warning(
-                request, _("No future hunts are scheduled.")
-            )
+            messages.warning(request, _("No future hunts are scheduled."))
             return redirect(reverse("index"))
         return f(
             *args, **kwargs
