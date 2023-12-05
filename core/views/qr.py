@@ -37,8 +37,8 @@ def upcoming_hunt_required(f):
     def wrapped(*args, **kwargs):
         request = args[0]
         if Hunt.current_hunt() is None and Hunt.next_hunt() is None:
-            messages.error(
-                request, _("No hunts are in the database, please contact an admin.")
+            messages.warning(
+                request, _("No future hunts are scheduled.")
             )
             return redirect(reverse("index"))
         return f(
