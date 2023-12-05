@@ -351,7 +351,7 @@ class LogicPuzzleHint(models.Model):
         unique=True,
     )
 
-    belongs_to = models.ForeignKey(
+    hunt = models.ForeignKey(
         Hunt, related_name="logic_puzzle", on_delete=models.CASCADE
     )
 
