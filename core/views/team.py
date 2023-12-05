@@ -13,7 +13,7 @@ from ..models import Team, Invite, generate_invite_code, Hunt
 
 @login_required
 @require_http_methods(["GET", "POST"])
-@upcoming_hunt_required
+@block_if_current_hunt
 def join(request):
     if request.method == "POST":
         form = TeamJoinForm(request.POST)
@@ -54,6 +54,7 @@ def join(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 @block_if_current_hunt
+@upcoming_hunt_required
 def make(request):
     if request.method == "POST":
         form = TeamMakeForm(request.POST)
@@ -79,6 +80,7 @@ def make(request):
 
 @login_required
 @upcoming_hunt_required
+@block_if_current_hunt
 def solo(q: HttpRequest):
     hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
     team_ = Team.objects.create(
@@ -93,7 +95,7 @@ def solo(q: HttpRequest):
 @login_required
 @require_http_methods(["GET"])
 @team_required
-@upcoming_hunt_required  # redundant
+@block_if_current_hunt  # redundant
 def invite(q):
     invites = Invite.objects.filter(team=q.user.current_team).values_list(
         "code", flat=True
