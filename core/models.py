@@ -226,13 +226,16 @@ class Hunt(models.Model):
         on_delete=models.PROTECT,
         related_name="ending_location",
         blank=True,
+        null=True,
         help_text="(Optional) A specified ending location for the hunt. All teams will get as their last location.",
     )
     middle_locations = models.ManyToManyField(
         QrCode,
         related_name="hunt",
         help_text="Possible locations that are not the start or end",
-        blank=True,
+        null=False,
+        blank=False,
+        
     )
     testers = models.ManyToManyField(
         User,
