@@ -81,9 +81,12 @@ def make(request):
 @upcoming_hunt_required
 def solo(q: HttpRequest):
     hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
-    Team.objects.create(
-        solo=True, hunt=hunt_, name=f"{q.user.username}'s Solo Team", members=[q.user]
+    team_ = Team.objects.create(
+        solo=True, hunt=hunt_, name=f"{q.user.username}'s Solo Team"
     )
+    team_.members.add(q.user)
+    
+    
     return redirect(reverse("index"))
 
 
