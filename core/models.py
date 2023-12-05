@@ -7,12 +7,11 @@ from typing import List
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models import Func, F, DurationField, Case, DateTimeField, When
+from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.html import format_html
-
-from django.db.models import Func, F, DurationField, Case, DateTimeField, When
 
 
 def generate_invite_code():
@@ -22,21 +21,22 @@ def generate_invite_code():
 class User(AbstractUser):
     metropolis_id = models.IntegerField()
     refresh_token = models.CharField(max_length=128)
-    team = models.ForeignKey(
-        "Team",
-        related_name="members",
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
+
+    @property
+    def current_team(self) -> Team | None:
+        """Returns the team that the user is currently on for the current or upcoming hunt.
+        If the user is not on a team, return None"""
+
+        current_ = Hunt.current_hunt()
+        next_ = Hunt.next_hunt()
+        if current_ is None and next_ is None:
+            return None
+        return self.teams.get(hunt=current_) if current_ else self.teams.get(hunt=next_)
 
     @property
     def in_team(self) -> bool:
-        try:
-            _ = self.team.solo
-            return True
-        except AttributeError:
-            return False
+        """Returns True if the user is in a team for the current or upcoming hunt."""
+        return self.current_team is not None
 
 
 def generate_hint_key():
@@ -136,27 +136,22 @@ class Hint(models.Model):
 
 
 class Team(models.Model):
-    """note, a user can currently be in multiple teams, in the future limit this to one per (class: Hunt)"""
-
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64, unique=True, null=True)
-    is_active = models.BooleanField(default=True)
     is_open = models.BooleanField(
         default=False
     )  # todo use this field to have a club-like page so you can join an open team (future feature)
     current_qr_i = models.IntegerField(default=0)
     solo = models.BooleanField(default=False)
+    members = models.ManyToManyField(
+        related_name="teams", related_query_name="teams", to=User
+    )
     hunt = models.ForeignKey("Hunt", on_delete=models.CASCADE, related_name="teams")
 
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
         self.save()
-
-    @property
-    def members(self):
-        """Returns all members of the team, it's a related manager so to convert to queryset use .all() or filter it."""
-        return User.objects.filter(team=str(self.id))
 
     @property
     def is_full(self):
@@ -249,6 +244,10 @@ class Hunt(models.Model):
         "The text inside the brackets is what will be shown to the user. "
         "e.g. {{this form}}, users will only see 'this form' but can click it to get to the form specified above",
         max_length=250,
+    )
+    allow_creation_post_start = models.BooleanField(
+        default=False,
+        help_text="Allow users to create teams after the hunt has started",
     )
 
     def __str__(self):
@@ -365,14 +364,15 @@ class LogicPuzzleHint(models.Model):
             return None
 
 
-@receiver(pre_save, sender=User)
-def remove_empty_teams(sender, instance: User, **kwargs):
-    obj = User.objects.get(id=instance.id)  # get the current object from the database
-    if obj.team is not None and obj.team != instance.team:
-        print("switching teams")
-        # raise ValueError(
-        #    "User cannot be in multiple teams at the same time. Please leave your current team before joining a new one."
-
-        if instance.team.members.count() == 0:
-            print("deleting team")
-            obj.team.delete()
+@receiver(m2m_changed, sender=Team)
+def remove_empty_teams(sender, instance: Team, action, **kwargs):
+    print(sender, instance, action, kwargs)
+    if action == "post_clear":
+        try:
+            instance.delete()
+        except:
+            pass
+    elif action == "post_remove":
+        if instance.is_empty():
+            print("Deleting empty team: ", instance.name)
+            instance.delete()
