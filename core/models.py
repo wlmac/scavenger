@@ -31,7 +31,7 @@ class User(AbstractUser):
         next_ = Hunt.next_hunt()
         if current_ is None and next_ is None:
             return None
-        return self.teams.get(hunt=current_) if current_ else self.teams.get(hunt=next_)
+        return self.teams.filter(hunt=current_).first() if current_ else self.teams.filter(hunt=next_).first()
 
     @property
     def in_team(self) -> bool:
@@ -368,7 +368,7 @@ class LogicPuzzleHint(models.Model):
     @classmethod
     def get_clue(cls, team: Team) -> str | None:
         try:
-            hint = cls.objects.get(qr_index=team.qr_len)
+            hint = cls.objects.filter(qr_index=team.qr_len).first()
             return hint.hint
         except cls.DoesNotExist:
             return None
