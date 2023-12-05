@@ -167,7 +167,6 @@ class Team(models.Model):
         if self.is_full:
             raise IndexError("Team is full")
         self.members.add(user)
-        
 
     def invites(self):
         return Invite.objects.filter(team=self)
