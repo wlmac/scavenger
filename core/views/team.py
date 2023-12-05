@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 
-from .qr import team_required, upcoming_hunt_required
+from .qr import team_required, upcoming_hunt_required, block_if_current_hunt
 from ..forms import TeamJoinForm, TeamMakeForm
 from ..models import Team, Invite, generate_invite_code, Hunt
 
@@ -15,25 +15,15 @@ from ..models import Team, Invite, generate_invite_code, Hunt
 @require_http_methods(["GET", "POST"])
 @upcoming_hunt_required
 def join(request):
-    hunt_ = Hunt.current_hunt()
-    if hunt_.started and request.user.current_team is not None:
-        messages.error(
-            request,
-            _(
-                "Since the hunt has already begun, switching teams is disallowed. "
-                "If you need to switch teams, please contact an admin."
-            ),
-        )
-        return redirect(reverse("index"))
     if request.method == "POST":
         form = TeamJoinForm(request.POST)
         if form.is_valid():
-            invite_code = Invite.objects.get(code=form.cleaned_data["code"])
+            invite_code = Invite.objects.filter(code=form.cleaned_data["code"]).first()
             if invite_code is None:
                 return HttpResponseBadRequest(
                     "Invalid invite code" + form.cleaned_data["code"]
                 )
-            team = Team.objects.get(id=invite_code.team_id)
+            team = Team.objects.filter(id=invite_code.team_id).first()
             if team is None:
                 return HttpResponseBadRequest(
                     "Invalid team invite code" + form.cleaned_data["code"]
@@ -63,24 +53,16 @@ def join(request):
 
 @login_required
 @require_http_methods(["GET", "POST"])
-@upcoming_hunt_required
+@block_if_current_hunt
 def make(request):
-    hunt_: Hunt = Hunt.current_hunt()
-    if not hunt_.allow_creation_post_start:
-        messages.error(
-            request,
-            _(
-                "Since the hunt has already begun, making new teams is disallowed. Please contact an admin if you need to make a new team."
-            ),
-        )
-        return redirect(reverse("index"))
     if request.method == "POST":
         form = TeamMakeForm(request.POST)
         if form.is_valid():
             raw: Team = form.save(commit=False)
             raw.hunt = Hunt.current_hunt() or Hunt.next_hunt()
+            raw: Team = form.save()
+
             raw.members.add(request.user)
-            raw.save()
             Invite.objects.get_or_create(
                 team=raw, code=generate_invite_code(), invites=0
             )
