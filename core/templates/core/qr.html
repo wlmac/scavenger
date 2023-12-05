@@ -40,21 +40,21 @@
     {% if not offpath %}
     <div class="hint">
         <div class="hint-top">
-            {% if nextqr %}
+            {% if nexthint %}
                 {% if first %}
                     {% translate "your first hint is:" %} <br />
                 {% else %}
                     {% translate "your next hint is:" %} <br />
                 {% endif %}
-            {% else %}
-                {% comment %} TODO: some cool colourful heart {% endcomment %}
+{#            {% else %}#}
+                {% comment %} TODO: some cool colourful heart (this means that they finished)f {% endcomment %}
             {% endif %}
         </div>
-        {% if nextqr %}
-            {% hint nextqr request.user.team as hint %}
+        {% if nexthint %}
+            {% hint nexthint request.user.team as hint %}
 	    <span class="hint">{{ hint|mistune }}</span>
             {% if request.user.is_superuser %}
-                <br />({{ nextqr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nextqr.id %}">change</a>)
+                <br />({{ nexthint }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nexthint.id %}">change</a>)
             {% endif %}
 
             {% if logic_hint %}
@@ -69,8 +69,7 @@
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
         </div></div> <!-- Why does this exist.. -->
-    {% else %} {
-
+    {% else %}
 {% translate 'Incorrect QR code, please read your hint again or contact an organizer' %}
 
 {% endif %}
