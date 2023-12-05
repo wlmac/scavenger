@@ -41,19 +41,12 @@ class InviteInLine(admin.StackedInline):
 
 
 class LogicPuzzleAdmin(admin.ModelAdmin):
-    list_display = (
-        "qr_index",
-        "hint",
-        "hunt"
-    )
-    search_fields = (
-        "hint",
-        "qr_index",
-        "hunt"
-    )
+    list_display = ("qr_index", "hint", "hunt")
+    search_fields = ("hint", "qr_index", "hunt")
     list_filter = ("hunt",)
     ordering = ("qr_index",)
-    
+
+
 class TeamAdmin(admin.ModelAdmin):
     readonly_fields = ("path",)
     inlines = [
@@ -61,7 +54,6 @@ class TeamAdmin(admin.ModelAdmin):
     ]
     search_fields = ("name", "members__username")
     list_filter = ("hunt", "name")
-    
 
     @admin.display(description="Path")
     def path(self, team):
@@ -71,7 +63,6 @@ class TeamAdmin(admin.ModelAdmin):
                 QrCode.code_pks(team),
             )
         )
-
 
 
 class QrCodeAdmin(admin.ModelAdmin):

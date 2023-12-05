@@ -31,7 +31,11 @@ class User(AbstractUser):
         next_ = Hunt.next_hunt()
         if current_ is None and next_ is None:
             return None
-        return self.teams.filter(hunt=current_).first() if current_ else self.teams.filter(hunt=next_).first()
+        return (
+            self.teams.filter(hunt=current_).first()
+            if current_
+            else self.teams.filter(hunt=next_).first()
+        )
 
     @property
     def in_team(self) -> bool:
