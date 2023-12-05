@@ -233,9 +233,7 @@ class Hunt(models.Model):
         QrCode,
         related_name="hunt",
         help_text="Possible locations that are not the start or end",
-        null=False,
         blank=False,
-        
     )
     testers = models.ManyToManyField(
         User,
