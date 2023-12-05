@@ -1,4 +1,3 @@
-import datetime
 from functools import wraps
 from queue import LifoQueue
 
@@ -116,8 +115,9 @@ def qr(request, key):
         """
         context["offpath"] = True
         return render(request, "core/qr.html", context=context)
+    context["on_qr"] = True
     i = codes.index(qr.id)
-    context["nextqr"] = (
+    context["nexthint"] = (
         None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
     )
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
@@ -132,13 +132,12 @@ def qr(request, key):
 def qr_first(request):
     context = dict(first=True)
     # check if the user is on the first qr code
-    # if request.user.team.current_qr_i != 0:
-    #    messages.error(request, _("You are not on the first QR code."))
-    #    return redirect(reverse("qr_current"))
-    context["qr"] = QrCode.codes(request.user.team).first()
-    codes = QrCode.code_pks(request.user.team)
-    context["nextqr"] = QrCode.objects.get(id=codes[0])
-    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
+    if request.user.team.current_qr_i != 0:
+        messages.info(request, _("You are not on the first QR code."))
+        return redirect(reverse("qr_current"))
+    codes = QrCode.codes(request.user.team)
+    context["nexthint"] = codes[0]
+    #context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     return render(request, "core/qr.html", context=context)
 
 
@@ -148,10 +147,13 @@ def qr_first(request):
 @during_hunt
 def qr_current(request):
     i = request.user.team.current_qr_i
-    context = dict(first=i == 0, current=True)
+    first_ = i == 0
+    if first_:
+        return redirect(reverse("qr_first"))
+    context = dict(first=first_, current=True)
     codes = QrCode.codes(request.user.team)
     context["qr"] = codes[i]
-    context["nextqr"] = None if len(codes) <= (j := i + 1) else codes[j]
+    context["nexthint"] = None if len(codes) <= (j := i + 1) else codes[j]
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     return render(request, "core/qr.html", context=context)
 
@@ -162,8 +164,10 @@ def qr_current(request):
 @during_hunt
 def qr_catalog(request):
     i = request.user.team.current_qr_i
-    context = dict(first=i == 0, current=True)
-    context["qr"] = QrCode.codes(request.user.team)[: request.user.team.current_qr_i]
+    if i == 0:
+        return redirect(reverse("qr_first"))
+    context = dict(current=True)
+    context["qr"] = QrCode.codes(request.user.team)[: i] # i + 1?
     return render(request, "core/qr_catalog.html", context=context)
 
 
