@@ -126,7 +126,7 @@ class HuntAdmin(admin.ModelAdmin):
 
         # extras = 1 if obj.starting_location else 0
         # extras += 1 if obj.ending_location else 0
-
+        super().save_model(request, obj, form, change)
         if obj.path_length > obj.middle_locations.count():
             messages.warning(
                 request,
@@ -137,7 +137,6 @@ class HuntAdmin(admin.ModelAdmin):
             # raise ValidationError(
             #    "The path length is longer than the amount of locations. Please increase the amount of locations or decrease the path length."
             # )
-        super().save_model(request, obj, form, change)
 
 
 class UserAdmin(UserAdmin_):
