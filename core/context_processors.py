@@ -1,5 +1,4 @@
 import datetime
-from typing import Dict
 
 from django.contrib import messages
 from django.utils import timezone
@@ -7,11 +6,17 @@ from django.utils import timezone
 from core.models import Hunt
 
 
-def hunt(request) -> Dict[str, Hunt]:
+def hunt(request) -> dict:
     """
-    returns the current hunt
+    returns:
+        hunt: the current hunt or the closest hunt
+        FUTURE_HUNT_EXISTS: bool, if a future hunt exists
     """
-    return dict(hunt=Hunt.current_hunt() or Hunt.closest_hunt())
+    
+    return dict(
+        hunt=Hunt.current_hunt() or Hunt.closest_hunt(),
+        FUTURE_HUNT_EXISTS=Hunt.next_hunt() is not None,
+    )
 
 
 def start(request) -> dict:
@@ -19,11 +24,12 @@ def start(request) -> dict:
     returns info about the current/closest hunt
     return dict:
         START: start time of the current/closest hunt
-        START_BEFORE: bool, if the current time is before the start time
-        START_UNTIL: timedelta, time until the start time
+        BEFORE_START: bool, if the current time is before the start time
+        TIME_UNTIL_START: timedelta, time until the start time
         END: end time of the current/closest hunt
-        END_BEFORE: bool, if the current time is before the end time
-        END_UNTIL: timedelta, time until the end time
+        BEFORE_END: bool, if the current time is before the end time
+        TIME_UNTIL_END: timedelta, time until the end time
+        IN_HUNT: bool, if the current time is between the start and end time
     """
     now = timezone.now()
     if Hunt.objects.count() == 0:
@@ -48,9 +54,10 @@ def start(request) -> dict:
 
     return dict(
         START=event_start,
-        START_BEFORE=event_start > now,
-        START_UNTIL=event_start - now,
+        BEFORE_START=event_start > now,
+        TIME_UNTIL_START=event_start - now,
         END=event_end,
-        END_BEFORE=event_end > now,
-        END_UNTIL=event_end - now,
+        BEFORE_END=event_end > now,
+        TIME_UNTIL_END=event_end - now,
+        IN_HUNT=(event_start < now < event_end),
     )
