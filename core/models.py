@@ -253,7 +253,7 @@ class Hunt(models.Model):
         return self.name
 
     @classmethod
-    def lastest_hunt(cls) -> Hunt | None:
+    def latest_hunt(cls) -> Hunt | None:
         """
         Returns the latest hunt, ended or not.
         :return: Hunt or None
