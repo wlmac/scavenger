@@ -53,7 +53,7 @@ class LogicPuzzleAdmin(admin.ModelAdmin):
 
 
 class TeamAdmin(admin.ModelAdmin):
-    readonly_fields = ("path", "members")
+    readonly_fields = ("path",)
     inlines = [
         InviteInLine,
     ]
@@ -69,14 +69,6 @@ class TeamAdmin(admin.ModelAdmin):
             )
         )
 
-    @admin.display(description="Members")
-    def members(self, team):
-        return "\n".join(
-            map(
-                lambda user: str(user),
-                team.members.all(),
-            )
-        )
 
 
 class QrCodeAdmin(admin.ModelAdmin):
