@@ -54,7 +54,6 @@ const newCalculateTime = (start, end, beforeStartPre, beforeStartPost, endsPre, 
     s += ('0' + hour).slice(-2) + ':'
     s += ('0' + minute).slice(-2) + ':'
     s += ('0' + second).slice(-2)
-    console.log("s:", s);
     countdown.innerText = s
     if (display > 0) { // before the end
         updateColours(countdown.classList, "ending-5m", display < 60 * 5 && display >= 60)
