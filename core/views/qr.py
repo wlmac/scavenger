@@ -106,7 +106,9 @@ def qr(request, key):
     context["qr"]: QrCode
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
     codes = QrCode.code_pks(request.user.team)
-    if qr.id == codes[request.user.team.current_qr_i-1]: # the user reloaded the page after advancing
+    if (
+        qr.id == codes[request.user.team.current_qr_i - 1]
+    ):  # the user reloaded the page after advancing
         return redirect(reverse("qr_current"))
     elif qr.id != codes[request.user.team.current_qr_i]:
         """
