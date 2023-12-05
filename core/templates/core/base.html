@@ -13,8 +13,7 @@
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
     <script type="module">
-        import newCalculateTime from ""
-
+        import newCalculateTime from "{% static 'core/countdown.js' %}"
         const calculateTime = newCalculateTime(
                 {{ START.timestamp }} * 1000,
                 {{ END.timestamp }} * 1000,
