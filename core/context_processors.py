@@ -6,11 +6,13 @@ from django.utils import timezone
 
 from core.models import Hunt
 
+
 def hunt(request) -> Dict[str, Hunt]:
     """
     returns the current hunt
     """
     return dict(hunt=Hunt.current_hunt() or Hunt.closest_hunt())
+
 
 def start(request) -> dict:
     """

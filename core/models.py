@@ -14,6 +14,7 @@ from django.utils.html import format_html
 
 from django.db.models import Func, F, DurationField, Case, DateTimeField, When
 
+
 def generate_invite_code():
     return secrets.token_hex(4)
 
@@ -268,7 +269,7 @@ class Hunt(models.Model):
                     F("selected_time") - now,
                     function="ABS",
                     output_field=DurationField(),
-                    )
+                )
             )
             .order_by("time_difference")
         )
