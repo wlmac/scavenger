@@ -74,15 +74,15 @@ body > nav {
   background: var(--cd-bg);
 }
 
-#countdown.soon-very1 {
+#countdown.ending-5m {
   color: #ac8300;
 }
 
-#countdown.soon-very2 {
+#countdown.ending-1m {
   color: #d56500;
 }
 
-#countdown.soon-very3 {
+#countdown.ending-10s {
   color: #f23749;
 }
 
@@ -113,11 +113,11 @@ a:visited {
   list-style: none;
   padding: 1rem;
   margin: 0.5rem;
-.}
+}
 
 .imgicon {
   height: 3rem;
-.}
+}
 
 .qrcode {
   padding: 1rem;
@@ -246,7 +246,7 @@ input[type=submit]:active {
   background: rgba(255, 255, 255, 0.20)
 }
 
-input:placeholder {
+input::placeholder {
   color: #ccc;
 }
 

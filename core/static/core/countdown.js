@@ -51,6 +51,9 @@ const newCalculateTime = (start, end, startsPre, startsPost, endsPre, endsPost, 
     assertClass(e.classList, "soon-very2", d < 60 && d >= 10)
     assertClass(e.classList, "soon-very3", d < 10)
   }
+    assertClass(e.classList, "ending-5m", display < 60*5 && display >= 60)
+    assertClass(e.classList, "ending-1m", display < 60 && display >= 10)
+    assertClass(e.classList, "ending-10s", display < 10)
   // TODO: js i18n
   startsPre = startsPre.startsWith('__') ? '' : startsPre
   startsPost = startsPost.startsWith('__') ? '' : startsPost
