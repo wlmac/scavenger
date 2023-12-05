@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import auth, index, qr, team, puzzle
 
 urlpatterns = [

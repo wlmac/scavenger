@@ -1,10 +1,10 @@
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin as UserAdmin_
 from django.contrib.auth.models import Group
+from django.db.models import QuerySet
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from django.urls import reverse
-from django.db.models import QuerySet
 
 from .forms import *
 

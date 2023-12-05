@@ -1,17 +1,14 @@
-import datetime
-
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest, HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.decorators.http import require_http_methods
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_http_methods
 
-from ..models import Team, Invite, generate_invite_code, Hunt
-from ..forms import TeamJoinForm, TeamMakeForm
 from .qr import team_required, upcoming_hunt_required
+from ..forms import TeamJoinForm, TeamMakeForm
+from ..models import Team, Invite, generate_invite_code, Hunt
 
 
 @login_required

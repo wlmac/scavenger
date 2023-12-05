@@ -2,10 +2,11 @@ import json
 import os
 import time
 
-from core.models import Team
 from django.core.management import BaseCommand
 from django.core.serializers import serialize
 from django.core.serializers.json import DjangoJSONEncoder
+
+from core.models import Team
 
 
 class LazyEncoder(DjangoJSONEncoder):

@@ -1,22 +1,20 @@
-from django.conf import settings
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.urls import reverse
-from django.utils.http import url_has_allowed_host_and_scheme
-from django.shortcuts import redirect, render
-from django.views.decorators.http import require_http_methods
-from authlib.integrations.django_client import OAuth
-import requests
-
 import base64
 import hashlib
 import secrets
-
 from urllib.parse import urlencode
 
-from ..models import User
+import requests
+from authlib.integrations.django_client import OAuth
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.http import require_http_methods
 
+from ..models import User
 
 oauth = OAuth()
 oauth.register("metropolis")

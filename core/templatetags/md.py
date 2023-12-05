@@ -1,6 +1,6 @@
+import mistune as mistune_
 from django import template
 from django.utils.html import mark_safe
-import mistune as mistune_
 
 register = template.Library()
 
