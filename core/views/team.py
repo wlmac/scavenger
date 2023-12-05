@@ -92,9 +92,13 @@ def solo(q: HttpRequest):
 @team_required
 @upcoming_hunt_required  # redundant
 def invite(q):
-    invites = Invite.objects.filter(team=q.user.current_team).values_list("code", flat=True)
+    invites = Invite.objects.filter(team=q.user.current_team).values_list(
+        "code", flat=True
+    )
     if invites.count() == 0:
         print("No invites found, creating one")
-        Invite.objects.create(team=q.user.current_team, code=generate_invite_code(), invites=0)
+        Invite.objects.create(
+            team=q.user.current_team, code=generate_invite_code(), invites=0
+        )
         return invite(q)
     return render(q, "core/team_invite.html", context=dict(invites=invites))
