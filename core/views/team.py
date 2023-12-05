@@ -87,8 +87,7 @@ def solo(q: HttpRequest):
         solo=True, hunt=hunt_, name=f"{q.user.username}'s Solo Team"
     )
     team_.members.add(q.user)
-    
-    
+
     return redirect(reverse("index"))
 
 
