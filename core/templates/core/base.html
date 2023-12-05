@@ -3,99 +3,98 @@
 {% load base %}
 <!DOCTYPE html>
 <html lang="{{ get_current_language }}">
-  <head>
-      <title>{% block title %}{% endblock %}</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="stylesheet" href="{% static 'core/base.css' %}" />
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-      <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
-      <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
-      {% if START_BEFORE or END_BEFORE %}
-        <script type="module">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="{% static 'core/base.css' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <script type="module">
           import newCalculateTime from "{% static 'core/countdown.js' %}"
 
-          const calculateTime = newCalculateTime(
-            {{ START.timestamp }} * 1000,
-            {{ END.timestamp }} * 1000,
-            "{% translate 'starts in' %}",
-            "{% translate '' %}",
-            "{% translate 'Only' %}",
-            "{% translate 'remaining' %}",
-            "{% translate 'scavenger hunt ended!' %}",
+        const calculateTime = newCalculateTime(
+                {{ START.timestamp }} * 1000,
+                {{ END.timestamp }} * 1000,
+              "{{ hunt.name }} {% translate "starts in" %}", {# starts pre #}
+              "{% translate '' %}", {# starts post #}
+              "{% translate 'Only' %}", {# ends pre #}
+              "{% translate 'remaining' %}", {# ends post #}
+              "{{ hunt.name }} {% translate 'ended' %}", {# ended pre #}
+              "{% translate 'ago' %}", {# ended post #}
           )
 
-          calculateTime()
+        calculateTime()
 
-          setInterval(calculateTime, 1000)
-        </script>
-      {% endif %}
-      {% block head_end %}{% endblock %}
-  </head>
-  <body>
-    <div style="margin: 0; padding: 0; height: 10rem;"></div>
-    <object class="deco27" style="height: 10rem;" data="{% static 'core/overcast.svg' %}" type="image/svg+xml" role="presentation"></object>
-    <object class="deco27" style="max-height: 10rem;" data="{% static 'core/banner.svg' %}" type="image/svg+xml" role="presentation"></object>
-    <header>
-      {% comment %} TODO: consider merging header and title {% endcomment %}
-      {% if messages %}
-      <ul class="messages">
-          {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-              {% if message.level == DEFAULT_MESSAGE_LEVELS.DEBUG %}
-                Debug:
-              {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
-                Info:
-              {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                Success:
-              {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-                Warning:
-              {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                <img src="{% static 'core/animal_buta_shock.png' %}" class="imgicon" alt="error" />
-                Error:
-              {% endif %}
-              {{ message }}
-          </li>
-          {% endfor %}
-      </ul>
-      {% endif %}
-    </header>
-    <div style="flex-grow: 1.8;"></div>
-    <main>
-      <h1>{% block header %}{% endblock %}</h1>
-      {% block body %}{% endblock %}
-    </main>
-    <div style="flex-grow: 1;"></div>
-    {% if START_BEFORE or END_BEFORE %}
-      <nav id="countdown-header">
-        <span id="countdown-text-pre"></span>
-        <span id="countdown"></span>
-        <span id="countdown-text-post"></span>
-      </nav>
+        setInterval(calculateTime, 1000)
+    </script>
+    {% block head_end %}{% endblock %}
+</head>
+<body>
+<div style="margin: 0; padding: 0; height: 10rem;"></div>
+<object class="deco27" style="height: 10rem;" data="{% static 'core/overcast.svg' %}" type="image/svg+xml"
+        role="presentation"></object>
+<object class="deco27" style="max-height: 10rem;" data="{% static 'core/banner.svg' %}" type="image/svg+xml"
+        role="presentation"></object>
+<header>
+    {% comment %} TODO: consider merging header and title {% endcomment %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.DEBUG %}
+                        Debug:
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                        Info:
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        Success:
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                        Warning:
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <img src="{% static 'core/animal_buta_shock.png' %}" class="imgicon" alt="error"/>
+                        Error:
+                    {% endif %}
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
-    {% comment %} NOTE: (below) workaround for fixed positon {% endcomment %}
-    <div class="main-header" style="visibility: hidden;">
-      <div class="identity">
+</header>
+<div style="flex-grow: 1.8;"></div>
+<main>
+    <h1>{% block header %}{% endblock %}</h1>
+    {% block body %}{% endblock %}
+</main>
+<div style="flex-grow: 1;"></div>
+<nav id="countdown-header">
+    <span id="countdown-text-pre"></span>
+    <span id="countdown"></span>
+    <span id="countdown-text-post"></span>
+</nav>
+{% comment %} NOTE: (below) workaround for fixed position {% endcomment %}
+<div class="main-header" style="visibility: hidden;">
+    <div class="identity">
         {% if request.user.in_team %}
-          <span class="team-name">bodge</span>
+            <span class="team-name">bodge</span>
         {% endif %}
         <span class="username">bodge</span>
-      </div>
     </div>
-    <nav id="main-header" class="main-header">
-      <div class="identity">
+</div>
+<nav id="main-header" class="main-header">
+    <div class="identity">
         {% if request.user.in_team %}
-          {% if not request.user.team.solo %}
-            <span class="team-name">{{ request.user.team.name }}</span>
-          {% else %}
-            <span class="team-name">solo</span>
-          {% endif %}
+            {% if not request.user.team.solo %}
+                <span class="team-name">{{ request.user.team.name }}</span>
+            {% else %}
+                <span class="team-name">solo</span>
+            {% endif %}
         {% endif %}
         <span class="username">{{ request.user.username }}</span>
-      </div>
-      {% comment %} TODO: fa-light {% endcomment %}
-      <span class="actions">
+    </div>
+    {% comment %} TODO: fa-light {% endcomment %}
+    <span class="actions">
         <a href="{% url 'index' %}">
           <i class="fa-solid fa-house" aria-hidden="true"></i>
           <span class="icon-alt">
@@ -103,7 +102,7 @@
           </span>
         </a>
         {% if request.user.is_staff %}
-          <a href="/admin">
+            <a href="/admin">
             <i class="fa-solid fa-hammer" aria-hidden="true"></i>
             <span class="icon-alt">
               {% translate "Admin" %}
@@ -111,15 +110,15 @@
           </a>
         {% endif %}
         {% if request.user.is_authenticated %}
-          <a href="{% url 'qr_current' %}" class="noicon">{% translate "current" %}</a>
-          <a href="{% url 'account_logout' %}">
+            <a href="{% url 'qr_current' %}" class="noicon">{% translate "current" %}</a>
+            <a href="{% url 'account_logout' %}">
             <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
             <span class="icon-alt">
               {% translate "Logout" %}
             </span>
           </a>
         {% else %}
-          <a href="{% url 'oauth_login' %}">
+            <a href="{% url 'oauth_login' %}">
             <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
             <span class="icon-alt">
               {% translate "Login" %}
@@ -127,6 +126,6 @@
           </a>
         {% endif %}
       </span>
-    </nav>
-  </body>
+</nav>
+</body>
 </html>
