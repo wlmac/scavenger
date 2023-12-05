@@ -21,5 +21,17 @@
           ];
         };
       });
+
+      packages = forAllSystems (system: {
+        default = pkgs.${system}.mkShellNoCC {
+          packages = with pkgs.${system}; [
+            poetry
+            (python311.withPackages
+              (pp: with pp; [ black isort mypy types-requests django-stubs ]))
+            gettext
+            nixfmt
+          ];
+        };
+      });
     };
 }
