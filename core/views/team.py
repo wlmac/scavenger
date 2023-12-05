@@ -61,8 +61,8 @@ def join(request):
 @require_http_methods(["GET", "POST"])
 @upcoming_hunt_required
 def make(request):
-    hunt_ = Hunt.current_hunt()
-    if hunt_.allow_creation_post_start is None:
+    hunt_: Hunt = Hunt.current_hunt()
+    if not hunt_.allow_creation_post_start:
         messages.error(
             request,
             _(
