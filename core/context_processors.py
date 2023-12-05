@@ -1,11 +1,16 @@
 import datetime
+from typing import Dict
 
 from django.contrib import messages
-from django.db.models import Func, F, DurationField, Case, DateTimeField, When
 from django.utils import timezone
 
 from core.models import Hunt
 
+def hunt(request) -> Dict[str, Hunt]:
+    """
+    returns the current hunt
+    """
+    return dict(hunt=Hunt.current_hunt() or Hunt.closest_hunt())
 
 def start(request) -> dict:
     """
@@ -35,25 +40,7 @@ def start(request) -> dict:
         event_start = hunt.start
         event_end = hunt.end
     else:
-        # at least one
-        closest_hunt = (
-            Hunt.objects.annotate(
-                selected_time=Case(  # if we should use the start or end time (if it's in the future or past)
-                    When(start__lt=now, then=F("end")),
-                    default=F("start"),
-                    output_field=DateTimeField(),
-                )
-            )
-            .annotate(
-                time_difference=Func(
-                    F("selected_time") - now,
-                    function="ABS",
-                    output_field=DurationField(),
-                )
-            )
-            .order_by("time_difference")
-            .first()
-        )
+        closest_hunt = Hunt.closest_hunt()
         event_start = closest_hunt.start
         event_end = closest_hunt.end
 

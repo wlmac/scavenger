@@ -7,12 +7,12 @@ from typing import List
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import QuerySet
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.html import format_html
 
+from django.db.models import Func, F, DurationField, Case, DateTimeField, When
 
 def generate_invite_code():
     return secrets.token_hex(4)
@@ -253,15 +253,28 @@ class Hunt(models.Model):
         return self.name
 
     @classmethod
-    def latest_hunt(cls) -> Hunt | None:
-        """
-        Returns the latest hunt, ended or not.
-        :return: Hunt or None
-        """
-        try:
-            Hunt.objects.filter(start__lte=timezone.now()).order_by("start").last()
-        except IndexError:
+    def closest_hunt(cls) -> Hunt | None:
+        now = timezone.now()
+        closest_hunt = (
+            Hunt.objects.annotate(
+                selected_time=Case(  # if we should use the start or end time (if it's in the future or past)
+                    When(start__lt=now, then=F("end")),
+                    default=F("start"),
+                    output_field=DateTimeField(),
+                )
+            )
+            .annotate(
+                time_difference=Func(
+                    F("selected_time") - now,
+                    function="ABS",
+                    output_field=DurationField(),
+                    )
+            )
+            .order_by("time_difference")
+        )
+        if closest_hunt is None:
             return None
+        return closest_hunt.first()
 
     @classmethod
     def current_hunt(cls) -> Hunt | None:
