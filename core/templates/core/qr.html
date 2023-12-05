@@ -30,7 +30,7 @@
     {% if not first %}
         <div>
             {% translate "your team found:" %} <br />
-            {% hint qr request.user.team as hint %}
+            {% hint qr request.user.current_team as hint %}
 	    <span class="hint">{{ hint |mistune }}</span>
             {% if request.user.is_superuser %}
 	    <br />({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)
@@ -51,7 +51,7 @@
             {% endif %}
         </div>
         {% if nexthint %}
-            {% hint nexthint request.user.team as hint %}
+            {% hint nexthint request.user.current_team as hint %}
 	    <span class="hint">{{ hint|mistune }}</span>
             {% if request.user.is_superuser %}
                 <br />({{ nexthint }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nexthint.id %}">change</a>)
@@ -65,7 +65,7 @@
                 </div>
             {% endif %}
         {% else %}
-            {% ending_block request.user.team.hunt %}
+            {% ending_block request.user.current_team.hunt %}
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
         </div></div> <!-- Why does this exist.. -->

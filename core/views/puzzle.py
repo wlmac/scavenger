@@ -11,5 +11,5 @@ from ..models import LogicPuzzleHint
 @team_required
 @during_hunt
 def logic_clues(request):
-    context = dict(logic_clues=LogicPuzzleHint.get_clues(request.user.team))
+    context = dict(logic_clues=LogicPuzzleHint.get_clues(request.user.current_team))
     return render(request, "core/logic_hints.html", context=context)

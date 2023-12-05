@@ -26,7 +26,7 @@ welcome, {{ username }}!
       {{ hunt_name }} has started! go decrypt your <a href="{{ first_url }}">first hint</a>!
   {% endblocktranslate %}
   <br />
-  {% if not request.user.team.solo %}
+  {% if not request.user.current_team.solo %}
     {% url 'team_invite' as invite_url %}
     {% blocktranslate %}
       or, would you like to <a href="{{ invite_url }}">invite more team members</a>?
@@ -35,19 +35,19 @@ welcome, {{ username }}!
 {% else %}
   <h3>
   {% if request.user.in_team %}
-    {% if request.user.team.solo %}
+    {% if request.user.current_team.solo %}
       {% blocktranslate %}
         you're going solo
       {% endblocktranslate %}
     {% else %}
-      {% blocktranslate with team=request.user.team.name %}
+      {% blocktranslate with team=request.user.current_team.name %}
         your team: {{ team }}
       {% endblocktranslate %}
     {% endif %}
   {% endif %}
   </h3>
   <ul class="nodot">
-    {% if not request.user.in_team or request.user.team.solo %}
+    {% if not request.user.in_team or request.user.current_team.solo %}
       <li>
         <a class="button" href="{% url 'join' %}">{% translate "join a team" %}</a>
       </li>
@@ -55,7 +55,7 @@ welcome, {{ username }}!
         <a class="button" href="{% url 'team_new' %}">{% translate "make a team" %}</a>
       </li>
     {% endif %}
-    {% if not request.user.in_team or not request.user.team.solo %}
+    {% if not request.user.in_team or not request.user.current_team.solo %}
       <li>
         <form action="{% url 'team_solo' %}" method="post">
             {% csrf_token %}

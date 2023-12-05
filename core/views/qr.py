@@ -21,7 +21,7 @@ def team_required(f):
     @wraps(f)
     def wrapped(*args, **kwargs):
         request = args[0]
-        if request.user.team is None:
+        if request.user.current_team is None:
             messages.error(
                 request,
                 _("Please join a team or choose to go solo before getting a hint."),
@@ -103,12 +103,12 @@ def qr(request, key):
     context = dict(first=False)
     context["qr"]: QrCode
     context["qr"] = qr = get_object_or_404(QrCode, key=key)
-    codes = QrCode.code_pks(request.user.team)
+    codes = QrCode.code_pks(request.user.current_team)
     if (
-        qr.id == codes[request.user.team.current_qr_i - 1]
+        qr.id == codes[request.user.current_team.current_qr_i - 1]
     ):  # the user reloaded the page after advancing
         return redirect(reverse("qr_current"))
-    elif qr.id != codes[request.user.team.current_qr_i]:
+    elif qr.id != codes[request.user.current_team.current_qr_i]:
         """
         Either the user skipped ahead (is on path) or they found a random qr code (not on path)
         Either way... not allowed
@@ -120,8 +120,8 @@ def qr(request, key):
     context["nexthint"] = (
         None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
     )
-    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
-    request.user.team.update_current_qr_i(i + 1)
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.current_team)
+    request.user.current_team.update_current_qr_i(i + 1)
     return render(request, "core/qr.html", context=context)
 
 
@@ -132,12 +132,12 @@ def qr(request, key):
 def qr_first(request):
     context = dict(first=True)
     # check if the user is on the first qr code
-    if request.user.team.current_qr_i != 0:
+    if request.user.current_team.current_qr_i != 0:
         messages.info(request, _("You are not on the first QR code."))
         return redirect(reverse("qr_current"))
-    codes = QrCode.codes(request.user.team)
+    codes = QrCode.codes(request.user.current_team)
     context["nexthint"] = codes[0]
-    # context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
+    # context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.current_team)
     return render(request, "core/qr.html", context=context)
 
 
@@ -146,15 +146,15 @@ def qr_first(request):
 @team_required
 @during_hunt
 def qr_current(request):
-    i = request.user.team.current_qr_i
+    i = request.user.current_team.current_qr_i
     first_ = i == 0
     if first_:
         return redirect(reverse("qr_first"))
     context = dict(first=first_, current=True)
-    codes = QrCode.codes(request.user.team)
+    codes = QrCode.codes(request.user.current_team)
     context["qr"] = codes[i]
     context["nexthint"] = None if len(codes) <= (j := i + 1) else codes[j]
-    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.current_team)
     return render(request, "core/qr.html", context=context)
 
 
@@ -163,11 +163,11 @@ def qr_current(request):
 @team_required
 @during_hunt
 def qr_catalog(request):
-    i = request.user.team.current_qr_i
+    i = request.user.current_team.current_qr_i
     if i == 0:
         return redirect(reverse("qr_first"))
     context = dict(current=True)
-    context["qr"] = QrCode.codes(request.user.team)[:i]  # i + 1?
+    context["qr"] = QrCode.codes(request.user.current_team)[:i]  # i + 1?
     return render(request, "core/qr_catalog.html", context=context)
 
 
@@ -222,7 +222,7 @@ class SignalStream:
 @during_hunt
 def qr_signal(request):
     s = StreamingHttpResponse(
-        SignalStream(signal=global_notifs, pk=request.user.team.id),
+        SignalStream(signal=global_notifs, pk=request.user.current_team.id),
         content_type="text/event-stream",
     )
     s["Cache-Control"] = "no-cache"

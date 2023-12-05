@@ -15,8 +15,8 @@ from ..models import Team, Invite, generate_invite_code, Hunt
 @require_http_methods(["GET", "POST"])
 @upcoming_hunt_required
 def join(request):
-    hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
-    if hunt_.started and request.user.team is not None:
+    hunt_ = Hunt.current_hunt()
+    if hunt_.started and request.user.current_team is not None:
         messages.error(
             request,
             _(
@@ -28,16 +28,20 @@ def join(request):
     if request.method == "POST":
         form = TeamJoinForm(request.POST)
         if form.is_valid():
-            invite = Invite.objects.filter(code=form.cleaned_data["code"]).first()
-            if invite is None:
+            invite_code = Invite.objects.get(code=form.cleaned_data["code"])
+            if invite_code is None:
                 return HttpResponseBadRequest(
                     "Invalid invite code" + form.cleaned_data["code"]
                 )
-            team = Team.objects.filter(id=invite.team_id).first()
+            team = Team.objects.get(id=invite_code.team_id)
+            if team is None:
+                return HttpResponseBadRequest(
+                    "Invalid team invite code" + form.cleaned_data["code"]
+                )
             if not team.is_full():
                 team.join(request.user)
-                invite.invites += 1
-                invite.save()
+                invite_code.invites += 1
+                invite_code.save()
                 messages.success(
                     request,
                     _("Joined team %(team_name)s") % dict(team_name=team.name),
@@ -75,9 +79,8 @@ def make(request):
         if form.is_valid():
             raw: Team = form.save(commit=False)
             raw.hunt = Hunt.current_hunt() or Hunt.next_hunt()
+            raw.members.add(request.user)
             raw.save()
-            request.user.team = raw
-            request.user.save()
             Invite.objects.get_or_create(
                 team=raw, code=generate_invite_code(), invites=0
             )
@@ -96,11 +99,9 @@ def make(request):
 @upcoming_hunt_required
 def solo(q: HttpRequest):
     hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
-    team = Team.objects.create(
-        solo=True, hunt=hunt_, name=f"{q.user.username}'s Solo Team"
+    Team.objects.create(
+        solo=True, hunt=hunt_, name=f"{q.user.username}'s Solo Team", members=[q.user]
     )
-    q.user.team = team
-    q.user.save()
     return redirect(reverse("index"))
 
 
@@ -109,9 +110,9 @@ def solo(q: HttpRequest):
 @team_required
 @upcoming_hunt_required  # redundant
 def invite(q):
-    invites = Invite.objects.filter(team=q.user.team).values_list("code", flat=True)
+    invites = Invite.objects.filter(team=q.user.current_team).values_list("code", flat=True)
     if invites.count() == 0:
         print("No invites found, creating one")
-        Invite.objects.create(team=q.user.team, code=generate_invite_code(), invites=0)
+        Invite.objects.create(team=q.user.current_team, code=generate_invite_code(), invites=0)
         return invite(q)
     return render(q, "core/team_invite.html", context=dict(invites=invites))

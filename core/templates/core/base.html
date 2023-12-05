@@ -84,8 +84,8 @@
 <nav id="main-header" class="main-header">
     <div class="identity">
         {% if request.user.in_team %}
-            {% if not request.user.team.solo %}
-                <span class="team-name">{{ request.user.team.name }}</span>
+            {% if not request.user.current_team.solo %}
+                <span class="team-name">{{ request.user.current_team.name }}</span>
             {% else %}
                 <span class="team-name">solo</span>
             {% endif %}
