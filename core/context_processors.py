@@ -36,22 +36,27 @@ def start(request) -> dict:
         event_end = hunt.end
     else:
         # at least one
-        closest_hunt = Hunt.objects.annotate(
-            selected_time=Case( # if we should use the start or end time (if it's in the future or past)
-                When(start__lt=now, then=F('end')),
-                default=F('start'),
-                output_field=DateTimeField(),
-            )
-        ).annotate(
-            time_difference=Func(
-                F('selected_time') - now,
-                function='ABS',
-                output_field=DurationField(),
+        closest_hunt = (
+            Hunt.objects.annotate(
+                selected_time=Case(  # if we should use the start or end time (if it's in the future or past)
+                    When(start__lt=now, then=F("end")),
+                    default=F("start"),
+                    output_field=DateTimeField(),
                 )
-        ).order_by('time_difference').first()
+            )
+            .annotate(
+                time_difference=Func(
+                    F("selected_time") - now,
+                    function="ABS",
+                    output_field=DurationField(),
+                )
+            )
+            .order_by("time_difference")
+            .first()
+        )
         event_start = closest_hunt.start
         event_end = closest_hunt.end
-    
+
     return dict(
         START=event_start,
         START_BEFORE=event_start > now,

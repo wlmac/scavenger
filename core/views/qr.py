@@ -139,7 +139,7 @@ def qr_first(request):
         return redirect(reverse("qr_current"))
     codes = QrCode.codes(request.user.team)
     context["nexthint"] = codes[0]
-    #context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
+    # context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.team)
     return render(request, "core/qr.html", context=context)
 
 
@@ -169,7 +169,7 @@ def qr_catalog(request):
     if i == 0:
         return redirect(reverse("qr_first"))
     context = dict(current=True)
-    context["qr"] = QrCode.codes(request.user.team)[: i] # i + 1?
+    context["qr"] = QrCode.codes(request.user.team)[:i]  # i + 1?
     return render(request, "core/qr_catalog.html", context=context)
 
 
