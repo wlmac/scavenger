@@ -44,21 +44,24 @@ class LogicPuzzleAdmin(admin.ModelAdmin):
     list_display = (
         "qr_index",
         "hint",
+        "hunt"
     )
     search_fields = (
         "hint",
         "qr_index",
+        "hunt"
     )
+    list_filter = ("hunt",)
     ordering = ("qr_index",)
-
-
+    
 class TeamAdmin(admin.ModelAdmin):
     readonly_fields = ("path",)
     inlines = [
         InviteInLine,
     ]
     search_fields = ("name", "members__username")
-    list_filter = ("hunt",)
+    list_filter = ("hunt", "name")
+    
 
     @admin.display(description="Path")
     def path(self, team):
