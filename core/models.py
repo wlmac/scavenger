@@ -386,7 +386,6 @@ class LogicPuzzleHint(models.Model):
 
 @receiver(m2m_changed, sender=Team)
 def remove_empty_teams(sender, instance: Team, action, **kwargs):
-    print(sender, instance, action, kwargs)
     if action == "post_clear":
         try:
             instance.delete()
