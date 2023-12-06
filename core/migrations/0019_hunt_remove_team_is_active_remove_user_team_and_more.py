@@ -10,7 +10,7 @@ import django.db.models.deletion
 def create_hunt(apps, schema_editor):
     # Create a Hunt object if needed
     from core.models import Hunt, QrCode
-    
+
     if QrCode.objects.count() == 0:
         return
     # COULD ERROR IF ONLY ONE QR OBJ EXISTS
@@ -29,7 +29,7 @@ def create_hunt(apps, schema_editor):
 def undo_create_hunt(apps, schema_editor):
     # Create a Hunt object if needed
     from core.models import Hunt
-    
+
     try:
         Hunt.objects.get(name="First Hunt").delete()
     except (Hunt.DoesNotExist, django.db.utils.OperationalError):
