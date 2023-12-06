@@ -351,13 +351,12 @@ class LogicPuzzleHint(models.Model):
     notes = models.TextField(help_text="Internal notes", blank=True)
     qr_index = models.IntegerField(
         help_text="The index of the QR code that this hint is for, that is everyone on their nth QR code will get same same hint (starting from 1)",
-        unique=True,
     )
 
     hunt = models.ForeignKey(
         Hunt, related_name="logic_puzzle", on_delete=models.CASCADE
     )
-
+    
     def __str__(self):
         return str(self.hint)
 
@@ -375,7 +374,13 @@ class LogicPuzzleHint(models.Model):
             return hint.hint
         except cls.DoesNotExist:
             return None
-
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["qr_index", "hunt"],
+                name="unique_qr_index_name_per_hunt",
+            )
+        ]
 
 @receiver(m2m_changed, sender=Team)
 def remove_empty_teams(sender, instance: Team, action, **kwargs):
