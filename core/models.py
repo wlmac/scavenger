@@ -364,13 +364,13 @@ class LogicPuzzleHint(models.Model):
     def get_clues(cls, team: Team):
         return [
             hint.hint
-            for hint in list(LogicPuzzleHint.objects.filter(qr_index__lte=team.qr_len))
+            for hint in list(LogicPuzzleHint.objects.filter(hunt=team.hunt, qr_index__lte=team.qr_len))
         ]
 
     @classmethod
     def get_clue(cls, team: Team) -> str | None:
         try:
-            hint = cls.objects.filter(qr_index=team.qr_len).first()
+            hint = cls.objects.filter(hunt=team.hunt, qr_index=team.qr_len).first()
             return hint.hint
         except cls.DoesNotExist:
             return None
