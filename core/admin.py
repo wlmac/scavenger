@@ -41,7 +41,7 @@ class InviteInLine(admin.StackedInline):
 
 
 class LogicPuzzleAdmin(admin.ModelAdmin):
-    list_display = ("qr_index", "hint", "hunt")
+    list_display = ("hunt", "hint", "qr_index")
     search_fields = ("hint", "qr_index", "hunt")
     list_filter = ("hunt",)
     ordering = ("qr_index",)
