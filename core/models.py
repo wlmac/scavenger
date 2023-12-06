@@ -356,7 +356,7 @@ class LogicPuzzleHint(models.Model):
     hunt = models.ForeignKey(
         Hunt, related_name="logic_puzzle", on_delete=models.CASCADE
     )
-    
+
     def __str__(self):
         return str(self.hint)
 
@@ -374,6 +374,7 @@ class LogicPuzzleHint(models.Model):
             return hint.hint
         except cls.DoesNotExist:
             return None
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -381,6 +382,7 @@ class LogicPuzzleHint(models.Model):
                 name="unique_qr_index_name_per_hunt",
             )
         ]
+
 
 @receiver(m2m_changed, sender=Team)
 def remove_empty_teams(sender, instance: Team, action, **kwargs):
