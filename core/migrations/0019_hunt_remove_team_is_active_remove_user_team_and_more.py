@@ -20,15 +20,13 @@ def create_hunt(apps, schema_editor):
             hint="This is the first QR code",
         )
         QrCode.objects.create(
-            
             short="Second QR Code",
             location="PLEASE REMAKe thIS",
             image_url="https://i.imgur.com/9BZ6u6I.png",
         ).hints.create(
             hint="This is the second QR code",
         )
-        
-        
+
     # COULD ERROR IF ONLY ONE QR OBJ EXISTS
     # WILL ERROR IF Class Hunt is changed...
     Hunt.objects.get_or_create(
