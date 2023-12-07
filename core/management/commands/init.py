@@ -1,18 +1,21 @@
+from django.conf import settings
 from django.contrib.auth.models import Group, Permission
 from django.core.management import BaseCommand
 
 from core import models
 
 GROUPS_PERMISSIONS = {
-    "Location Setter": {
+    settings.LOCATION_SETTERS_NAME: {
         models.QrCode: ["add", "change", "delete"],
         models.Hint: ["add", "change", "delete", "view"],
         models.LogicPuzzleHint: ["view"],
+        models.Hunt: ["view"],
     },
-    "Logic Puzzle Setters": {
+    settings.LOGIC_PUZZLE_SETTERS_NAME: {
         models.QrCode: ["view"],
         models.Hint: ["view"],
         models.LogicPuzzleHint: ["add", "change", "delete", "view"],
+        models.Hunt: ["view"],
     },
 }
 

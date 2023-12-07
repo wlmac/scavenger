@@ -113,11 +113,8 @@ YASOI = dict(
     me_url=f"{base_url}/api/me/internal",
     scope="me_meta internal",
 )
-
-HINTS_GROUP_PK: Final[
-    int
-] = 1  # the pk of the hints group (defined in commands/init.py)
-
+LOCATION_SETTERS_NAME: Final[str] = "Location Setter"
+LOGIC_PUZZLE_SETTERS_NAME: Final[str] = "Logic Puzzle Setters"
 try:
     with open(os.path.join(os.path.dirname(__file__), "local_settings.py")) as f:
         exec(f.read(), globals())

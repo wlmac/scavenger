@@ -23,9 +23,16 @@ def credits(q):
     try:
         hintsetters = User.objects.filter(
             groups__in=[
-                Group.objects.get(id=settings.HINTS_GROUP_PK),
+                Group.objects.get(name=settings.HINT_SETTERS_NAME),
+            ]
+        ).all()
+        logicsetters = User.objects.filter(
+            groups__in=[
+                Group.objects.get(name=settings.LOGIC_PUZZLE_SETTERS_NAME),
             ]
         ).all()
     except Group.DoesNotExist:
         hintsetters = []
-    return render(q, "core/credits.html", dict(hintsetters=hintsetters))
+    return render(
+        q, "core/credits.html", dict(hintsetters=hintsetters, logicsetters=logicsetters)
+    )

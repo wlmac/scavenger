@@ -44,7 +44,12 @@
             <li>{{ hs.get_full_name }}</li>
         {% endfor %}
     </ul>
-
+    <h2>{% translate 'logic puzzle' %}</h2>
+    <ul class="nodot">
+        {% for ls in logicsetters %}
+            <li>{{ ls.get_full_name }}</li>
+        {% endfor %}
+    </ul>
     <h2>{% translate 'support' %}</h2>
     <ul class="nodot">
         <li><a href="https://maclyonsden.com">project metropolis</a></li>

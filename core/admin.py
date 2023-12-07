@@ -1,32 +1,11 @@
-from django.contrib import admin, messages
+from django.contrib import messages
 from django.contrib.auth.admin import UserAdmin as UserAdmin_
-from django.contrib.auth.models import Group
-from django.db.models import QuerySet
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from .forms import *
-
-
-@admin.action(
-    permissions=["change"],
-    description=_("Set selected users as a Logic Puzzle Setter"),
-)
-def set_as_logic_setter(modeladmin, request, queryset: QuerySet[User]):
-    for user in queryset:
-        user.is_staff = True
-        # set their group to location setter
-        user.groups.add(Group.objects.get_or_create(name="Logic Logic Puzzle Setters"))
-
-
-@admin.action(
-    permissions=["change"],
-    description=_("Remove selected users as a Logic Puzzle Setter"),
-)
-def remove_as_logic_setter(modeladmin, request, queryset: QuerySet[User]):
-    for user in queryset:
-        user.groups.remove(Group.objects.get(name="Logic Logic Puzzle Setters"))
+from .utils.actions import *
 
 
 class HintsInLine(admin.StackedInline):
@@ -123,7 +102,12 @@ class UserAdmin(UserAdmin_):
         "last_name",
         "email",
     )
-    actions = [set_as_logic_setter, remove_as_logic_setter]
+    actions = [
+        set_as_logic_setter,
+        remove_as_logic_setter,
+        set_as_location_setter,
+        remove_as_location_setter,
+    ]
     admin_field = list(UserAdmin_.fieldsets)
     admin_field[0][1]["fields"] = (
         "username",
