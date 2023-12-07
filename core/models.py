@@ -391,6 +391,7 @@ from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 
+
 @receiver(m2m_changed, sender=Team.members.through)
 def team_m2m_clean(sender, instance, action, **kwargs):
     if action == "post_clear":
@@ -402,4 +403,3 @@ def team_m2m_clean(sender, instance, action, **kwargs):
         if instance.is_empty():
             print("Deleting empty team: ", instance.name)
             instance.delete()
-
