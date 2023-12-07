@@ -11,8 +11,24 @@ def create_hunt(apps, schema_editor):
     # Create a Hunt object if needed
     from core.models import Hunt, QrCode
 
-    if QrCode.objects.count() == 0:
-        return
+    if QrCode.objects.count() <= 1:
+        QrCode.objects.create(
+            short="First QR Code",
+            location="PLEASE REMAKe thIS",
+            image_url="https://i.imgur.com/9BZ6u6I.png",
+        ).hints.create(
+            hint="This is the first QR code",
+        )
+        QrCode.objects.create(
+            
+            short="Second QR Code",
+            location="PLEASE REMAKe thIS",
+            image_url="https://i.imgur.com/9BZ6u6I.png",
+        ).hints.create(
+            hint="This is the second QR code",
+        )
+        
+        
     # COULD ERROR IF ONLY ONE QR OBJ EXISTS
     # WILL ERROR IF Class Hunt is changed...
     Hunt.objects.get_or_create(
@@ -33,6 +49,7 @@ def undo_create_hunt(apps, schema_editor):
     try:
         Hunt.objects.get(name="First Hunt").delete()
     except (Hunt.DoesNotExist, django.db.utils.OperationalError):
+        print("Hunt does not exist; lol")
         pass
 
 
