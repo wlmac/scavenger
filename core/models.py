@@ -84,7 +84,9 @@ class QrCode(models.Model):
     @classmethod
     def codes(
         cls, team: "Team"
-    ) -> List[QrCode]:  # todo: have this return an ordered QuerySet instead of a list
+    ) -> List[
+        QrCode
+    ]:  # todo: have this return an ordered QuerySet instead of a list, remove dependency on code_pks
         pks = QrCode.code_pks(team)
         return [QrCode.objects.get(id=a) for a in pks]
 
