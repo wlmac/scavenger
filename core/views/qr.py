@@ -199,6 +199,9 @@ global_notifs = Signal()
 
 @receiver(signals.post_save, sender=Team)
 def team_change(sender, **kwargs):
+    """
+    used to reload other people in a team's page when anyone in the team finds a qr code
+    """
     global_notifs.send("team_change", orig_sender=sender, kwargs=kwargs)
 
 
