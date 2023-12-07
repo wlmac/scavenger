@@ -373,10 +373,10 @@ class LogicPuzzleHint(models.Model):
 
     @classmethod
     def get_clue(cls, team: Team) -> str | None:
+        hint = cls.objects.filter(hunt=team.hunt, qr_index=team.qr_len).first()
         try:
-            hint = cls.objects.filter(hunt=team.hunt, qr_index=team.qr_len).first()
             return hint.hint
-        except cls.DoesNotExist:
+        except AttributeError, cls.DoesNotExist:
             return None
 
     class Meta:
