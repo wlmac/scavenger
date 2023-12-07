@@ -54,19 +54,21 @@ class TeamAdmin(admin.ModelAdmin):
     ]
     search_fields = ("name", "members__username")
     list_filter = ("hunt", "name")
-    
-    
+
     @admin.display(description="Path")
     def path(self, team):
         lines = []
         codes = QrCode.codes(team)
-        
-        for i, code in enumerate(codes):
-            line = f'<b style="font-size: medium;">{str(code)}</b>' if i == team.current_qr_i else str(code)
-            lines.append(line)
-        
-        return mark_safe("<br>".join(lines))
 
+        for i, code in enumerate(codes):
+            line = (
+                f'<b style="font-size: medium;">{str(code)}</b>'
+                if i == team.current_qr_i
+                else str(code)
+            )
+            lines.append(line)
+
+        return mark_safe("<br>".join(lines))
 
 
 class QrCodeAdmin(admin.ModelAdmin):
