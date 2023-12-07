@@ -364,7 +364,11 @@ class LogicPuzzleHint(models.Model):
     def get_clues(cls, team: Team):
         return [
             hint.hint
-            for hint in list(LogicPuzzleHint.objects.filter(hunt=team.hunt, qr_index__lte=team.qr_len))
+            for hint in list(
+                LogicPuzzleHint.objects.filter(
+                    hunt=team.hunt, qr_index__lte=team.qr_len
+                )
+            )
         ]
 
     @classmethod
