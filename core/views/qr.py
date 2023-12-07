@@ -135,7 +135,7 @@ def qr(request, key):
         qr_code.id != codes[request.user.current_team.current_qr_i]
     ):  # fix index out of range (should have been the above anyhow)
         """
-        Either the user skipped ahead (is on path) or they found a random qr_code code (not on path)
+        Either the user skipped ahead (is on path) or they found a random qr code (not on path)
         Either way... not allowed
         """
         context["offpath"] = True
