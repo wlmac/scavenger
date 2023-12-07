@@ -135,7 +135,6 @@ class UserAdmin(UserAdmin_):
                 "Metropolis Integration (OAuth)",
                 dict(fields=["metropolis_id"]),
             ),
-            ("Game", dict(fields=["team"])),
         ]
     )
 
