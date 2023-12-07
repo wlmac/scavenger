@@ -19,50 +19,60 @@ class InviteInLine(admin.StackedInline):
     readonly_fields = ("invites",)
 
 
-class LogicPuzzleAdmin(admin.ModelAdmin):
-    list_display = ("hunt", "hint", "qr_index")
-    search_fields = ("hint", "qr_index", "hunt")
-    list_filter = ("hunt",)
-    ordering = ("qr_index",)
 class TeamMemberInlineFormSet(BaseInlineFormSet):
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
+        self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
-    
+
     @property
     def deleted_count(self):
         # Count the number of forms marked for deletion
-        return sum(1 for form in self.forms if form.cleaned_data.get('DELETE'))
-    
+        return sum(1 for form in self.forms if form.cleaned_data.get("DELETE"))
+
     @property
     def total_count(self):
         # Count the number of forms with new items added
-        return sum(1 for form in self.forms if form.cleaned_data and not form.cleaned_data.get('DELETE'))
+        return sum(
+            1
+            for form in self.forms
+            if form.cleaned_data and not form.cleaned_data.get("DELETE")
+        )
 
-    
     def clean(self):
         super().clean()
         total_objs = self.total_count - self.deleted_count
         if total_objs > self.instance.hunt.max_team_size:
-                raise ValidationError(f"Teams for hunt: {self.instance.hunt.name} can only have a max of {self.instance.hunt.max_team_size} members. You tried to set it to {total_objs}")
+            raise ValidationError(
+                f"Teams for hunt: {self.instance.hunt.name} can only have a max of {self.instance.hunt.max_team_size} members. You tried to set it to {total_objs}"
+            )
         elif self.instance.is_solo and total_objs > 1:
-                raise ValidationError("Solo groups can only have one member")
+            raise ValidationError("Solo groups can only have one member")
         elif total_objs <= 0:
             if self.request is not None:
-                messages.warning(self.request, f"Deleted team {self.instance.name} as there were zero members.")
+                messages.warning(
+                    self.request,
+                    f"Deleted team {self.instance.name} as there were zero members.",
+                )
             self.instance.delete()
+
 
 class TeamMemberInline(admin.TabularInline):
     model = Team.members.through
     formset = TeamMemberInlineFormSet
+
+
+class LogicPuzzleAdmin(admin.ModelAdmin):
+    list_display = ("hunt", "hint", "qr_index")
+    search_fields = ("hint", "qr_index", "hunt")
+    list_filter = ("hunt__name",)
+    ordering = ("qr_index",)
+
+
 class TeamAdmin(admin.ModelAdmin):
     readonly_fields = ("path",)
-    inlines = [
-        InviteInLine,
-        TeamMemberInline
-    ]
+    inlines = [InviteInLine, TeamMemberInline]
     search_fields = ("name", "members__username")
-    list_filter = ("hunt", "name")
+    list_filter = ("hunt__name",)
 
     @admin.display(description="Path")
     def path(self, team):
@@ -91,6 +101,7 @@ class QrCodeAdmin(admin.ModelAdmin):
     ]
     readonly_fields = ["url", "key", "image_tag"]
     list_display = ["location", "url"]
+    list_filter = ("hunt__name",)
     inlines = [HintsInLine]
     form = QrCodeAdminForm
 
