@@ -387,8 +387,12 @@ class LogicPuzzleHint(models.Model):
         ]
 
 
-@receiver(m2m_changed, sender=Team)
-def remove_empty_teams(sender, instance: Team, action, **kwargs):
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
+from django.core.exceptions import ValidationError
+
+@receiver(m2m_changed, sender=Team.members.through)
+def team_m2m_clean(sender, instance, action, **kwargs):
     if action == "post_clear":
         try:
             instance.delete()
@@ -398,3 +402,4 @@ def remove_empty_teams(sender, instance: Team, action, **kwargs):
         if instance.is_empty():
             print("Deleting empty team: ", instance.name)
             instance.delete()
+
