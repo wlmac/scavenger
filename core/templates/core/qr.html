@@ -27,7 +27,7 @@
 
 {% block body %}
     <div class="text-container">
-    {% if not first %}
+    {% if not first and qr is not None %}
         <div>
             {% translate "your team found:" %} <br />
             {% hint qr request.user.current_team as hint %}

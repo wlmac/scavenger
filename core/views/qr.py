@@ -124,22 +124,23 @@ def during_hunt(f):
 @during_hunt
 def qr(request, key):
     context = dict(first=False)
-    context["qr"]: QrCode
-    context["qr"] = qr = get_object_or_404(QrCode, key=key)
+    context["qr_code"]: QrCode
     codes = QrCode.code_pks(request.user.current_team)
+    qr_code = get_object_or_404(QrCode, key=key)
     if (
-        qr.id == codes[request.user.current_team.current_qr_i - 1]
+        qr_code.id == codes[request.user.current_team.current_qr_i - 1]
     ):  # the user reloaded the page after advancing
         return redirect(reverse("qr_current"))
-    elif qr.id != codes[request.user.current_team.current_qr_i]:
+    elif qr_code.id != codes[request.user.current_team.current_qr_i]: # fix index out of range (should have been the above anyhow)
         """
-        Either the user skipped ahead (is on path) or they found a random qr code (not on path)
+        Either the user skipped ahead (is on path) or they found a random qr_code code (not on path)
         Either way... not allowed
         """
         context["offpath"] = True
         return render(request, "core/qr.html", context=context)
+    context["qr"] = qr_code
     context["on_qr"] = True
-    i = codes.index(qr.id)
+    i = codes.index(qr_code.id)
     context["nexthint"] = (
         None if len(codes) <= (j := i + 1) else QrCode.objects.get(id=codes[j])
     )
