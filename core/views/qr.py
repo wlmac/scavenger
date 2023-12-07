@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import signals
 from django.dispatch import Signal, receiver
 from django.http import StreamingHttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
@@ -126,8 +126,15 @@ def qr(request, key):
     context = dict(first=False)
     context["qr_code"]: QrCode
     codes = QrCode.code_pks(request.user.current_team)
-    qr_code = get_object_or_404(QrCode, key=key)
-    if (
+    qr_code = QrCode.objects.filter(key=key).first()
+    print(f"{codes=}")
+    print(f"{request.user.current_team.current_qr_i=}")
+    # print(f"{qr_code.id=}")
+    if qr_code is None:
+        # User just tried brute-forcing
+        context["offpath"] = True
+        return render(request, "core/qr.html", context=context)
+    elif (
         qr_code.id == codes[request.user.current_team.current_qr_i - 1]
     ):  # the user reloaded the page after advancing
         return redirect(reverse("qr_current"))
