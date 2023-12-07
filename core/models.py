@@ -137,10 +137,6 @@ class Hint(models.Model):
     def __str__(self):
         return self.hint
 
-    class Meta:
-        permissions = [("view_before_start", "Play game before start")]
-
-
 class Team(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)

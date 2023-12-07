@@ -74,7 +74,6 @@ def during_hunt(f):
     Decorator for views that checks that the hunt is currently active.
 
     User can access the view if they meet ANY of the following conditions:
-    - They have the view_before_start permission and the hunt hasn't ended
     - The hunt has started and hasn't ended
     - They are on the testers list for that hunt
     - They are a superuser
@@ -95,7 +94,6 @@ def during_hunt(f):
         if any(
             [
                 hunt_.started and not hunt_.ended,
-                request.user.has_perm("core.view_before_start") and not hunt_.ended,
                 hunt_.testers.contains(request.user),
                 request.user.is_superuser,
             ]
