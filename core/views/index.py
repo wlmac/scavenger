@@ -23,7 +23,7 @@ def credits(q):
     try:
         hintsetters = User.objects.filter(
             groups__in=[
-                Group.objects.get(name=settings.HINT_SETTERS_NAME),
+                Group.objects.get(name=settings.LOCATION_SETTERS_NAME),
             ]
         ).all()
         logicsetters = User.objects.filter(
@@ -33,6 +33,7 @@ def credits(q):
         ).all()
     except Group.DoesNotExist:
         hintsetters = []
+        logicsetters = []
     return render(
         q, "core/credits.html", dict(hintsetters=hintsetters, logicsetters=logicsetters)
     )
