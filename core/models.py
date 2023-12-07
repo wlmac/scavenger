@@ -378,7 +378,7 @@ class LogicPuzzleHint(models.Model):
         hint = cls.objects.filter(hunt=team.hunt, qr_index=team.qr_len).first()
         try:
             return hint.hint
-        except AttributeError, cls.DoesNotExist:
+        except (AttributeError, cls.DoesNotExist):
             return None
 
     class Meta:
