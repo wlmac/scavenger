@@ -191,6 +191,7 @@ class Team(models.Model):
 
     class Meta:
         # team.name must be insensitive unique per hunt
+        unique_together = ['hunt', 'members']
         constraints = [
             models.UniqueConstraint(
                 fields=["name", "hunt"],
