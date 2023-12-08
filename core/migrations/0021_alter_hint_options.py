@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0020_alter_logicpuzzlehint_qr_index_and_more'),
+        ("core", "0020_alter_logicpuzzlehint_qr_index_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='hint',
+            name="hint",
             options={},
         ),
     ]
