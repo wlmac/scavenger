@@ -53,8 +53,8 @@ def join(request):
 
 @login_required
 @require_http_methods(["GET", "POST"])
-@block_if_current_hunt
-@upcoming_hunt_required
+# @block_if_current_hunt
+# @upcoming_hunt_required
 def make(request):
     if request.method == "POST":
         form = TeamMakeForm(request.POST)

@@ -7,7 +7,7 @@ from .models import *
 class TeamMakeForm(forms.ModelForm):
     class Meta:
         widgets = dict(
-            name=forms.TextInput(attrs={"placeholder": "Json's Team"}),
+            name=forms.TextInput(attrs={"placeholder": "team name"}),
         )
         model = Team
         fields = ("name",)
@@ -15,7 +15,7 @@ class TeamMakeForm(forms.ModelForm):
 
 class TeamJoinForm(forms.Form):
     code = forms.CharField(
-        label=_l("join code"),
+        label=_l(""),
         max_length=8,
         strip=True,
         required=True,

@@ -6,16 +6,30 @@
 {% translate "Join a Team" %}
 {% endblock %}
 
-{% block header %}
-{% translate "join a team" %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'core/team.css' %}"/>
 {% endblock %}
 
+<!--
+{% block header %}
+{% endblock %}
+-->
+
 {% block body %}
-  <h3>{% translate "either enter your team's join code" %}</h3>
-  <form action="{% url 'join' %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="{% translate 'Join' %}" />
-  </form>
-  <h3>{% translate "or, scan your team's QR code" %}</h3>
+  
+  <div class="team-content">
+    <div class="team-heading">
+      {% translate "join a team" %}
+    </div>
+    <!--<h3>{% translate "either enter your team's join code" %}</h3>-->
+    <form action="{% url 'join' %}" method="post">
+      
+      {% csrf_token %}
+      {{ form }}
+      <div class="input-padding">
+        <input type="submit" value="✔" />
+      </div>
+    </form>
+  </div>
+  <!--<h3>{% translate "or, scan your team's QR code" %}</h3>-->
 {% endblock %}

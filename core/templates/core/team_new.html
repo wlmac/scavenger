@@ -6,22 +6,26 @@
 {% translate "Make a Team" %}
 {% endblock %}
 
-{% block header %}
-{% translate "make a team" %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'core/team.css' %}"/>
 {% endblock %}
 
-{% block head_end %}
-<style>
-  .centered { display: flex; justify-content: center}
-</style>
+<!--
+{% block header %}
 {% endblock %}
+-->
 
 {% block body %}
-    <div class="centered">
+<div class="team-content">
+    <div class="team-heading">
+      {% translate "make a team" %}
+    </div>
   <form action="{% url 'team_new' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="{% translate 'create' %}" />
+    <div class="input-padding">
+        <input type="submit" value="✔" />
+      </div>
   </form>
-    </div>
+</div>
 {% endblock %}
