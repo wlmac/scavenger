@@ -49,7 +49,15 @@ def generate_hint_key():
 
 class QrCode(models.Model):
     id = models.AutoField(primary_key=True)
-    # code = models.CharField(max_length=32, default=secrets.token_urlsafe(32), unique=True)
+    #    creator = models.ForeignKey(
+    #        User,
+    #        on_delete=models.SET_NULL,
+    #        null=True,
+    #        blank=False,
+    #        related_name="qr_codes",
+    #        help_text="User that created the QR code",
+    #    )
+    created_at = models.DateTimeField(auto_now_add=True)
     short = models.CharField(
         max_length=64, help_text="Short string to remember the place."
     )
@@ -138,6 +146,15 @@ class Hint(models.Model):
         return self.hint
 
 
+class TeamMembership(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    team = models.ForeignKey("Team", on_delete=models.CASCADE)
+
+    class Meta:
+        # Create a unique constraint to enforce one team per user per hunt
+        unique_together = ("user", "team")
+
+
 class Team(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)
@@ -148,9 +165,15 @@ class Team(models.Model):
     current_qr_i = models.IntegerField(default=0)
     solo = models.BooleanField(default=False)
     members = models.ManyToManyField(
-        related_name="teams", related_query_name="teams", to=User
+        User, related_name="teams", related_query_name="teams", through=TeamMembership
     )
     hunt = models.ForeignKey("Hunt", on_delete=models.CASCADE, related_name="teams")
+
+    def leave(self, member: User):
+        if self.members.filter(id=member.id).first() is None:
+            raise IndexError("User is not in team")
+        # remove the member
+        self.members.through.remove(member)
 
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
@@ -169,7 +192,7 @@ class Team(models.Model):
             return
         if self.is_full:
             raise IndexError("Team is full")
-        self.members.add(user)
+        self.members.through.add(user)
 
     def invites(self):
         return Invite.objects.filter(team=self)
@@ -343,6 +366,14 @@ class Hunt(models.Model):
 
 class LogicPuzzleHint(models.Model):
     id = models.AutoField(primary_key=True)
+    #    creator = models.ForeignKey(
+    #        User,
+    #        on_delete=models.SET_NULL,
+    #        null=True,
+    #        blank=False,
+    #        related_name="logic_hints",
+    #        help_text="User that created the QR code",
+    #    )
     hint = models.TextField(
         max_length=1024,
         help_text="Hint for the logic puzzle",
@@ -387,11 +418,6 @@ class LogicPuzzleHint(models.Model):
         ]
 
 
-from django.db.models.signals import m2m_changed
-from django.dispatch import receiver
-from django.core.exceptions import ValidationError
-
-
 @receiver(m2m_changed, sender=Team.members.through)
 def team_m2m_clean(sender, instance, action, **kwargs):
     if action == "post_clear":
@@ -400,6 +426,6 @@ def team_m2m_clean(sender, instance, action, **kwargs):
         except:
             pass
     elif action == "post_remove":
-        if instance.is_empty():
+        if instance.is_empty:
             print("Deleting empty team: ", instance.name)
             instance.delete()
