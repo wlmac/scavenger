@@ -28,7 +28,7 @@ def join(request):
                 return HttpResponseBadRequest(
                     "Invalid team invite code" + form.cleaned_data["code"]
                 )
-            if not team.is_full():
+            if not team.is_full:
                 team.join(request.user)
                 invite_code.invites += 1
                 invite_code.save()
