@@ -19,7 +19,7 @@
                 {{ START.timestamp }} * 1000,
                 {{ END.timestamp }} * 1000,
               "{{ hunt.name }} {% translate "starts in" %}", {# starts pre #}
-              "{% translate '' %}", {# starts post #}
+              "", {# starts post #}
               "{% translate 'Only' %}", {# ends pre #}
               "{% translate 'remaining' %}", {# ends post #}
               "{{ hunt.name }} {% translate 'ended' %}", {# ended pre #}
@@ -85,11 +85,7 @@
 <nav id="main-header" class="main-header">
     <div class="identity">
         {% if request.user.in_team %}
-            {% if not request.user.current_team.solo %}
                 <span class="team-name">{{ request.user.current_team.name }}</span>
-            {% else %}
-                <span class="team-name">solo</span>
-            {% endif %}
         {% endif %}
         <span class="username">{{ request.user.username }}</span>
     </div>

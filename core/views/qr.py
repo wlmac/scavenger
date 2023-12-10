@@ -24,7 +24,7 @@ def team_required(f):
         if request.user.current_team is None:
             messages.error(
                 request,
-                _("Please join a team or choose to go solo before getting a hint."),
+                _("Please join or create a team before getting a hint."),
             )
             return redirect(reverse("index"))
         return f(*args, **kwargs)

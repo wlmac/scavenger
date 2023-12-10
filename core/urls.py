@@ -14,7 +14,6 @@ urlpatterns = [
     path("signal", qr.qr_signal, name="qr_signal"),
     path("team/join/", team.join, name="join"),
     path("team/make/", team.make, name="team_new"),
-    path("team/solo", team.solo, name="team_solo"),
     path("team/invite", team.invite, name="team_invite"),
     path("clues", puzzle.logic_clues, name="logic_clues"),
     path("credits", index.credits, name="credits"),

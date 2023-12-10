@@ -163,7 +163,6 @@ class Team(models.Model):
         default=False
     )  # todo use this field to have a club-like page so you can join an open team (future feature)
     current_qr_i = models.IntegerField(default=0)
-    solo = models.BooleanField(default=False)
     members = models.ManyToManyField(
         User, related_name="teams", related_query_name="teams", through=TeamMembership
     )
@@ -173,7 +172,7 @@ class Team(models.Model):
         if self.members.filter(id=member.id).first() is None:
             raise IndexError("User is not in team")
         # remove the member
-        self.members.through.remove(member)
+        self.members.remove(member) # noqa
 
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
@@ -192,7 +191,7 @@ class Team(models.Model):
             return
         if self.is_full:
             raise IndexError("Team is full")
-        self.members.through.add(user)
+        self.members.add(user)  # noqa
 
     def invites(self):
         return Invite.objects.filter(team=self)

@@ -2,14 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
-#: .\core\templates\core\base.html:22
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-05 00:21-0500\n"
+"POT-Creation-Date: 2023-12-09 22:30-0500\n"
 "PO-Revision-Date: 2022-12-16 20:24+EST\n"
 "Last-Translator: にぃゆい <+@nyiyui.ca>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\core\admin.py:14
-msgid "Set selected users as a Location Setter"
-msgstr ""
-
-#: .\core\admin.py:25
-msgid "Set selected users as a Logic Puzzle Setter"
-msgstr ""
-
-#: .\core\admin.py:117
+#: .\core\admin.py:112
 msgid "Link to Hint Page"
 msgstr ""
 
@@ -50,23 +41,23 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: .\core\templates\core\base.html:104
+#: .\core\templates\core\base.html:100
 msgid "Home"
 msgstr "ホーム"
 
-#: .\core\templates\core\base.html:111
+#: .\core\templates\core\base.html:107
 msgid "Admin"
 msgstr "管理"
 
-#: .\core\templates\core\base.html:116
+#: .\core\templates\core\base.html:112
 msgid "current"
 msgstr "最新ヒント"
 
-#: .\core\templates\core\base.html:120 .\core\templates\core\logout.html:6
+#: .\core\templates\core\base.html:116 .\core\templates\core\logout.html:6
 msgid "Logout"
 msgstr "ログアウト"
 
-#: .\core\templates\core\base.html:127
+#: .\core\templates\core\base.html:123
 msgid "Login"
 msgstr ""
 
@@ -98,7 +89,11 @@ msgstr ""
 msgid "hints"
 msgstr "ヒント"
 
-#: .\core\templates\core\credits.html:48
+#: .\core\templates\core\credits.html:47
+msgid "logic puzzle"
+msgstr ""
+
+#: .\core\templates\core\credits.html:53
 msgid "support"
 msgstr ""
 
@@ -132,7 +127,7 @@ msgstr ""
 "\n"
 "%(username)s、ようこそ！\n"
 
-#: .\core\templates\core\index.html:25
+#: .\core\templates\core\index.html:26
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -141,9 +136,9 @@ msgstr ""
 #| "  "
 msgid ""
 "\n"
-"      %(hunt_name)s has started! go decrypt your <a href=\"%(first_url)s"
+"        %(hunt_name)s has started! go decrypt your <a href=\"%(first_url)s"
 "\">first hint</a>!\n"
-"  "
+"    "
 msgstr ""
 "\n"
 "がらくた集め、開始！<a href=\"%(first_url)s\">最初の二次元コード</a>を当て"
@@ -158,23 +153,14 @@ msgstr ""
 #| "    "
 msgid ""
 "\n"
-"      or, would you like to <a href=\"%(invite_url)s\">invite more team "
+"        or, would you like to <a href=\"%(invite_url)s\">invite more team "
 "members</a>?\n"
-"    "
+"      "
 msgstr ""
 "\n"
 "未だ<a href=\"%(invite_url)s\">メンバー招待</a>も出来るよ。"
 
-#: .\core\templates\core\index.html:39
-msgid ""
-"\n"
-"        you're going solo\n"
-"      "
-msgstr ""
-"\n"
-"ソロプレイ"
-
-#: .\core\templates\core\index.html:43
+#: .\core\templates\core\index.html:37
 #, python-format
 msgid ""
 "\n"
@@ -184,17 +170,20 @@ msgstr ""
 "\n"
 "チームプレイ：%(team)s"
 
-#: .\core\templates\core\index.html:52 .\core\templates\core\team_join.html:10
+#: .\core\templates\core\index.html:45 .\core\templates\core\team_join.html:22
 msgid "join a team"
 msgstr "チームに参加"
 
-#: .\core\templates\core\index.html:55 .\core\templates\core\team_new.html:10
+#: .\core\templates\core\index.html:48 .\core\templates\core\team_new.html:21
 msgid "make a team"
 msgstr "チームを作る"
 
-#: .\core\templates\core\index.html:62
-msgid "go solo "
-msgstr "ソロプレイ"
+#: .\core\templates\core\index.html:55
+msgid ""
+"\n"
+"        no future scavenger hunt is scheduled, please check back later\n"
+"        "
+msgstr ""
 
 #: .\core\templates\core\logout.html:10 .\core\templates\core\logout.html:16
 #, fuzzy
@@ -272,15 +261,11 @@ msgstr ""
 msgid "Join a Team"
 msgstr "チームに参加"
 
-#: .\core\templates\core\team_join.html:14
+#: .\core\templates\core\team_join.html:24
 msgid "either enter your team's join code"
 msgstr "チームの参加コードを入れるか"
 
-#: .\core\templates\core\team_join.html:18
-msgid "Join"
-msgstr "参加"
-
-#: .\core\templates\core\team_join.html:20
+#: .\core\templates\core\team_join.html:34
 msgid "or, scan your team's QR code"
 msgstr "チームの二次元コードをスキャンしてにゃ"
 
@@ -290,62 +275,92 @@ msgstr "チームの二次元コードをスキャンしてにゃ"
 msgid "Make a Team"
 msgstr "チームを作る"
 
-#: .\core\templates\core\team_new.html:24
-msgid "create"
-msgstr "作成"
+#: .\core\utils\actions.py:33
+msgid "Set selected users as a Logic Puzzle Setter"
+msgstr ""
+
+#: .\core\utils\actions.py:43
+msgid "Remove selected users as a Logic Puzzle Setter"
+msgstr ""
+
+#: .\core\utils\actions.py:53
+msgid "Set selected users as a Qr Code Setter"
+msgstr ""
+
+#: .\core\utils\actions.py:63
+msgid "Remove selected users as a Qr Code Setter"
+msgstr ""
 
 #: .\core\views\qr.py:27
-msgid "Please join a team or choose to go solo before getting a hint."
+#, fuzzy
+#| msgid "Please join a team or choose to go solo before getting a hint."
+msgid "Please join or create a team before getting a hint."
 msgstr "ヒントを見る前に、ソロプレイするかチームでするか決めてにゃ！"
 
-#: .\core\views\qr.py:41
+#: .\core\views\qr.py:40
 msgid "No future hunts are scheduled."
 msgstr ""
 
-#: .\core\views\qr.py:70
+#: .\core\views\qr.py:62
+#, fuzzy
+#| msgid "Since the hunt has already begun, switching teams is disallowed."
+msgid ""
+"Since the hunt has already begun, creating/switching/joining teams is "
+"disallowed. If you need to do one of the above, please contact an organizer."
+msgstr "もう始まってるから、チーム変えるのはダメダメだからね。"
+
+#: .\core\views\qr.py:90
 msgid "No hunt is currently active."
 msgstr ""
 
-#: .\core\views\qr.py:88
+#: .\core\views\qr.py:107
 #, fuzzy
 #| msgid "Contest has not started yet."
 msgid "Contest has ended."
 msgstr "未だ始まってないよ〜"
 
-#: .\core\views\qr.py:93
+#: .\core\views\qr.py:112
 msgid "Contest has not started yet."
 msgstr "未だ始まってないよ〜"
 
-#: .\core\views\qr.py:138
+#: .\core\views\qr.py:167
 msgid "You are not on the first QR code."
 msgstr ""
 
-#: .\core\views\team.py:26
-#, fuzzy
-#| msgid "Since the hunt has already begun, switching teams is disallowed."
-msgid ""
-"Since the hunt has already begun, switching teams is disallowed. If you need "
-"to switch teams, please contact an admin."
-msgstr "もう始まってるから、チーム変えるのはダメダメだからね。"
-
-#: .\core\views\team.py:46
+#: .\core\views\team.py:37
 #, python-format
 msgid "Joined team %(team_name)s"
 msgstr "チーム%(team_name)sに参加したにゃ"
 
-#: .\core\views\team.py:52
+#: .\core\views\team.py:43
 #, python-format
 msgid "Team %(team_name)s is full."
 msgstr "チーム%(team_name)sはもう満杯だよ"
 
-#: .\core\views\team.py:71
-msgid "Since the hunt has already begun, making new teams is disallowed."
-msgstr "もう始まったから、新しいチーム作るのはダメだよ。"
-
-#: .\core\views\team.py:87
+#: .\core\views\team.py:75
 #, python-format
 msgid "Made team %(team_name)s"
 msgstr "チーム%(team_name)sをつくったよ。"
+
+#~ msgid ""
+#~ "\n"
+#~ "        you're going solo\n"
+#~ "      "
+#~ msgstr ""
+#~ "\n"
+#~ "ソロプレイ"
+
+#~ msgid "go solo "
+#~ msgstr "ソロプレイ"
+
+#~ msgid "Join"
+#~ msgstr "参加"
+
+#~ msgid "create"
+#~ msgstr "作成"
+
+#~ msgid "Since the hunt has already begun, making new teams is disallowed."
+#~ msgstr "もう始まったから、新しいチーム作るのはダメだよ。"
 
 #~ msgid "__startsPost"
 #~ msgstr "で始まるにゃ"

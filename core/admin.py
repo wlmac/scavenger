@@ -45,8 +45,6 @@ class TeamMemberInlineFormSet(BaseInlineFormSet):
             raise ValidationError(
                 f"Teams for hunt: {self.instance.hunt.name} can only have a max of {self.instance.hunt.max_team_size} members. You tried to set it to {total_objs}"
             )
-        elif self.instance.is_solo and total_objs > 1:
-            raise ValidationError("Solo groups can only have one member")
         elif total_objs <= 0:
             if self.request is not None:
                 messages.warning(
