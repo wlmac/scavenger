@@ -110,6 +110,7 @@ def leave(request):
 def team(q: HttpRequest):
     return render(q, "core/team.html")
 
+
 @login_required
 @require_http_methods(["GET"])
 @team_required
