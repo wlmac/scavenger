@@ -28,14 +28,15 @@
 {% block body %}
     <div class="text-container">
     {% if not first and qr is not None %}
-        <div>
+        <div class="hint-top">
             {% translate "your team found:" %} <br />
             {% hint qr request.user.current_team as hint %}
-	    <span class="hint">{{ hint |mistune }}</span>
+	    <span class="hint-content">{{ hint |mistune }}</span>
             {% if request.user.is_superuser %}
-	    <br />({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)
+                <span style="font-size: 1rem">({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)</span>
             {% endif %}
         </div>
+        <hr class="separator"/>
     {% endif %}
     {% if not offpath %}
     <div class="hint">
@@ -52,9 +53,9 @@
         </div>
         {% if nexthint %}
             {% hint nexthint request.user.current_team as hint %}
-	    <span class="hint">{{ hint|mistune }}</span>
+	    <span class="hint-content">{{ hint|mistune }}</span>
             {% if request.user.is_superuser %}
-                <br />({{ nexthint }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nexthint.id %}">change</a>)
+                <span style="font-size: 1rem">({{ nexthint }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nexthint.id %}">change</a>)</span>
             {% endif %}
 
             {% if logic_hint %}
@@ -68,7 +69,8 @@
             {% ending_block request.user.current_team.hunt %}
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
-        </div></div> <!-- Why does this exist.. -->
+        </div>
+    </div> <!-- Why does this exist.. -->
     {% else %}
 {% translate 'Incorrect QR code, please read your hint again or contact an organizer' %}
 

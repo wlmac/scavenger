@@ -9,14 +9,21 @@ main {
   margin-bottom: 2rem;
 }
 
-.hint {
-  opacity: 90%;
-}
-
 .hint,
 .hint-top {
   font-size: 1.8rem;
-  text-align: center;
+  text-align: left;
+}
+
+.hint-content {
+  opacity: 90%;
+  font-weight: lighter;
+  font-size: 1.5rem;
+}
+
+.text-container{
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
 .padding {
@@ -29,4 +36,8 @@ main {
 .container {
   display: grid;
   place-items: center;
+}
+
+.separator {
+  border: 1.5px solid white;
 }
