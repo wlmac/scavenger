@@ -145,7 +145,14 @@ class Hint(models.Model):
     def __str__(self):
         return self.hint
 
-
+class TeamMembership(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    team = models.ForeignKey("Team", on_delete=models.CASCADE)
+    
+    class Meta:
+        # Create a unique constraint to enforce one team per user per hunt
+        unique_together = ('user', 'team')
+        
 class Team(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)
@@ -155,8 +162,8 @@ class Team(models.Model):
     )  # todo use this field to have a club-like page so you can join an open team (future feature)
     current_qr_i = models.IntegerField(default=0)
     solo = models.BooleanField(default=False)
-    members = models.ManyToManyField(
-        related_name="teams", related_query_name="teams", to=User
+    members = models.ManyToManyField(User,
+        related_name="teams", related_query_name="teams", through=TeamMembership
     )
     hunt = models.ForeignKey("Hunt", on_delete=models.CASCADE, related_name="teams")
 
@@ -199,7 +206,6 @@ class Team(models.Model):
 
     class Meta:
         # team.name must be insensitive unique per hunt
-        unique_together = ['hunt', 'members']
         constraints = [
             models.UniqueConstraint(
                 fields=["name", "hunt"],
