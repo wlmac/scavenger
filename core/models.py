@@ -172,7 +172,7 @@ class Team(models.Model):
         if self.members.filter(id=member.id).first() is None:
             raise IndexError("User is not in team")
         # remove the member
-        self.members.remove(member) # noqa
+        self.members.remove(member)  # noqa
 
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
