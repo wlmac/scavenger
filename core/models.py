@@ -42,22 +42,21 @@ class User(AbstractUser):
         """Returns True if the user is in a team for the current or upcoming hunt."""
         return self.current_team is not None
 
-        
-        
+
 def generate_hint_key():
     return secrets.token_urlsafe(48)
 
 
 class QrCode(models.Model):
     id = models.AutoField(primary_key=True)
-#    creator = models.ForeignKey(
-#        User,
-#        on_delete=models.SET_NULL,
-#        null=True,
-#        blank=False,
-#        related_name="qr_codes",
-#        help_text="User that created the QR code",
-#    )
+    #    creator = models.ForeignKey(
+    #        User,
+    #        on_delete=models.SET_NULL,
+    #        null=True,
+    #        blank=False,
+    #        related_name="qr_codes",
+    #        help_text="User that created the QR code",
+    #    )
     created_at = models.DateTimeField(auto_now_add=True)
     short = models.CharField(
         max_length=64, help_text="Short string to remember the place."
@@ -146,14 +145,16 @@ class Hint(models.Model):
     def __str__(self):
         return self.hint
 
+
 class TeamMembership(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     team = models.ForeignKey("Team", on_delete=models.CASCADE)
-    
+
     class Meta:
         # Create a unique constraint to enforce one team per user per hunt
-        unique_together = ('user', 'team')
-        
+        unique_together = ("user", "team")
+
+
 class Team(models.Model):
     # owner = models.ForeignKey(User, on_delete=models.PROTECT, related_name="teams_ownership") potentially add this later
     id = models.AutoField(primary_key=True)
@@ -163,17 +164,17 @@ class Team(models.Model):
     )  # todo use this field to have a club-like page so you can join an open team (future feature)
     current_qr_i = models.IntegerField(default=0)
     solo = models.BooleanField(default=False)
-    members = models.ManyToManyField(User,
-        related_name="teams", related_query_name="teams", through=TeamMembership
+    members = models.ManyToManyField(
+        User, related_name="teams", related_query_name="teams", through=TeamMembership
     )
     hunt = models.ForeignKey("Hunt", on_delete=models.CASCADE, related_name="teams")
-    
+
     def leave(self, member: User):
         if self.members.filter(id=member.id).first() is None:
             raise IndexError("User is not in team")
         # remove the member
         self.members.through.remove(member)
-        
+
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
         self.save()
@@ -365,14 +366,14 @@ class Hunt(models.Model):
 
 class LogicPuzzleHint(models.Model):
     id = models.AutoField(primary_key=True)
-#    creator = models.ForeignKey(
-#        User,
-#        on_delete=models.SET_NULL,
-#        null=True,
-#        blank=False,
-#        related_name="logic_hints",
-#        help_text="User that created the QR code",
-#    )
+    #    creator = models.ForeignKey(
+    #        User,
+    #        on_delete=models.SET_NULL,
+    #        null=True,
+    #        blank=False,
+    #        related_name="logic_hints",
+    #        help_text="User that created the QR code",
+    #    )
     hint = models.TextField(
         max_length=1024,
         help_text="Hint for the logic puzzle",

@@ -79,7 +79,7 @@ def make(request):
     else:
         form = TeamMakeForm()
     return render(request, "core/team_new.html", dict(form=form))
-    
+
 
 @login_required
 @require_http_methods(["GET"])
