@@ -82,6 +82,19 @@ def make(request):
 
 
 @login_required
+@upcoming_hunt_required
+@block_if_current_hunt
+def solo(q: HttpRequest):
+    hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
+    team_ = Team.objects.create(
+        solo=True, hunt=hunt_, name=f"{q.user.username}'s Solo Team"
+    )
+    team_.join(q.user)
+    
+    return redirect(reverse("index"))
+
+
+@login_required
 @require_http_methods(["GET"])
 @team_required
 @block_if_current_hunt  # redundant
