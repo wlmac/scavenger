@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {% translate "Make a Team" %}
+{% endblock %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'core/team.css' %}"/>
+{% endblock %}
+
+<!--
+{% block header %}
+{% endblock %}
+-->
+
+{% block body %}
+    <div class="team-content">
+        <div class="team-heading">
+            {% translate "Are you sure you want to leave your team?" %}
+        </div>
+        <form action="{% url 'team_leave' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <div class="input-padding">
+                <input type="submit" value="Yes"/>
+                <a class="no" href="{% url 'index' %}">{% translate "No" %}</a>  {% comment %}todo: switch url to /team once endpoint has been created {% endcomment %}
+            </div>
+        </form>
+    </div>
+{% endblock %}

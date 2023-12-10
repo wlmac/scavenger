@@ -26,3 +26,8 @@ ul > li input.button {
 ul > li {
   padding: 0.4rem;
 }
+
+
+.small-text {
+  font-size: 0.9rem;
+}

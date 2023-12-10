@@ -59,6 +59,12 @@ def make(request):
     if request.method == "POST":
         form = TeamMakeForm(request.POST)
         if form.is_valid():
+            if request.user.in_team:
+                messages.error(
+                    request,
+                    _("You are already in a team. Leave your current team to make a new one."),
+                )
+                return redirect(reverse("team_leave"))
             raw: Team = form.save(commit=False)
             raw.hunt = Hunt.current_hunt() or Hunt.next_hunt()
             raw: Team = form.save()
@@ -80,6 +86,18 @@ def make(request):
         form = TeamMakeForm()
     return render(request, "core/team_new.html", dict(form=form))
 
+
+@login_required
+@require_http_methods(["POST", "GET"       ])
+@team_required
+@block_if_current_hunt
+def leave(request):
+    if request.method == "POST":
+        team = Team.objects.get(id=request.user.current_team.id)
+        team.leave(request.user)
+        messages.success(request, _("Left team %(team_name)s") % dict(team_name=team.name))
+        return redirect(reverse("index"))
+    return render(request, "core/team_leave.html")
 
 @login_required
 @require_http_methods(["GET"])
