@@ -107,6 +107,12 @@ def leave(request):
 @login_required
 @require_http_methods(["GET"])
 @team_required
+def team(q: HttpRequest):
+    return render(q, "core/team.html")
+
+@login_required
+@require_http_methods(["GET"])
+@team_required
 @block_if_current_hunt  # redundant
 def invite(q):
     invites = Invite.objects.filter(team=q.user.current_team).values_list(

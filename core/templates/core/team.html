@@ -1,0 +1,36 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load qr %}
+
+{% block title %}
+    {% translate "Team Information" %}
+{% endblock %}
+
+{% block head_end %}
+    <link rel="stylesheet" href="{% static 'core/team.css' %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="team-content">
+        {% if request.user.in_team %}
+            <div class="team-heading">
+                {% translate "Team Information" %}
+            </div>
+            <p>{% translate "Team Name:" %} {{ request.user.current_team.name }}</p>
+            <p>{% translate "Team Members:" %} {{ request.user.current_team.members.count }}</p>
+            <p>{% translate "Current QR Code:" %} {{ request.user.current_team.qr_len }}</p>
+            <!-- Add more details about the team's progress as needed -->
+
+            {% comment %} Logic Puzzle Hints {% endcomment %}
+            <div class="logic-hints">
+                <h3>{% translate "Logic Puzzle Hints:" %}</h3>
+                {% for clue in request.user.current_team.logic_puzzle_hints %}
+                    <p>{{ clue }}</p>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>{% translate "You are not part of any team." %}</p>
+        {% endif %}
+    </div>
+{% endblock %}

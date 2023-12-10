@@ -37,13 +37,10 @@ welcome, {{ username }}!
         your team: {{ team }}
       {% endblocktranslate %}
       {% if not IN_HUNT or request.user.team.hunt.allow_creation_post_start %}
+
         <a class="button" href="{% url 'team_invite' %}">{% translate "invite more team members" %}</a>
 
-          <span class="small-text">
-            {% blocktranslate %}
-              to switch teams, simply join a new team via the qr code or url
-            {% endblocktranslate %}
-          </span>
+          <a class="button" href="{% url 'team_leave' %}">{% translate "leave team" %}</a>
       {% endif %}
     {% endif %}
   </h3>

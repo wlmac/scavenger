@@ -12,6 +12,7 @@ urlpatterns = [
     path("current", qr.qr_current, name="qr_current"),
     path("catalog", qr.qr_catalog, name="qr_catalog"),
     path("signal", qr.qr_signal, name="qr_signal"),
+    path("team", team.team, name="team"),
     path("team/join/", team.join, name="join"),
     path("team/make/", team.make, name="team_new"),
     path("team/invite", team.invite, name="team_invite"),
