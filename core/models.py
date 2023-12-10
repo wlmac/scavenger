@@ -42,7 +42,8 @@ class User(AbstractUser):
         """Returns True if the user is in a team for the current or upcoming hunt."""
         return self.current_team is not None
 
-
+        
+        
 def generate_hint_key():
     return secrets.token_urlsafe(48)
 
@@ -166,7 +167,13 @@ class Team(models.Model):
         related_name="teams", related_query_name="teams", through=TeamMembership
     )
     hunt = models.ForeignKey("Hunt", on_delete=models.CASCADE, related_name="teams")
-
+    
+    def leave(self, member: User):
+        if self.members.filter(id=member.id).first() is None:
+            raise IndexError("User is not in team")
+        # remove the member
+        self.members.through.remove(member)
+        
     def update_current_qr_i(self, i: int):
         self.current_qr_i = max(self.current_qr_i, i)
         self.save()
@@ -184,7 +191,7 @@ class Team(models.Model):
             return
         if self.is_full:
             raise IndexError("Team is full")
-        self.members.add(user)
+        self.members.through.add(user)
 
     def invites(self):
         return Invite.objects.filter(team=self)

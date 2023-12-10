@@ -63,7 +63,10 @@ def make(request):
             raw.hunt = Hunt.current_hunt() or Hunt.next_hunt()
             raw: Team = form.save()
 
-            raw.members.add(request.user)
+            if request.user.in_team:
+                team = Team.objects.get(id=request.user.current_team.id)
+                team.leave(request.user)
+            raw.join(request.user)
             Invite.objects.get_or_create(
                 team=raw, code=generate_invite_code(), invites=0
             )
@@ -76,20 +79,7 @@ def make(request):
     else:
         form = TeamMakeForm()
     return render(request, "core/team_new.html", dict(form=form))
-
-
-@login_required
-@upcoming_hunt_required
-@block_if_current_hunt
-def solo(q: HttpRequest):
-    hunt_ = Hunt.current_hunt() or Hunt.next_hunt()
-    team_ = Team.objects.create(
-        solo=True, hunt=hunt_, name=f"{q.user.username}'s Solo Team"
-    )
-    team_.members.add(q.user)
-
-    return redirect(reverse("index"))
-
+    
 
 @login_required
 @require_http_methods(["GET"])
