@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-{% translate "Make a Team" %}
+{% translate "Create a Team" %}
 {% endblock %}
 
 {% block extracss %}
@@ -18,9 +18,9 @@
 {% block body %}
 <div class="team-content">
     <div class="team-heading">
-      {% translate "make a team" %}
+      {% translate "create a team" %}
     </div>
-  <form action="{% url 'team_new' %}" method="post">
+  <form action="{% url 'team_create' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <div class="input-padding">

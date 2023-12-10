@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 
 from .qr import team_required, upcoming_hunt_required, block_if_current_hunt
-from ..forms import TeamJoinForm, TeamMakeForm
+from ..forms import TeamJoinForm, TeamCreateForm
 from ..models import Team, Invite, generate_invite_code, Hunt
 
 
@@ -55,15 +55,15 @@ def join(request):
 @require_http_methods(["GET", "POST"])
 @block_if_current_hunt
 @upcoming_hunt_required
-def make(request):
+def create(request):
     if request.method == "POST":
-        form = TeamMakeForm(request.POST)
+        form = TeamCreateForm(request.POST)
         if form.is_valid():
             if request.user.in_team:
                 messages.error(
                     request,
                     _(
-                        "You are already in a team. Leave your current team to make a new one."
+                        "You are already in a team. Leave your current team to create a new one."
                     ),
                 )
                 return redirect(reverse("team_leave"))
@@ -80,13 +80,13 @@ def make(request):
             )
             messages.success(
                 request,
-                _("Made team %(team_name)s")
+                _("Created team %(team_name)s")
                 % dict(team_name=form.cleaned_data["name"]),
             )
             return redirect(reverse("index"))
     else:
-        form = TeamMakeForm()
-    return render(request, "core/team_new.html", dict(form=form))
+        form = TeamCreateForm()
+    return render(request, "core/team_create.html", dict(form=form))
 
 
 @login_required

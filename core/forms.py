@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _l
 from .models import *
 
 
-class TeamMakeForm(forms.ModelForm):
+class TeamCreateForm(forms.ModelForm):
     class Meta:
         widgets = dict(
             name=forms.TextInput(attrs={"placeholder": "team name"}),
