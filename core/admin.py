@@ -99,7 +99,13 @@ class QrCodeAdmin(admin.ModelAdmin):
     ]
     readonly_fields = ["url", "key", "image_tag"]
     list_display = ["location", "url"]
-    list_filter = ("hunt__name", ("hunt", admin.EmptyFieldListFilter,))
+    list_filter = (
+        "hunt__name",
+        (
+            "hunt",
+            admin.EmptyFieldListFilter,
+        ),
+    )
     inlines = [HintsInLine]
     form = QrCodeAdminForm
 
