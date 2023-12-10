@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from functools import wraps
 from queue import LifoQueue
 
@@ -124,17 +126,17 @@ def qr(request, key):
     context = dict(first=False)
     context["qr_code"]: QrCode
     codes = QrCode.code_pks(request.user.current_team)
-    qr_code = QrCode.objects.filter(key=key).first()
+    qr_code: QrCode | None = QrCode.objects.filter(key=key).first()
     print(f"{codes=}")
     print(f"{request.user.current_team.current_qr_i=}")
-    # print(f"{qr_code.id=}")
     if qr_code is None:
-        # User just tried brute-forcing
+        # User just tried brute-forcing keys... lol
         context["offpath"] = True
         return render(request, "core/qr.html", context=context)
     elif (
         qr_code.id == codes[request.user.current_team.current_qr_i - 1]
-    ):  # the user reloaded the page after advancing
+        and len(codes) > 1
+    ):  # the user reloaded the page after advancing...or there is only one qr code in the hunt
         return redirect(reverse("qr_current"))
     elif (
         qr_code.id != codes[request.user.current_team.current_qr_i]
