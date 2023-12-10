@@ -2,10 +2,13 @@
 
 from django.conf import settings
 from django.db import migrations, models
-import django.db.models.deletion
 import django.utils.timezone
 
 
+def clear_teams(apps, schema_editor):
+    Team = apps.get_model("core", "team")
+    Team.objects.all().delete() # delete all teams IRREVERSIBLE
+    
 class Migration(migrations.Migration):
     dependencies = [
         ("core", "0020_alter_logicpuzzlehint_qr_index_and_more"),
@@ -54,6 +57,7 @@ class Migration(migrations.Migration):
                 "unique_together": {("user", "team")},
             },
         ),
+        migrations.RunPython(clear_teams, reverse_code=None), # if you want to "reverse" change this to migrations.RunPython.noop though it will not bring back the teams
         migrations.RemoveField(model_name="team", name="members"), # added manually
         migrations.AddField( # changed from alter to add
             model_name="team",
