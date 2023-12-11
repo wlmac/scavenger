@@ -67,7 +67,7 @@ def oauth_auth(q):
     given_state = q.GET["state"]
     expected_state = q.session["yasoi_state"]
     if expected_state != given_state:
-       raise TypeError("state mismatch")
+        raise TypeError("state mismatch")
     if "error" in q.GET:
         raise RuntimeError(f'{q.GET["error"]}: {q.GET.get("error_description")}')
     pkce_params = pkce2(q)
