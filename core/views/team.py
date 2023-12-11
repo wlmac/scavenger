@@ -43,7 +43,7 @@ def join(request):
                     request,
                     _("Joined team %(team_name)s") % dict(team_name=team.name),
                 )
-                return redirect("/")
+                return redirect(reverse("index"))  # change to team?
             else:
                 messages.error(
                     request,
