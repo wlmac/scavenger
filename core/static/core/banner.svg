@@ -7,12 +7,15 @@
       }
     </style>
   </defs>
-  <path id="curve" d="M0 56 c54 -27,162 -27,216 0" fill="#0000" />
-  <text font-size="10" text-anchor="middle" x="108" y="27">
-    SACMAS
+  <path id="curve1" d="M0 56 m0 -12 c54 -27,162 -27,216 0" fill="#0000" />
+  <path id="curve2" d="M0 56 c54 -27,162 -27,216 0" fill="#0000" />
+  <text font-size="10">
+    <textPath text-anchor="middle" startOffset="50%" alignment-baseline="central" xlink:href="#curve1">
+      SACMAS
+    </textPath>
   </text>
   <text>
-    <textPath text-anchor="middle" startOffset="50%" alignment-baseline="central" xlink:href="#curve">
+    <textPath text-anchor="middle" startOffset="50%" alignment-baseline="central" xlink:href="#curve2">
       SCAVENGER HUNT
     </textPath>
   </text>
