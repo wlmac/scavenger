@@ -1,25 +1,19 @@
 # Scavenger Hunt Website
 
+A scavenger hunt website designed to prevent any form of cheating and RNG-based wins on a typical scavenger hunt. It was created in Django and uses OAuth 2.0 / OIDC-ish with the main [Metropolis](https://maclyonsden.com) site to handle authentication.
 
-A scavenger hunt website designed to prevent any form of cheating and RNG-based wins on a typical scavenger hunt. It was created in Django uses a Oauth 2.0 system with the main mld (metropolis) site to handle authentication.
- 
- 
+![image](https://github.com/wlmac/scavenger/assets/45807097/194b5ad8-d2f9-49a9-951f-5dd6d3ab51c3)
+
  
 ## credits
 ### project manager
-  Patrick Lin
+Patrick Lin
 ### programming
-  nyiyui,
-  Jason Cameron,
-  Jimmy Liu,
-  Glen Lin,
-  Joshua Wang,
-  Chelsea Wong
+nyiyui, Jason Cameron, Jimmy Liu, Glen Lin, Joshua Wang, Chelsea Wong
 ### content
-  Misheel Batkhuu
+Misheel Batkhuu
 ### UI/UX design 
-  Chelsea Wong
-
+Chelsea Wong
 
 # setup
 
