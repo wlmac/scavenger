@@ -180,28 +180,15 @@ def qr_first(request):
 @during_hunt
 def qr_current(request):
     i = request.user.current_team.current_qr_i
-    first_ = i == 0
-    if first_:
+    if i == 0:  # on first qr code
         return redirect(reverse("qr_first"))
-    context = dict(first=first_, current=True)
+    i -= 1  # we want the index that they are AT not the next one
+    context = dict(current=True)
     codes = QrCode.codes(request.user.current_team)
     context["qr"] = codes[i]
     context["nexthint"] = None if len(codes) <= (j := i + 1) else codes[j]
     context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.current_team)
     return render(request, "core/qr.html", context=context)
-
-
-@login_required
-@require_http_methods(["GET", "POST"])
-@team_required
-@during_hunt
-def qr_catalog(request):
-    i = request.user.current_team.current_qr_i
-    if i == 0:
-        return redirect(reverse("qr_first"))
-    context = dict(current=True)
-    context["qr"] = QrCode.codes(request.user.current_team)[:i]  # i + 1?
-    return render(request, "core/qr_catalog.html", context=context)
 
 
 global_notifs = Signal()
