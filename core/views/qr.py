@@ -124,11 +124,11 @@ def during_hunt(f):
 @during_hunt
 def qr(request, key):
     context = dict(first=False)
-    context["qr_code"]: QrCode
     codes = QrCode.code_pks(request.user.current_team)
     qr_code: QrCode | None = QrCode.objects.filter(key=key).first()
-    print(f"{codes=}")
-    print(f"{request.user.current_team.current_qr_i=}")
+    if request.user.is_debuggable:
+        return redirect(qr_code.get_admin_url())
+    context["qr_code"]: QrCode
     if qr_code is None:
         # User just tried brute-forcing keys... lol
         context["offpath"] = True
