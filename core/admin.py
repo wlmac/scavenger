@@ -1,6 +1,5 @@
 from django.contrib.auth.admin import UserAdmin as UserAdmin_
 from django.forms import BaseInlineFormSet
-from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
@@ -80,7 +79,7 @@ class TeamAdmin(admin.ModelAdmin):
         for i, code in enumerate(codes):
             line = (
                 f'<b style="font-size: medium;">{str(code)}</b>'
-                if i >= team.current_qr_i
+                if team.current_qr_i >= i
                 else str(code)
             )
             lines.append(line)
