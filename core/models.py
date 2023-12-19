@@ -115,7 +115,7 @@ class QrCode(models.Model):
         hunt_codes = hunt.middle_locations.all()
         pks = [a["pk"] for a in hunt_codes.values("pk")]
         r.shuffle(pks)
-        pks = pks[: hunt.path_length]
+        pks = pks[: hunt.path_length]  # cut qr's to max ( path length )
         if hunt_end := hunt.ending_location:
             pks.append(hunt_end.id)
         if hunt_start := hunt.starting_location:
