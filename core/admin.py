@@ -78,8 +78,8 @@ class TeamAdmin(admin.ModelAdmin):
 
         for i, code in enumerate(codes):
             line = (
-                f'<b style="font-size: medium;">{str(code)}</b>'
-                if team.current_qr_i >= i
+                f'<s><b>{str(code)}</b></s>'
+                if team.current_qr_i > i
                 else str(code)
             )
             lines.append(line)
