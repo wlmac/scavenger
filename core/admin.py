@@ -156,7 +156,7 @@ class UserAdmin(UserAdmin_):
     admin_field = list(UserAdmin_.fieldsets)
     admin_field[0][1]["fields"] = (
         "username",
-    )  # passwords are not controlled by scavenger. So we don't need this field.
+    )  # Scavenger does not control or store passwords. So, we don't need this field.
     admin_field[2][1]["fields"] = tuple(
         ["send_to_admin"] + list(admin_field[2][1]["fields"])
     )
