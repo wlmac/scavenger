@@ -71,7 +71,7 @@ class TeamAdmin(admin.ModelAdmin):
     search_fields = ("name", "members__username")
     list_filter = ("hunt__name",)
 
-    @admin.display(description="Path")
+    @admin.display(description="The path that the team has/completed")
     def path(self, team):
         lines = []
         codes = QrCode.codes(team)
