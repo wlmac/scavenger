@@ -77,11 +77,7 @@ class TeamAdmin(admin.ModelAdmin):
         codes = QrCode.codes(team)
 
         for i, code in enumerate(codes):
-            line = (
-                f'<s><b>{str(code)}</b></s>'
-                if team.current_qr_i > i
-                else str(code)
-            )
+            line = f"<s><b>{str(code)}</b></s>" if team.current_qr_i > i else str(code)
             lines.append(line)
 
         return mark_safe("<br>".join(lines))
