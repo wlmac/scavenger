@@ -22,12 +22,16 @@ def generate_invite_code():
 class User(AbstractUser):
     metropolis_id = models.IntegerField()
     refresh_token = models.CharField(max_length=128)
-    send_to_admin = models.BooleanField(default=False, null=False, help_text="If when a user scans a QR code, they should be sent to the admin page instead of the hint page. Useful for debugging.")
-    
+    send_to_admin = models.BooleanField(
+        default=False,
+        null=False,
+        help_text="If when a user scans a QR code, they should be sent to the admin page instead of the hint page. Useful for debugging.",
+    )
+
     @property
     def is_debuggable(self):
         return self.send_to_admin and self.is_staff
-    
+
     @property
     def current_team(self) -> Team | None:
         """Returns the team that the user is currently on for the current or upcoming hunt.
@@ -82,10 +86,13 @@ class QrCode(models.Model):
         help_text="A URL to an image of where the QR code is located (try imgur)",
         blank=True,
     )
-    
+
     def get_admin_url(self):
-        return reverse('admin:%s_%s_change' % (self._meta.app_label, self._meta.model_name),
-                       args=[self.id])
+        return reverse(
+            "admin:%s_%s_change" % (self._meta.app_label, self._meta.model_name),
+            args=[self.id],
+        )
+
     def image_tag(self):
         from django.utils.html import escape
 
