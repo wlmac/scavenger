@@ -19,7 +19,7 @@
             src.onmessage = (e) => {
                 console.log('msg', e)
             }
-            // src.onmessage = (e) => location.reload() this a cool idea but we need to add more to it. 
+            // src.onmessage = (e) => location.reload() this a cool idea but we need to add more to it.
             setInterval(() => console.log(src.readyState), 1000)
         </script>
     {% endif %}
@@ -28,7 +28,7 @@
 
 {% block body %}
     <div class="text-container">
-    {% if not first and qr is not None %}
+    {% if not first and qr is not None and on_qr %}
         <div class="hint-top">
             {% translate "your team found:" %} <br />
             {% hint qr request.user.current_team as hint %}
@@ -67,7 +67,7 @@
                 </div>
             {% endif %}
         {% else %}
-            {% hunt_ending_text request.user.current_team.hunt %}      
+            {% hunt_ending_text request.user.current_team.hunt %}
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
         </div>

@@ -30,7 +30,7 @@
                     {% hunt_ending_text request.user.current_team.hunt %}
                     <br>
                     {% blocktranslate %} Oh ho ho?
-                        What lieth there? Tis the light at the end of the tunnel!!  Congratulations valiant scavenger and thank you for playing!
+                        What lieth there? Tis the light at the end of the tunnel!! Congratulations valiant scavenger and thank you for playing!
                         <br>
                         <br>
                        You can view all of the logic hints {% endblocktranslate %}<a href={% url 'logic_clues' %}>{% translate 'here' %}</a>.  | {% translate 'You found:' %} {{ request.user.current_team.hunt.total_locations }}{% translate ' Qr Codes' %}
