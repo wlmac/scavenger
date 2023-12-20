@@ -1,65 +1,80 @@
 {% extends "core/base.html" %}
 {% load i18n %}
 {% load static %}
+{% load qr %}
 
 {% block title %}
-{% translate "Scavenger Hunt" %}
+    {% translate "Scavenger Hunt" %}
 {% endblock %}
 
 {% block header %}
-{% blocktranslate with username=request.user.username %}
-welcome, {{ username }}!
-{% endblocktranslate %}
+    {% blocktranslate with username=request.user.username %}
+        welcome, {{ username }}!
+    {% endblocktranslate %}
 {% endblock %}
 
 {% block head_end %}
-  <link rel="stylesheet" href="{% static 'core/index.css' %}"/>
+    <link rel="stylesheet" href="{% static 'core/index.css' %}"/>
 {% endblock %}
 
 
 {% block body %}
-{% if IN_HUNT or FUTURE_HUNT_EXISTS %}
-  {% if request.user.in_team and IN_HUNT %}
-    {% url 'qr_first' as first_url %} {% comment %}todo: add logic to swich text to /current{% endcomment %}
-      {% url 'qr_current' as current_url %}
-    {% blocktranslate %}
-        {{ hunt_name }} has started! go decrypt your <a href="{{ first_url }}">first hint</a>!
-    {% endblocktranslate %}
-    <br />
-      {% url 'team_invite' as invite_url %}
-      {% blocktranslate %}
-        or, would you like to <a href="{{ invite_url }}">invite more team members</a>?
-      {% endblocktranslate %}
-  {% else %}
-  <h3>
-  {% if request.user.in_team %}
-      {% blocktranslate with team=request.user.current_team.name %}
-        your team: {{ team }}
-      {% endblocktranslate %}
-      {% if not IN_HUNT or request.user.team.hunt.allow_creation_post_start %}
+    {% if IN_HUNT or FUTURE_HUNT_EXISTS %}
+        {% if request.user.in_team %}
+            {% if IN_HUNT %}
+                {% if request.user.current_team.current_qr_i == 0 %}
+                    {{ hunt_name }} has started! go decrypt your
+                    <a href={% url 'qr_first' %}>first hint</a>!
+                {% elif request.user.current_team.completed_hunt %} {# The team is done the hunt #}
+                    
+                    {% hunt_ending_text request.user.current_team.hunt %}
+                    <br>
+                    {% blocktranslate %} Oh ho ho?
+                        What lieth there? Tis the light at the end of the tunnel!!  Congratulations valiant scavenger and thank you for playing!
+                        <br>
+                        <br>
+                       You can view all of the logic hints {% endblocktranslate %}<a href={% url 'logic_clues' %}>{% translate 'here' %}</a>.  | {% translate 'You found:' %} {{ request.user.current_team.hunt.total_locations }}{% translate ' Qr Codes' %}
 
-        <a class="button" href="{% url 'team_invite' %}">{% translate "invite more team members" %}</a>
 
-          <a class="button" href="{% url 'team_leave' %}">{% translate "leave team" %}</a>
-      {% endif %}
-    {% endif %}
-  </h3>
-  <ul class="nodot">
-    {% if not request.user.in_team %}
-      <li>
-        <a class="button" href="{% url 'join' %}">{% translate "join a team" %}</a>
-      </li>
-      <li>
-        <a class="button" href="{% url 'team_create' %}">{% translate "create a team" %}</a>
-      </li>
-    {% endif %}
-  </ul>
-  {% endif %}
-{% else %}
-    <h2>
+                {% else %}
+                    {{ hunt_name }} is in progress! go decrypt your
+                    <a href={% url 'qr_current' %}>current hint</a>!
+                {% endif %}
+                <br/>
+            {% endif %}
+
+            <h3>
+                {% if not IN_HUNT or request.user.current_team.hunt.allow_creation_post_start %}
+                    <ul class="nodot">
+                        <li>
+                            <a class="button"
+                               href="{% url 'team_invite' %}">{% translate "invite more team members" %}</a>
+                        </li>
+
+                        <li><a class="button" href="{% url 'team_leave' %}">{% translate "leave team" %}</a></li>
+                    </ul>
+                {% endif %}
+            </h3>
+
+        {% else %}
+            {% if not request.user.in_team %}
+                <ul class="nodot"> {# If The user is not in a team  #}
+
+                    <li>
+                        <a class="button" href="{% url 'join' %}">{% translate "join a team" %}</a>
+                    </li>
+                    <li>
+                        <a class="button" href="{% url 'team_create' %}">{% translate "create a team" %}</a>
+                    </li>
+                </ul>
+            {% endif %}
+
+        {% endif %}
+    {% else %} {# Not in a hunt and no future hunt is scheduled #}
+        <h2>
         {% blocktranslate %}
-        no future scavenger hunt is scheduled, please check back later
+            no future scavenger hunt is scheduled, please check back later
         {% endblocktranslate %}
     {% endif %}
-    </h2>
+</h2>
 {% endblock %}

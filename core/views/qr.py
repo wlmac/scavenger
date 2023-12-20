@@ -129,17 +129,17 @@ def qr(request, key):
     if request.user.is_debuggable:
         return redirect(qr_code.get_admin_url())
     context["qr_code"]: QrCode
+    current_i = min(request.user.current_team.current_qr_i, len(codes) - 1)
     if qr_code is None:
         # User just tried brute-forcing keys... lol
         context["offpath"] = True
         return render(request, "core/qr.html", context=context)
     elif (
-        qr_code.id == codes[request.user.current_team.current_qr_i - 1]
-        and len(codes) > 1
+        qr_code.id == codes[current_i - 1] and len(codes) > 1
     ):  # the user reloaded the page after advancing...or there is only one qr code in the hunt
         return redirect(reverse("qr_current"))
     elif (
-        qr_code.id != codes[request.user.current_team.current_qr_i]
+        qr_code.id != codes[current_i]
     ):  # fix index out of range (should have been the above anyhow)
         """
         Either the user skipped ahead (is on path) or they found a random qr code (not on path)
