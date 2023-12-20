@@ -36,6 +36,9 @@ main {
 .logic {
   font-size: 2rem
 }
+.logic span {
+  font-size: 1rem;
+}
 .container {
   display: grid;
   place-items: center;

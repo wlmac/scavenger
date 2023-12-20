@@ -37,7 +37,6 @@
                 <span style="font-size: 1rem">({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)</span>
             {% endif %}
         </div>
-        <hr class="separator"/>
     {% endif %}
     {% if not offpath %}
     <div class="hint">
@@ -60,9 +59,10 @@
             {% endif %}
 
             {% if logic_hint %}
+                <hr class="separator"/>
                 <div class="logic">
                     <p style="font-size: 1.5rem">Logic Hint:</p>
-                    <p>{{ logic_hint }}</p>
+                    <span >{{ logic_hint }}</span>
                     <p style="font-size: 1.3rem">you can view all of your logic hints <a href={% url 'logic_clues' %}>here</a> </p>
                 </div>
             {% endif %}
