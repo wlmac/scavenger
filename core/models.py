@@ -25,11 +25,11 @@ class User(AbstractUser):
     send_to_admin = models.BooleanField(
         default=False,
         null=False,
-        help_text="If when a user scans a QR code, they should be sent to the admin page instead of the hint page. Useful for debugging.",
+        help_text="If when a user scans a QR code, they should be sent to the admin page instead of the hint page. Useful for debugging. User must be staff. (is_staff)",
     )
 
     @property
-    def is_debuggable(self):
+    def can_debug(self):
         return self.send_to_admin and self.is_staff
 
     @property
