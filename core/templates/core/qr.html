@@ -34,7 +34,7 @@
             {% hint qr request.user.current_team as hint %}
 	    <span class="hint-content">{{ hint |mistune }}</span>
             {% if request.user.is_superuser %}
-                <span style="font-size: 1rem">({{ qr }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)</span>
+                <span style="font-size: 0.5rem"><a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)</span>
             {% endif %}
         </div>
     {% endif %}
@@ -55,7 +55,7 @@
             {% hint nexthint request.user.current_team as hint %}
 	    <span class="hint-content">{{ hint|mistune }}</span>
             {% if request.user.is_superuser %}
-                <span style="font-size: 1rem">({{ nexthint }} <a class="link" href="{% url 'admin:core_qrcode_change' object_id=nexthint.id %}">change</a>)</span>
+                <span style="font-size: 0.5rem"><a class="link" href="{% url 'admin:core_qrcode_change' object_id=nexthint.id %}">{% translate "change" %}</a>)</span>
             {% endif %}
 
             {% if logic_hint %}
