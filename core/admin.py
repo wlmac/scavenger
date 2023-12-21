@@ -68,15 +68,28 @@ class LogicPuzzleAdmin(admin.ModelAdmin):
 class TeamAdmin(admin.ModelAdmin):
     readonly_fields = ("path",)
     inlines = [InviteInLine, TeamMemberInline]
-    search_fields = ("name", "members__username", "members__first_name", "members__last_name")
-    list_display = ("name", "hunt", "current_qr_i", "member_count",)
+    search_fields = (
+        "name",
+        "members__username",
+        "members__first_name",
+        "members__last_name",
+    )
+    list_display = (
+        "name",
+        "hunt",
+        "current_qr_i",
+        "member_count",
+    )
     list_filter = ("hunt__name",)
-    ordering = ("hunt", "current_qr_i",)
-    
+    ordering = (
+        "hunt",
+        "current_qr_i",
+    )
+
     @staticmethod
     def member_count(obj):
         return obj.members.count()
-    
+
     @admin.display(description="The path that the team has/completed")
     def path(self, team):
         lines = []
