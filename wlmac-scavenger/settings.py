@@ -103,7 +103,9 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = (("static", BASE_DIR / "core/static/core"),)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-SESSION_COOKIE_NAME = "scavsessionid" # fixes issue of hosting both scav & mld on the same host.
+SESSION_COOKIE_NAME = (
+    "scavsessionid"  # fixes issue of hosting both scav & mld on the same host.
+)
 base_url = "https://maclyonsden.com"
 YASOI = dict(
     client_id="",  # unset
