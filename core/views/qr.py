@@ -126,20 +126,20 @@ def qr(request, key):
     context = dict(first=False)
     codes = QrCode.code_pks(request.user.current_team)
     qr_code: QrCode | None = QrCode.objects.filter(key=key).first()
-    if request.user.is_debuggable:
+    if request.user.can_debug:
         return redirect(qr_code.get_admin_url())
     context["qr_code"]: QrCode
+    current_i = min(request.user.current_team.current_qr_i, len(codes) - 1)
     if qr_code is None:
         # User just tried brute-forcing keys... lol
         context["offpath"] = True
         return render(request, "core/qr.html", context=context)
     elif (
-        qr_code.id == codes[request.user.current_team.current_qr_i - 1]
-        and len(codes) > 1
+        qr_code.id == codes[current_i - 1] and len(codes) > 1
     ):  # the user reloaded the page after advancing...or there is only one qr code in the hunt
         return redirect(reverse("qr_current"))
     elif (
-        qr_code.id != codes[request.user.current_team.current_qr_i]
+        qr_code.id != codes[current_i]
     ):  # fix index out of range (should have been the above anyhow)
         """
         Either the user skipped ahead (is on path) or they found a random qr code (not on path)
@@ -183,7 +183,7 @@ def qr_current(request):
     if i == 0:  # on first qr code
         return redirect(reverse("qr_first"))
     i -= 1  # we want the index that they are AT not the next one
-    context = dict(current=True)
+    context = dict(current=True, on_qr=False)
     codes = QrCode.codes(request.user.current_team)
     context["qr"] = codes[i]
     context["nexthint"] = None if len(codes) <= (j := i + 1) else codes[j]

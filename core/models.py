@@ -25,11 +25,11 @@ class User(AbstractUser):
     send_to_admin = models.BooleanField(
         default=False,
         null=False,
-        help_text="If when a user scans a QR code, they should be sent to the admin page instead of the hint page. Useful for debugging.",
+        help_text="If when a user scans a QR code, they should be sent to the admin page instead of the hint page. Useful for debugging. User must be staff. (is_staff)",
     )
 
     @property
-    def is_debuggable(self):
+    def can_debug(self):
         return self.send_to_admin and self.is_staff
 
     @property
@@ -199,6 +199,10 @@ class Team(models.Model):
         return self.members.count() >= self.hunt.max_team_size
 
     @property
+    def completed_hunt(self):
+        return self.current_qr_i >= self.hunt.total_locations
+
+    @property
     def is_empty(self):
         return self.members.count() == 0
 
@@ -302,6 +306,15 @@ class Hunt(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def total_locations(self) -> int:
+        mid = min(
+            self.path_length, self.middle_locations.count()
+        )  # if mid-locations are less than path length, use mid-locations as it will have been cut
+        mid += 1 if self.ending_location else 0
+        mid += 1 if self.starting_location else 0
+        return mid
 
     @classmethod
     def closest_hunt(cls) -> Hunt | None:

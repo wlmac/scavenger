@@ -18,7 +18,7 @@ def join_url(code):
 
 
 @register.simple_tag
-def ending_block(hunt):
+def hunt_ending_text(hunt):
     pattern = r"{{(.*?)}}"
     match = re.search(pattern, hunt.ending_text)
 
