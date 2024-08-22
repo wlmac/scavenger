@@ -370,8 +370,11 @@ class Hunt(models.Model):
         This method prevents that from happening.
         """
 
+        if self.start is None or self.end is None:
+            raise ValidationError("Start and end times must be set.")
+        
         overlapping_events = Hunt.objects.filter(
-            start__lte=self.start, end__gte=self.end  # todo fix
+            start__lte=self.start, end__gte=self.end
         ).exclude(pk=self.pk)
         if overlapping_events.exists():
             raise ValidationError(
