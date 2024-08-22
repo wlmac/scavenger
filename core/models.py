@@ -372,7 +372,7 @@ class Hunt(models.Model):
 
         if self.start is None or self.end is None:
             raise ValidationError("Start and end times must be set.")
-        
+
         overlapping_events = Hunt.objects.filter(
             start__lte=self.start, end__gte=self.end
         ).exclude(pk=self.pk)
