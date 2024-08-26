@@ -126,7 +126,7 @@ def qr(request, key):
     context = dict(first=False)
     codes = QrCode.code_pks(request.user.current_team)
     qr_code: QrCode | None = QrCode.objects.filter(key=key).first()
-    user= request.user._wrapped if hasattr(request.user,'_wrapped') else request.user
+    user = request.user._wrapped if hasattr(request.user, "_wrapped") else request.user
 
     print(type(user))
     print(dir(user))
