@@ -126,6 +126,8 @@ def qr(request, key):
     context = dict(first=False)
     codes = QrCode.code_pks(request.user.current_team)
     qr_code: QrCode | None = QrCode.objects.filter(key=key).first()
+    print(type(request.user))
+    print(dir(request.user))
     if request.user.can_debug:
         return redirect(qr_code.get_admin_url())
     context["qr_code"]: QrCode
