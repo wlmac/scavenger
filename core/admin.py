@@ -83,7 +83,7 @@ class TeamAdmin(admin.ModelAdmin):
     list_filter = ("hunt__name",)
     ordering = (
         "hunt",
-        "current_qr_i",
+        "-current_qr_i",
     )
 
     @staticmethod
