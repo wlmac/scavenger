@@ -174,7 +174,7 @@ def qr_first(request):
         return redirect(reverse("qr_current"))
     codes = QrCode.codes(request.user.current_team)
     context["nexthint"] = codes[0]
-    # context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.current_team)
+    context["logic_hint"] = LogicPuzzleHint.get_clue(request.user.current_team)
     return render(request, "core/qr.html", context=context)
 
 
