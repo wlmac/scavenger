@@ -193,7 +193,7 @@ class Migration(migrations.Migration):
                 to=settings.AUTH_USER_MODEL,
             ),
         ),
-        migrations.RunPython(create_hunt, reverse_code=undo_create_hunt),
+        # migrations.RunPython(create_hunt, reverse_code=undo_create_hunt),
         migrations.AddField(
             model_name="logicpuzzlehint",
             name="hunt",

@@ -260,7 +260,7 @@ class Hunt(models.Model):
     )
     path_length = models.PositiveSmallIntegerField(
         default=13,
-        help_text="Length of the path: The amount of codes each time will have to find before the end. (not including start/end)",
+        help_text="Length of the path: The amount of codes each team will have to find before the end. (not including start/end)",
     )
     starting_location = models.ForeignKey(
         QrCode,
@@ -427,14 +427,14 @@ class LogicPuzzleHint(models.Model):
             hint.hint
             for hint in list(
                 LogicPuzzleHint.objects.filter(
-                    hunt=team.hunt, qr_index__lte=team.qr_len
+                    hunt=team.hunt, qr_index__lt=team.qr_len
                 )
             )
         ]
 
     @classmethod
     def get_clue(cls, team: Team) -> str | None:
-        hint = cls.objects.filter(hunt=team.hunt, qr_index=team.qr_len).first()
+        hint = cls.objects.filter(hunt=team.hunt, qr_index=(team.qr_len - 1)).first()
         try:
             return hint.hint
         except (AttributeError, cls.DoesNotExist):

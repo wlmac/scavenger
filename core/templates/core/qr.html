@@ -34,7 +34,7 @@
             {% hint qr request.user.current_team as hint %}
 	    <span class="hint-content">{{ hint |mistune }}</span>
             {% if request.user.is_superuser %}
-                <span style="font-size: 0.5rem"><a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)</span>
+                <span style="font-size: 0.5rem">(<a class="link" href="{% url 'admin:core_qrcode_change' object_id=qr.id %}">{% translate "change" %}</a>)</span>
             {% endif %}
         </div>
     {% endif %}
@@ -55,7 +55,7 @@
             {% hint nexthint request.user.current_team as hint %}
 	    <span class="hint-content">{{ hint|mistune }}</span>
             {% if request.user.is_superuser %}
-                <span style="font-size: 0.5rem"><a class="link" href="{% url 'admin:core_qrcode_change' object_id=nexthint.id %}">{% translate "change" %}</a>)</span>
+                <span style="font-size: 0.5rem">(<a class="link" href="{% url 'admin:core_qrcode_change' object_id=nexthint.id %}">{% translate "change" %}</a>)</span>
             {% endif %}
 
             {% if logic_hint %}
@@ -67,6 +67,16 @@
                 </div>
             {% endif %}
         {% else %}
+            {% if logic_hint %}
+                {% if not first and qr is not None and on_qr %}
+                    <hr class="separator"/>
+                {% endif %}
+                <div class="logic">
+                    <p style="font-size: 1.5rem">Final Logic Hint:</p>
+                    <span >{{ logic_hint }}</span>
+                    <p style="font-size: 1.3rem">you can view all of your logic hints <a href={% url 'logic_clues' %}>here</a> </p>
+                </div>
+            {% endif %}
             {% hunt_ending_text request.user.current_team.hunt %}
             {% translate 'Oh ho? What lieth there? Tis the light at the end of the tunnel! <br /> Congratulations valiant scavenger and thank you for playing!' %}
         {% endif %}
