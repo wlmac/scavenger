@@ -426,9 +426,7 @@ class LogicPuzzleHint(models.Model):
         return [
             hint.hint
             for hint in list(
-                LogicPuzzleHint.objects.filter(
-                    hunt=team.hunt, qr_index__lt=team.qr_len
-                )
+                LogicPuzzleHint.objects.filter(hunt=team.hunt, qr_index__lt=team.qr_len)
             )
         ]
 
